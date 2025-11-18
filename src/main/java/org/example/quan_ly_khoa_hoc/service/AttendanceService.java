@@ -1,4 +1,41 @@
 package org.example.quan_ly_khoa_hoc.service;
 
-public class AttendanceService {
+import org.example.quan_ly_khoa_hoc.entity.Attendance;
+import org.example.quan_ly_khoa_hoc.entity.Lesson;
+import org.example.quan_ly_khoa_hoc.entity.Module;
+import org.example.quan_ly_khoa_hoc.repository.AttendanceRepository;
+import org.example.quan_ly_khoa_hoc.repository.CourseRepository;
+import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IAttendanceRepository;
+import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ICourseRepository;
+import org.example.quan_ly_khoa_hoc.service.serviceInterface.IAttendanceService;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class AttendanceService implements IAttendanceService {
+    private final ICourseRepository contentRepository = new CourseRepository();
+    private final IAttendanceRepository attendanceRepository = new AttendanceRepository();
+
+    @Override
+    public List<Module> getModulesByCourse(int courseId) {
+        return contentRepository.findModulesByCourseId(courseId);
+    }
+
+    @Override
+    public List<Lesson> getLessonsByModule(int moduleId) {
+        return contentRepository.findLessonsByModuleId(moduleId);
+    }
+
+    @Override
+    public void submitAttendance(int classId, LocalDate date, int lessonId, List<Attendance> attendanceData) {
+        Integer scheduleId = attendanceRepository.findScheduleId(classId, date, lessonId);
+        if (scheduleId == null) {
+            scheduleId = attendanceRepository.createSchedule(classId, date, lessonId);
+        }
+
+        for (Attendance att : attendanceData) {
+            att.setScheduleId(scheduleId);
+        }
+        attendanceRepository.saveBatchAttendance(attendanceData);
+    }
 }

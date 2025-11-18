@@ -14,6 +14,11 @@ public class Lesson {
         this.sortOrder = sortOrder;
     }
 
+    public Lesson(int lessonId, String lessonName) {
+        this.lessonId = lessonId;
+        this.lessonName = lessonName;
+    }
+
     // Getters and Setters
     public int getLessonId() {
         return lessonId;

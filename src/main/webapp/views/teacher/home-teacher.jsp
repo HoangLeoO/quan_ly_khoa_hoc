@@ -33,9 +33,44 @@
                         <div class="card-body p-4 p-md-5">
                             <div class="text-center mb-4">
                                 <i class="bi bi-book text-black" style="font-size: 4rem"></i>
-                                <h3 class="mt-3">Quản lý lớp học</h3>
                             </div>
-                            <c:import url="../teacher/table-teacher.jsp"/>
+                            <div class="mb-5">
+                                <h4 class="mb-3">Danh sách Lớp học</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên Lớp Học</th>
+                                            <th>Tên Khóa Học</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="classes" items="${classList}" varStatus="status">
+                                            <tr>
+                                                <td>${status.count}</td>
+                                                <td>${classes.getClassName()}</td>
+                                                <td>${classes.getCourseName()}</td>
+                                                <td>${classes.getStartDate()}</td>
+                                                <td>${classes.getEndDate()}</td>
+                                                <td class="d-flex border-0 text-nowrap">
+                                                    <a class="btn btn-sm btn-outline-primary me-1"
+                                                       href="/teacher?action=detail&classId=${classes.getClassId()}&courseId=${classes.getCourseId()}&className=${classes.getClassName()}">
+                                                        Chi tiết
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+
+                                        </c:forEach>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -49,6 +84,7 @@
 </div>
 </body>
 <script>
+
     function showTodayDateWithDay(elementId) {
         const today = new Date();
 

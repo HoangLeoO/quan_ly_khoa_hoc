@@ -4,23 +4,32 @@ import java.time.LocalDate;
 
 public class TeacherClassDTO {
     int classId;
-    String className;       // từ classes.class_name
-    String courseName;      // join courses.course_name
+    String className;
+    int courseId;
+    String courseName;
     LocalDate startDate;
     LocalDate endDate;
-    int totalStudents;
     String status;
 
     public TeacherClassDTO() {
     }
 
-    public TeacherClassDTO(int classId, String className, String courseName, LocalDate startDate, LocalDate endDate, int totalStudents) {
+    public TeacherClassDTO(int classId, String className, int courseId, String courseName, LocalDate startDate, LocalDate endDate, String status) {
         this.classId = classId;
         this.className = className;
+        this.courseId = courseId;
         this.courseName = courseName;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.totalStudents = totalStudents;
+        this.status = status;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public int getClassId() {
@@ -63,11 +72,11 @@ public class TeacherClassDTO {
         this.endDate = endDate;
     }
 
-    public int getTotalStudents() {
-        return totalStudents;
+    public String getStatus() {
+        return status;
     }
 
-    public void setTotalStudents(int totalStudents) {
-        this.totalStudents = totalStudents;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
