@@ -1,267 +1,237 @@
--- -----------------------------------------------------
--- 1. BẢNG KHÔNG PHỤ THUỘC (Độc lập)
--- -----------------------------------------------------
+-- =====================================================
+-- DATA CODEGYM DATABASE
+-- =====================================================
 
+USE codegym;
+
+-- -----------------------------------------------------
+-- 1. ROLES
+-- -----------------------------------------------------
 INSERT INTO roles (role_name) VALUES
-    ('ADMIN'),
-    ('TEACHER'),
-    ('STUDENT'),
-    ('GIAO_VU');
+                                  ('Admin'),
+                                  ('Teacher'),
+                                  ('Student'),
+                                  ('Academic Staff');
 
+-- -----------------------------------------------------
+-- 2. USERS
+-- -----------------------------------------------------
+INSERT INTO users (email, password_hash, role_id, is_delete) VALUES
+                                                                 ('admin@codegym.vn', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567890', 1, 0),
+                                                                 ('teacher1@codegym.vn', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567891', 2, 0),
+                                                                 ('teacher2@codegym.vn', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567892', 2, 0),
+                                                                 ('nguyen.van.a@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567893', 3, 0),
+                                                                 ('tran.thi.b@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567894', 3, 0),
+                                                                 ('le.van.c@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567895', 3, 0),
+                                                                 ('pham.thi.d@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567896', 3, 0),
+                                                                 ('hoang.van.e@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567897', 3, 0),
+                                                                 ('vo.thi.f@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567898', 3, 0),
+                                                                 ('do.van.g@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567899', 3, 0),
+                                                                 ('bui.thi.h@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567800', 3, 0),
+                                                                 ('ngo.van.i@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567801', 3, 0),
+                                                                 ('dang.thi.k@gmail.com', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567802', 3, 0),
+                                                                 ('coordinator@codegym.vn', '$2y$10$abcdefghijklmnopqrstuvwxyz1234567803', 4, 0);
+
+-- -----------------------------------------------------
+-- 3. STUDENTS
+-- -----------------------------------------------------
+INSERT INTO students (user_id, full_name, phone, dob, position, address) VALUES
+                                                                             (4, 'Nguyễn Văn A', '0901234567', '2000-05-15', 'Học viên', '123 Lê Lợi, Quận 1, TP.HCM'),
+                                                                             (5, 'Trần Thị B', '0902234567', '1999-08-20', 'Học viên', '456 Nguyễn Huệ, Quận 1, TP.HCM'),
+                                                                             (6, 'Lê Văn C', '0903234567', '2001-03-10', 'Học viên', '789 Trần Hưng Đạo, Quận 5, TP.HCM'),
+                                                                             (7, 'Phạm Thị D', '0904234567', '2000-11-25', 'Học viên', '321 Võ Văn Tần, Quận 3, TP.HCM'),
+                                                                             (8, 'Hoàng Văn E', '0905234567', '1998-07-08', 'Học viên', '654 Điện Biên Phủ, Quận Bình Thạnh, TP.HCM'),
+                                                                             (9, 'Võ Thị F', '0906234567', '2001-12-30', 'Học viên', '987 Lý Thường Kiệt, Quận 10, TP.HCM'),
+                                                                             (10, 'Đỗ Văn G', '0907234567', '2000-02-14', 'Học viên', '147 Hai Bà Trưng, Quận 1, TP.HCM'),
+                                                                             (11, 'Bùi Thị H', '0908234567', '1999-09-18', 'Học viên', '258 Pasteur, Quận 1, TP.HCM'),
+                                                                             (12, 'Ngô Văn I', '0909234567', '2001-06-22', 'Học viên', '369 Cách Mạng Tháng 8, Quận 3, TP.HCM'),
+                                                                             (13, 'Đặng Thị K', '0910234567', '2000-04-05', 'Học viên', '741 Nguyễn Thị Minh Khai, Quận 1, TP.HCM');
+
+-- -----------------------------------------------------
+-- 4. STAFF
+-- -----------------------------------------------------
+INSERT INTO staff (user_id, full_name, phone, dob, position, address) VALUES
+                                                                          (1, 'Trần Minh Quân', '0911111111', '1985-01-15', 'Quản trị hệ thống', '100 Lê Duẩn, Quận 1, TP.HCM'),
+                                                                          (2, 'Lê Thị Hằng', '0922222222', '1988-06-20', 'Giảng viên Java', '200 Nguyễn Văn Linh, Quận 7, TP.HCM'),
+                                                                          (3, 'Phạm Văn Bình', '0933333333', '1990-03-12', 'Giảng viên Python', '300 Xa lộ Hà Nội, Quận 9, TP.HCM'),
+                                                                          (14, 'Nguyễn Thị Mai', '0944444444', '1987-09-25', 'Điều phối viên', '400 Nam Kỳ Khởi Nghĩa, Quận 3, TP.HCM');
+
+-- -----------------------------------------------------
+-- 5. COURSES
+-- -----------------------------------------------------
 INSERT INTO courses (course_name, description) VALUES
-    ('Fullstack Java Web', 'Khóa học lập trình Java web từ cơ bản đến nâng cao'),
-    ('Frontend Fundamentals', 'HTML/CSS/JS cơ bản'),
-    ('Backend Java Advanced', 'Tập trung Spring Boot, API, Security'),
-    ('Database Mastery', 'SQL nâng cao, tối ưu hóa truy vấn'),
-    ('DevOps Foundations', 'Docker, CI/CD cơ bản'),
-    ('Python for Beginners', 'Lập trình Python từ A-Z'),
-    ('AI Introduction', 'Nhập môn trí tuệ nhân tạo'),
-    ('Mobile Android', 'Lập trình Android với Java/Kotlin'),
-    ('ReactJS Pro', 'SPA nâng cao với React'),
-    ('C# .NET Web', 'Lập trình web với ASP.NET MVC');
+                                                   ('Lập trình Java Full-stack', 'Khóa học toàn diện về lập trình Java từ cơ bản đến nâng cao, bao gồm Spring Boot, Database, RESTful API'),
+                                                   ('Lập trình Python', 'Khóa học Python cho người mới bắt đầu, bao gồm Django, Flask và Data Science'),
+                                                   ('Web Development với JavaScript', 'Học HTML, CSS, JavaScript, React, Node.js để trở thành Full-stack Developer'),
+                                                   ('Mobile App Development', 'Phát triển ứng dụng di động với React Native và Flutter'),
+                                                   ('Data Science & Machine Learning', 'Khóa học về khoa học dữ liệu và machine learning với Python'),
+                                                   ('DevOps Engineering', 'Học về CI/CD, Docker, Kubernetes, AWS'),
+                                                   ('UI/UX Design', 'Thiết kế giao diện người dùng và trải nghiệm người dùng'),
+                                                   ('Database Administration', 'Quản trị cơ sở dữ liệu MySQL, PostgreSQL, MongoDB'),
+                                                   ('Cyber Security', 'Bảo mật thông tin và an ninh mạng'),
+                                                   ('Cloud Computing', 'Điện toán đám mây với AWS, Azure, Google Cloud');
 
 -- -----------------------------------------------------
--- 2. TÀI KHOẢN & USERS (10 users cho staff + 13 users cho students = 23 users)
+-- 6. MODULES
 -- -----------------------------------------------------
-
--- Users cho Staff (10 users: 5 admin/teacher/giaovu + 5 teacher/admin/staff)
-INSERT INTO users (email, password_hash, role_id) VALUES
-    ('hoang.lv@example.com', 'hashed_password_123', 1),           -- user_id=1, ADMIN
-    ('nguyen.tlg@example.com', 'hashed_password_123', 2),         -- user_id=2, TEACHER
-    ('giaovu.nt@example.com', 'hashed_password_123', 4),          -- user_id=3, GIAO_VU
-    ('teacher.hoa@example.com', 'hashed_password_123', 2),        -- user_id=4, TEACHER
-    ('admin2@example.com', 'hashed_password_123', 1),             -- user_id=5, ADMIN
-    ('staff.minh@example.com', 'hashed_password_123', 2),         -- user_id=6, TEACHER
-    ('giaovu.tran@example.com', 'hashed_password_123', 4),        -- user_id=7, GIAO_VU
-    ('assistant.anh@example.com', 'hashed_password_123', 2),      -- user_id=8, TEACHER
-    ('teacher.duong@example.com', 'hashed_password_123', 2),      -- user_id=9, TEACHER
-    ('staff.linh@example.com', 'hashed_password_123', 4);         -- user_id=10, GIAO_VU
-
--- Users cho Students (13 users)
-INSERT INTO users (email, password_hash, role_id) VALUES
-    ('tung.hv@example.com', 'hashed_password_123', 3),            -- user_id=11
-    ('khanh.nkq@example.com', 'hashed_password_123', 3),          -- user_id=12
-    ('minh.nt@example.com', 'hashed_password_123', 3),            -- user_id=13
-    ('thu.tran@example.com', 'hashed_password_123', 3),           -- user_id=14
-    ('anh.le@example.com', 'hashed_password_123', 3),             -- user_id=15
-    ('hoa.pham@example.com', 'hashed_password_123', 3),           -- user_id=16
-    ('tam.nguyen@example.com', 'hashed_password_123', 3),         -- user_id=17
-    ('nhatminh.le@example.com', 'hashed_password_123', 3),        -- user_id=18
-    ('tan.nguyen@example.com', 'hashed_password_123', 3),         -- user_id=19
-    ('han.huynh@example.com', 'hashed_password_123', 3);          -- user_id=20
-
--- -----------------------------------------------------
--- 3. MODULES & LESSONS
--- -----------------------------------------------------
-
 INSERT INTO modules (course_id, module_name, sort_order) VALUES
-    (1, 'Module 1: Java Core', 1),
-    (1, 'Module 2: HTML/CSS/JS', 2),
-    (1, 'Module 3: SQL Cơ bản', 3),
-    (1, 'Module 4: JDBC & Servlet', 4),
-    (1, 'Module 5: JSP/JSTL', 5),
-    (1, 'Module 6: Spring Core', 6),
-    (1, 'Module 7: Spring Boot', 7),
-    (1, 'Module 8: REST API', 8),
-    (1, 'Module 9: Security', 9),
-    (1, 'Module 10: Final Project', 10);
+                                                             (1, 'Java Basics', 1),
+                                                             (1, 'OOP với Java', 2),
+                                                             (1, 'Collections Framework', 3),
+                                                             (1, 'JDBC & Database', 4),
+                                                             (1, 'Spring Boot', 5),
+                                                             (1, 'RESTful API', 6),
+                                                             (1, 'Spring Security', 7),
+                                                             (1, 'Testing với JUnit', 8),
+                                                             (1, 'Deployment', 9),
+                                                             (1, 'Final Project', 10);
 
+-- -----------------------------------------------------
+-- 7. LESSONS
+-- -----------------------------------------------------
 INSERT INTO lessons (module_id, lesson_name, sort_order) VALUES
-    (1, 'Bài 1: Giới thiệu Java', 1),
-    (1, 'Bài 2: Biến và Kiểu dữ liệu', 2),
-    (2, 'Bài 3: Flexbox', 3),
-    (2, 'Bài 4: DOM cơ bản', 4),
-    (3, 'Bài 5: SELECT nâng cao', 1),
-    (3, 'Bài 6: JOIN các loại', 2),
-    (4, 'Bài 7: Kết nối DB', 1),
-    (4, 'Bài 8: CRUD chuẩn', 2),
-    (5, 'Bài 9: JSTL Core', 1),
-    (5, 'Bài 10: JSTL Format', 2);
+                                                             (1, 'Giới thiệu về Java', 1),
+                                                             (1, 'Cài đặt môi trường', 2),
+                                                             (1, 'Biến và kiểu dữ liệu', 3),
+                                                             (1, 'Toán tử trong Java', 4),
+                                                             (1, 'Câu lệnh điều kiện', 5),
+                                                             (1, 'Vòng lặp', 6),
+                                                             (1, 'Mảng (Array)', 7),
+                                                             (1, 'Phương thức (Method)', 8),
+                                                             (1, 'String trong Java', 9),
+                                                             (1, 'Bài tập tổng hợp', 10);
 
+-- -----------------------------------------------------
+-- 8. LESSON_CONTENTS
+-- -----------------------------------------------------
 INSERT INTO lesson_contents (lesson_id, content_type, content_data) VALUES
-    (1, 'text', 'Java là một ngôn ngữ lập trình đa nền tảng...'),
-    (1, 'video', 'https://www.youtube.com/watch?v=some_video_id'),
-    (2, 'text', 'Biến trong Java...'),
-    (3, 'video', 'https://youtube.com/example?v=abc1'),
-    (4, 'text', 'DOM là gì?'),
-    (5, 'text', 'SELECT nâng cao gồm HAVING...'),
-    (6, 'video', 'https://youtube.com/example?v=abc2'),
-    (7, 'text', 'Kết nối DB với JDBC'),
-    (8, 'video', 'https://yt.com/video_crud'),
-    (9, 'markdown', '# JSTL Core hướng dẫn');
+                                                                        (1, 'video', 'https://youtube.com/watch?v=java-intro-001'),
+                                                                        (1, 'text', 'Java là ngôn ngữ lập trình hướng đối tượng phổ biến nhất thế giới...'),
+                                                                        (2, 'video', 'https://youtube.com/watch?v=java-setup-002'),
+                                                                        (2, 'text', 'Hướng dẫn cài đặt JDK và IntelliJ IDEA...'),
+                                                                        (3, 'video', 'https://youtube.com/watch?v=java-variables-003'),
+                                                                        (3, 'text', 'Biến là vùng nhớ lưu trữ dữ liệu. Java có các kiểu dữ liệu: int, double, String...'),
+                                                                        (3, 'quiz', '{"questions":[{"q":"Khai báo biến số nguyên?","a":"int x = 10;"}]}'),
+                                                                        (4, 'video', 'https://youtube.com/watch?v=java-operators-004'),
+                                                                        (5, 'video', 'https://youtube.com/watch?v=java-if-005'),
+                                                                        (6, 'video', 'https://youtube.com/watch?v=java-loop-006');
 
 -- -----------------------------------------------------
--- 4. STAFF & STUDENTS
+-- 9. CLASSES
 -- -----------------------------------------------------
-
-INSERT INTO staff (user_id, full_name, position) VALUES
-    (1, 'Lê Văn Hoàng', 'System Admin'),
-    (2, 'Trần Lê Gia Nguyên', 'Lead Teacher'),
-    (3, 'Nguyễn Thị Giáo Vụ', 'Giáo vụ'),
-    (4, 'Phan Văn Hòa', 'Teacher'),
-    (5, 'Admin Phụ', 'System Admin'),
-    (6, 'Ngô Thanh Minh', 'Giáo viên'),
-    (7, 'Trần Thu Thúy', 'Giáo vụ'),
-    (8, 'Lê Chí Anh', 'Trợ giảng'),
-    (9, 'Dương Văn Nam', 'Teacher'),
-    (10, 'Phạm Thị Linh', 'Giáo vụ');
-
-INSERT INTO students (user_id, full_name, phone, dob) VALUES
-    (11, 'Hồ Viết Tùng', '0905111222', '2003-06-15'),
-    (12, 'Nguyễn Kim Quốc Khánh', '0905333444', '2004-03-20'),
-    (13, 'Ngô Thanh Minh', '0911222333', '2003-05-10'),
-    (14, 'Trần Thu Thúy', '0933444555', '2004-08-22'),
-    (15, 'Lê Chí Anh', '0988777666', '2002-12-15'),
-    (16, 'Phan Văn Hòa', '0977333555', '2003-11-01'),
-    (17, 'Nguyễn Hữu Tâm', '0909888777', '2000-07-22'),
-    (18, 'Lê Nhật Minh', '0911666777', '2004-02-11'),
-    (19, 'Nguyễn Hữu Tấn', '0933777999', '2002-04-19'),
-    (20, 'Huỳnh Ngọc Hân', '0966888444', '2004-01-30');
+INSERT INTO classes (class_name, course_id, teacher_id, start_date, end_date, status) VALUES
+                                                                                          ('C0724G1', 1, 1, '2024-07-01', '2024-12-31', 'studying'),
+                                                                                          ('C0824G1', 1, 1, '2024-08-01', '2025-01-31', 'studying'),
+                                                                                          ('C0924P1', 2, 2, '2024-09-01', '2025-02-28', 'studying'),
+                                                                                          ('C0624G1', 1, 1, '2024-06-01', '2024-11-30', 'completed'),
+                                                                                          ('C0524G1', 1, 1, '2024-05-01', '2024-10-31', 'completed'),
+                                                                                          ('C1024G1', 1, 1, '2024-10-01', '2025-03-31', 'studying'),
+                                                                                          ('C0724W1', 3, 2, '2024-07-15', '2024-12-15', 'studying'),
+                                                                                          ('C0824M1', 4, 2, '2024-08-15', '2025-01-15', 'studying'),
+                                                                                          ('C0924D1', 5, 2, '2024-09-15', '2025-02-15', 'studying'),
+                                                                                          ('C0424G1', 1, 1, '2024-04-01', '2024-09-30', 'completed');
 
 -- -----------------------------------------------------
--- 5. CLASSES & ENROLMENTS
+-- 10. ENROLMENTS
 -- -----------------------------------------------------
-
-INSERT INTO classes (class_name, course_id, teacher_id, start_date, end_date) VALUES
-    ('C07', 1, 2, '2025-11-15', '2026-03-15'),
-    ('C08', 1, 2, '2025-11-20', '2026-03-01'),
-    ('C09', 1, 2, '2025-12-01', '2026-04-10'),
-    ('C10', 2, 4, '2025-10-01', '2026-02-10'),
-    ('C11', 3, 4, '2025-09-10', '2026-01-20'),
-    ('C12', 1, 6, '2026-01-15', '2026-05-30'),
-    ('C13', 1, 8, '2026-02-02', '2026-06-18'),
-    ('C14', 4, 9, '2026-03-01', '2026-07-15'),
-    ('C15', 5, 6, '2026-04-12', '2026-08-20'),
-    ('C16', 1, 2, '2026-05-01', '2026-09-30');
-
 INSERT INTO enrolments (student_id, class_id, status) VALUES
-    (1, 1, 'dropped'),     -- Tùng - C07 (dropped)
-    (2, 1, 'studying'),    -- Khánh - C07
-    (3, 1, 'studying'),    -- Minh - C07
-    (4, 1, 'studying'),    -- Thúy - C07
-    (5, 2, 'completed'),   -- Anh - C08 (completed)
-    (6, 2, 'studying'),    -- Hòa - C08
-    (7, 3, 'studying'),    -- Tâm - C09
-    (8, 3, 'studying'),    -- Nhật Minh - C09
-    (9, 4, 'studying'),    -- Tấn - C10
-    (10, 4, 'studying'),   -- Hân - C10
-    (1, 5, 'studying'),    -- Tùng - C11
-    (2, 5, 'studying'),    -- Khánh - C11
-    (3, 6, 'studying'),    -- Minh - C12
-    (4, 6, 'studying'),    -- Thúy - C12
-    (5, 7, 'studying'),    -- Anh - C13
-    (6, 7, 'studying'),    -- Hòa - C13
-    (7, 8, 'studying'),    -- Tâm - C14
-    (8, 8, 'studying'),    -- Nhật Minh - C14
-    (9, 9, 'studying'),    -- Tấn - C15
-    (10, 9, 'studying');   -- Hân - C15
+                                                          (1, 1, 'studying'),
+                                                          (2, 1, 'studying'),
+                                                          (3, 1, 'studying'),
+                                                          (4, 2, 'studying'),
+                                                          (5, 2, 'studying'),
+                                                          (6, 3, 'studying'),
+                                                          (7, 3, 'studying'),
+                                                          (8, 1, 'studying'),
+                                                          (9, 2, 'studying'),
+                                                          (10, 1, 'studying');
 
+-- -----------------------------------------------------
+-- 11. SCHEDULES
+-- -----------------------------------------------------
 INSERT INTO schedules (class_id, lesson_id, time_start, time_end, room) VALUES
-    (1, 1, '2025-11-15 08:00:00', '2025-11-15 11:30:00', 'Phòng A101'),
-    (1, 2, '2025-11-17 08:00:00', '2025-11-17 11:30:00', 'P101'),
-    (2, 3, '2025-11-20 08:00:00', '2025-11-20 11:00:00', 'P102'),
-    (2, 4, '2025-11-22 08:00:00', '2025-11-22 11:00:00', 'P102'),
-    (3, 5, '2025-12-01 13:00:00', '2025-12-01 16:00:00', 'P201'),
-    (3, 6, '2025-12-03 13:00:00', '2025-12-03 16:00:00', 'P201'),
-    (4, 7, '2025-12-05 18:00:00', '2025-12-05 21:00:00', 'P301'),
-    (4, 8, '2025-12-07 18:00:00', '2025-12-07 21:00:00', 'P301'),
-    (5, 9, '2025-12-10 08:00:00', '2025-12-10 11:00:00', 'P101'),
-    (5, 10, '2025-12-12 08:00:00', '2025-12-12 11:00:00', 'P101');
+                                                                            (1, 1, '2024-07-01 08:00:00', '2024-07-01 10:00:00', 'Room 301'),
+                                                                            (1, 2, '2024-07-02 08:00:00', '2024-07-02 10:00:00', 'Room 301'),
+                                                                            (1, 3, '2024-07-03 08:00:00', '2024-07-03 10:00:00', 'Room 301'),
+                                                                            (1, 4, '2024-07-04 08:00:00', '2024-07-04 10:00:00', 'Room 301'),
+                                                                            (1, 5, '2024-07-05 08:00:00', '2024-07-05 10:00:00', 'Room 301'),
+                                                                            (2, 1, '2024-08-01 13:00:00', '2024-08-01 15:00:00', 'Room 302'),
+                                                                            (2, 2, '2024-08-02 13:00:00', '2024-08-02 15:00:00', 'Room 302'),
+                                                                            (3, 1, '2024-09-01 18:00:00', '2024-09-01 20:00:00', 'Room 401'),
+                                                                            (3, 2, '2024-09-02 18:00:00', '2024-09-02 20:00:00', 'Room 401'),
+                                                                            (1, 6, '2024-07-08 08:00:00', '2024-07-08 10:00:00', 'Room 301');
 
 -- -----------------------------------------------------
--- 6. ATTENDANCE & GRADES
+-- 12. ATTENDANCE
 -- -----------------------------------------------------
-
 INSERT INTO attendance (schedule_id, student_id, status, note) VALUES
-    (1, 1, 'present', 'Đi học đúng giờ'),
-    (1, 2, 'absent', 'Xin nghỉ phép'),
-    (2, 3, 'present', ''),
-    (2, 4, 'late', 'Đến trễ 10 phút'),
-    (3, 5, 'present', ''),
-    (3, 6, 'absent', 'Bị ốm'),
-    (4, 7, 'present', ''),
-    (4, 8, 'present', ''),
-    (5, 7, 'late', ''),
-    (5, 8, 'present', ''),
-    (6, 9, 'present', ''),
-    (6, 10, 'present', ''),
-    (7, 9, 'absent', 'Có việc nhà'),
-    (7, 10, 'present', ''),
-    (8, 1, 'present', ''),
-    (8, 2, 'present', ''),
-    (9, 1, 'present', ''),
-    (9, 2, 'absent', ''),
-    (10, 3, 'present', ''),
-    (10, 4, 'present', '');
+                                                                   (1, 1, 'present', NULL),
+                                                                   (1, 2, 'present', NULL),
+                                                                   (1, 3, 'late', 'Đến muộn 15 phút'),
+                                                                   (1, 8, 'present', NULL),
+                                                                   (1, 10, 'absent', 'Xin nghỉ phép'),
+                                                                   (2, 1, 'present', NULL),
+                                                                   (2, 2, 'present', NULL),
+                                                                   (2, 3, 'present', NULL),
+                                                                   (3, 1, 'present', NULL),
+                                                                   (3, 2, 'excused', 'Đi khám bệnh có giấy');
 
-INSERT INTO grades (student_id, module_id, score, note) VALUES
-    (1, 1, 8.5, ''),
-    (2, 1, 8.0, ''),
-    (3, 1, 7.5, ''),
-    (4, 1, 8.0, ''),
-    (5, 1, 8.5, ''),
-    (6, 1, 6.8, ''),
-    (7, 1, 9.0, ''),
-    (8, 1, 7.2, ''),
-    (9, 1, 7.0, ''),
-    (10, 1, 8.8, ''),
-    (1, 2, 7.0, ''),
-    (2, 2, 7.8, ''),
-    (3, 2, 8.0, ''),
-    (4, 2, 6.5, ''),
-    (5, 2, 9.2, ''),
-    (6, 2, 7.3, ''),
-    (7, 2, 6.9, ''),
-    (8, 2, 8.9, ''),
-    (9, 2, 8.1, ''),
-    (10, 2, 9.0, '');
+-- -----------------------------------------------------
+-- 13. GRADES
+-- -----------------------------------------------------
+INSERT INTO grades (student_id, module_id, theory_score, practice_score, note) VALUES
+                                                                                   (1, 1, 8.5, 9.0, 'Học tốt, tích cực'),
+                                                                                   (1, 2, 7.5, 8.0, 'Cần cải thiện OOP'),
+                                                                                   (2, 1, 9.0, 9.5, 'Xuất sắc'),
+                                                                                   (2, 2, 8.5, 9.0, 'Rất tốt'),
+                                                                                   (3, 1, 7.0, 7.5, 'Trung bình khá'),
+                                                                                   (3, 2, 6.5, 7.0, 'Cần ôn tập thêm'),
+                                                                                   (8, 1, 8.0, 8.5, 'Tốt'),
+                                                                                   (8, 2, 7.8, 8.2, 'Khá tốt'),
+                                                                                   (10, 1, 9.5, 9.8, 'Xuất sắc, top đầu lớp'),
+                                                                                   (10, 2, 9.0, 9.5, 'Rất xuất sắc');
 
+-- -----------------------------------------------------
+-- 14. LESSON_PROGRESS
+-- -----------------------------------------------------
 INSERT INTO lesson_progress (student_id, lesson_id, is_completed, completed_at) VALUES
-    (1, 1, true, NOW()),
-    (2, 1, true, NOW()),
-    (3, 1, true, NOW()),
-    (4, 1, true, NOW()),
-    (5, 1, false, NULL),
-    (6, 1, true, NOW()),
-    (7, 1, true, NOW()),
-    (8, 1, false, NULL),
-    (9, 1, true, NOW()),
-    (10, 1, true, NOW()),
-    (1, 2, true, NOW()),
-    (2, 2, false, NULL),
-    (3, 2, true, NOW()),
-    (4, 2, false, NULL),
-    (5, 2, true, NOW()),
-    (6, 2, true, NOW()),
-    (7, 2, false, NULL),
-    (8, 2, true, NOW()),
-    (9, 2, true, NOW()),
-    (10, 2, false, NULL);
+                                                                                    (1, 1, true, '2024-07-01 11:00:00'),
+                                                                                    (1, 2, true, '2024-07-02 11:00:00'),
+                                                                                    (1, 3, true, '2024-07-03 11:00:00'),
+                                                                                    (1, 4, false, NULL),
+                                                                                    (2, 1, true, '2024-07-01 11:30:00'),
+                                                                                    (2, 2, true, '2024-07-02 11:30:00'),
+                                                                                    (2, 3, true, '2024-07-03 11:30:00'),
+                                                                                    (3, 1, true, '2024-07-01 12:00:00'),
+                                                                                    (3, 2, true, '2024-07-02 12:00:00'),
+                                                                                    (8, 1, true, '2024-07-01 10:45:00');
 
 -- -----------------------------------------------------
--- 7. LOGS
+-- 15. STUDENT_LOGS
 -- -----------------------------------------------------
-
-INSERT INTO class_logs (class_id, author_staff_id, content) VALUES
-    (1, 2, 'Lớp C07 buổi đầu sĩ số đầy đủ'),
-    (1, 3, 'Cần cải thiện kỷ luật'),
-    (2, 2, 'Buổi học đầu đủ sĩ số'),
-    (3, 2, 'Một số học viên vắng'),
-    (4, 2, 'Tiết học hiệu quả'),
-    (5, 3, 'Lớp học nghiêm túc'),
-    (6, 3, 'Tinh thần lớp tốt'),
-    (7, 3, 'Nhiều câu hỏi hay'),
-    (8, 2, 'Bài tập giao nhiều'),
-    (9, 2, 'Lớp hơi ồn');
-
 INSERT INTO student_logs (student_id, author_staff_id, content) VALUES
-    (1, 2, 'Tiến bộ tốt'),
-    (2, 3, 'Giáo vụ đã liên hệ HV Khánh xác nhận lý do vắng. OK'),
-    (3, 2, 'Cần làm bài tập thêm'),
-    (4, 3, 'Chậm tiến độ'),
-    (5, 3, 'Ổn định'),
-    (6, 2, 'Tham gia đầy đủ'),
-    (7, 2, 'Đi trễ nhiều'),
-    (8, 3, 'Gặp khó trong SQL'),
-    (9, 3, 'Hiểu bài tốt'),
-    (10, 2, 'Tinh thần học tốt');
+                                                                    (1, 1, 'Học viên có tiến bộ tốt trong tuần đầu tiên'),
+                                                                    (1, 1, 'Hoàn thành bài tập đúng hạn, code chất lượng'),
+                                                                    (2, 1, 'Học viên xuất sắc, nhiệt tình giúp đỡ bạn'),
+                                                                    (3, 1, 'Cần cải thiện kỹ năng debug'),
+                                                                    (3, 1, 'Đã có tiến bộ rõ rệt sau buổi tư vấn'),
+                                                                    (4, 2, 'Học viên mới nhập học, cần theo dõi sát'),
+                                                                    (5, 2, 'Tham gia tích cực các hoạt động lớp'),
+                                                                    (8, 1, 'Code sạch, có tư duy logic tốt'),
+                                                                    (10, 1, 'Top học viên xuất sắc tháng 7/2024'),
+                                                                    (10, 1, 'Đề xuất làm mentor cho lớp sau');
+
+-- -----------------------------------------------------
+-- 16. CLASS_LOGS
+-- -----------------------------------------------------
+INSERT INTO class_logs (class_id, author_staff_id, content) VALUES
+                                                                (1, 1, 'Khai giảng lớp C0724G1, 10 học viên tham gia'),
+                                                                (1, 1, 'Tiến độ học tốt, học viên nhiệt tình'),
+                                                                (1, 1, 'Tổ chức buổi review code cho lớp'),
+                                                                (2, 1, 'Khai giảng lớp C0824G1, 5 học viên đăng ký'),
+                                                                (2, 1, 'Lớp học nhỏ, có thể chăm sóc kỹ từng học viên'),
+                                                                (3, 2, 'Khai giảng lớp Python C0924P1'),
+                                                                (3, 2, 'Học viên có background khác nhau, cần điều chỉnh giảng dạy'),
+                                                                (4, 1, 'Lớp C0624G1 hoàn thành khóa học'),
+                                                                (4, 1, '8/10 học viên pass, 2 học viên cần học lại'),
+                                                                (1, 4, 'Họp phụ huynh học viên vào cuối tháng');
