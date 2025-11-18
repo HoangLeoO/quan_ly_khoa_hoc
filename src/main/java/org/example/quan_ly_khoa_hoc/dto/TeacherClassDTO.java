@@ -9,7 +9,7 @@ public class TeacherClassDTO {
     LocalDate startDate;
     LocalDate endDate;
     int totalStudents;
-//    String status;
+    String status;
 
     public TeacherClassDTO() {
     }
