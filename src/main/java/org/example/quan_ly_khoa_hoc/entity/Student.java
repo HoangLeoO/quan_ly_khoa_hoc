@@ -3,35 +3,45 @@ package org.example.quan_ly_khoa_hoc.entity;
 import java.time.LocalDate;
 
 public class Student {
-    private int studentId;
-    private int userId;
+    private Integer studentId;
+    private Integer userId;
     private String fullName;
     private String phone;
     private LocalDate dob; // Sử dụng LocalDate cho kiểu DATE
+    private String address;
 
     // Constructors, Getters, và Setters...
     public Student() {}
 
-    public Student(int userId, String phone, String fullName, LocalDate dob) {
+    public Student(Integer userId, String phone, String fullName, LocalDate dob, String address) {
         this.userId = userId;
         this.phone = phone;
         this.fullName = fullName;
         this.dob = dob;
+        this.address = address;
     }
 
-    public int getStudentId() {
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
+    public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
