@@ -17,7 +17,15 @@
     <div>
         <c:import url="../teacher/navbar-teacher.jsp"/>
     </div>
+
     <section class="py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">Xin chào</div>
+                <div class="col-8"></div>
+                <div class="col-2" id="today"></div>
+            </div>
+        </div>
         <div class="container" style="margin-top: 50px">
             <div class="row justify-content-center">
                 <div class="col-md-10">
@@ -58,7 +66,7 @@
         const options = {day: '2-digit', month: '2-digit', year: 'numeric'};
         const formattedDate = today.toLocaleDateString('vi-VN', options);
 
-        document.getElementById(elementId).innerText = dayName + " " + formattedDate;
+        document.getElementById(elementId).innerText = dayName + " ngày " + formattedDate;
     }
 
     showTodayDateWithDay("today");

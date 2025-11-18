@@ -2,7 +2,7 @@ package org.example.quan_ly_khoa_hoc.dto;
 
 import java.time.LocalDate;
 
-public class TeacherDto {
+public class TeacherClassDTO {
     int classId;
     String className;       // từ classes.class_name
     String courseName;      // join courses.course_name
@@ -11,10 +11,10 @@ public class TeacherDto {
     int totalStudents;
 //    String status;
 
-    public TeacherDto() {
+    public TeacherClassDTO() {
     }
 
-    public TeacherDto(int classId, String className, String courseName, LocalDate startDate, LocalDate endDate, int totalStudents) {
+    public TeacherClassDTO(int classId, String className, String courseName, LocalDate startDate, LocalDate endDate, int totalStudents) {
         this.classId = classId;
         this.className = className;
         this.courseName = courseName;

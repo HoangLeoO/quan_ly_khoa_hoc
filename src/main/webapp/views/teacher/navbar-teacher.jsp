@@ -26,6 +26,10 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="course-management.html"
+                    >Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="course-management.html"
                     >📋 Điểm danh</a>
                 </li>
                 <li class="nav-item dropdown">
