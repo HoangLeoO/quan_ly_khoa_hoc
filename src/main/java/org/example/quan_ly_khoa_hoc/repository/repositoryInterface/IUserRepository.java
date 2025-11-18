@@ -1,4 +1,15 @@
 package org.example.quan_ly_khoa_hoc.repository.repositoryInterface;
 
+import org.example.quan_ly_khoa_hoc.dto.UserDTO;
+import org.example.quan_ly_khoa_hoc.entity.User;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
 public interface IUserRepository {
+
+    //Lấy tất cả người dùng
+    List<UserDTO> getAllUser();
+    User  addUserInTransaction(Connection connection, User user) throws SQLException;
 }

@@ -26,6 +26,8 @@ CREATE TABLE students (
     full_name VARCHAR(100) NOT NULL,
     phone VARCHAR(15),
     dob DATE,
+    position VARCHAR(100) DEFAULT 'Học viên',
+    address VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -33,7 +35,10 @@ CREATE TABLE staff (
     staff_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     full_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(15),
+    dob DATE,
     position VARCHAR(100) COMMENT 'Chức vụ',
+    address VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
