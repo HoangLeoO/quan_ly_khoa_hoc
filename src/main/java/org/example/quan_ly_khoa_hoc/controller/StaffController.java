@@ -1,4 +1,9 @@
 package org.example.quan_ly_khoa_hoc.controller;
 
-public class StaffController {
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+
+@WebServlet(name = "StaffController", value = "/staffs")
+public class StaffController extends HttpServlet {
+
 }
