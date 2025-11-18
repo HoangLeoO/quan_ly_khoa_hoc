@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseUtil {
-    private static final String URL ="jdbc:mysql://localhost:3306/codegym";
-    private static final String USER ="root";
-    private static final String PASS ="Codegym123";
+    private static final String URL ="jdbc:mysql://localhost:3306/codegym"; // sửa lại tên của csdl
+    private static final String USER ="root";// mặc định của mysql
+    private static final String PASS ="912001";// do cài đặt khi cài đặt mysql
     public static Connection getConnectDB(){
         Connection connection = null;
         try {
