@@ -3,7 +3,7 @@ package org.example.quan_ly_khoa_hoc.entity;
 import java.sql.Timestamp;
 
 public class User {
-    private int userId;
+    private Integer userId;
     private String email;
     private String passwordHash; // Dùng để lưu trữ mật khẩu đã hash
     private Integer roleId; // role_id có thể là NULL, nên dùng Integer
@@ -20,11 +20,11 @@ public class User {
     }
 
     // Getters and Setters
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -35,7 +35,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getPasswordHash() {
         return passwordHash;
     }

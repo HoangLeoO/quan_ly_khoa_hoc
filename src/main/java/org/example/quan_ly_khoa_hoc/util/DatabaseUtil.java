@@ -1,23 +1,26 @@
 package org.example.quan_ly_khoa_hoc.util;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseUtil {
-    private static final String URL ="jdbc:mysql://localhost:3306/manager_product"; // sửa lại tên của csdl
-    private static final String USER ="root";// mặc định của mysql
-    private static final String PASS ="912001";// do cài đặt khi cài đặt mysql
-    public static Connection getConnectDB(){
+    private static final String URL = "jdbc:mysql://localhost:3306/codegym";
+    private static final String USER = "root";
+    private static final String PASS = "0703586224";
+
+    // Phương thức kết nối database
+    public static Connection getConnectDB() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection= DriverManager.getConnection(URL,USER,PASS);
+            connection = DriverManager.getConnection(URL, USER, PASS);
         } catch (ClassNotFoundException e) {
+            System.err.println("Không tìm thấy MySQL Driver!");
             e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Lỗi kết nối database!");
+            e.printStackTrace();
         }
         return connection;
     }
