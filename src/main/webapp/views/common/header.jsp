@@ -6,10 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-</body>
-</html>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-4Gqr6jhmNs4sKfyRatL2w+g3UqE8vh4h8S9f4kG2jxRUX9N1nf8e3B4tFy4eB5W"
+        crossorigin="anonymous" />
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
