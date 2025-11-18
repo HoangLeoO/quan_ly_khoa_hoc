@@ -1,12 +1,11 @@
 <%--
   Created by IntelliJ IDEA.
-  User: ADMIN
-  Date: 17/11/2025
-  Time: 10:02 CH
+  User: USER
+  Date: 11/18/2025
+  Time: 11:52 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- Footer -->
 <footer class="bg-dark text-white py-4" style="margin-top: 99.5px">
     <div class="container">
         <div class="row">
