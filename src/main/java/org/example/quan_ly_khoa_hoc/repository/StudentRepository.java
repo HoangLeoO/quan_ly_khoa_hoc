@@ -1,15 +1,14 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
+import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
 import org.example.quan_ly_khoa_hoc.entity.User;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IStudentRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +23,17 @@ public class StudentRepository implements IStudentRepository {
         }
         String sql = "INSERT INTO students (user_id, full_name,phone,dob,address) VALUES (?, ?, ?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-           preparedStatement.setInt(1, student.getUserId());
-           preparedStatement.setString(2, student.getFullName());
-           preparedStatement.setString(3,student.getPhone());
-           preparedStatement.setDate(4, java.sql.Date.valueOf(student.getDob()));
-           preparedStatement.setString(5,student.getAddress());
-           int affectedRows = preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, student.getUserId());
+            preparedStatement.setString(2, student.getFullName());
+            preparedStatement.setString(3, student.getPhone());
+            preparedStatement.setDate(4, java.sql.Date.valueOf(student.getDob()));
+            preparedStatement.setString(5, student.getAddress());
+            int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
-            try(ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     student.setStudentId(generatedKeys.getInt(1));
                     System.out.println("✓ Created Student with ID: " + generatedKeys.getInt(1) + " for User ID: " + student.getUserId());
@@ -45,6 +44,50 @@ public class StudentRepository implements IStudentRepository {
             return student;
         }
     }
+
+    @Override
+    public Integer getStudentIdByEmail(String email) {
+        Integer id = null;
+
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select s.student_id from students s join codegym.users u on s.user_id = u.user_id where u.email = ?;");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("student_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    @Override
+    public StudentProfileDTO getStudentProfileByEmail(String email) {
+        StudentProfileDTO s = null;
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select s.full_name,s.phone,s.dob,s.address,u.email from students s join users u on s.user_id = u.user_id where u.email = ?;");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String fullName = resultSet.getString("full_name");
+                String phone = resultSet.getString("phone");
+                LocalDate dob = null;
+                Date sqlDob = resultSet.getDate("dob");
+                if (sqlDob != null) {
+                    dob = sqlDob.toLocalDate();
+                }
+                String address = resultSet.getString("address");
+                String emailS= resultSet.getString("email");
+                s = new StudentProfileDTO(fullName,phone,dob,address,emailS);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return s;
+    }
+
     private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, e.status\n" +
             "from classes cl\n" +
             "         join codegym.courses c on c.course_id = cl.course_id\n" +
@@ -56,16 +99,16 @@ public class StudentRepository implements IStudentRepository {
     public List<ClassInfoDTO> getStudentClassesInfoById(int studentId) {
         List<ClassInfoDTO> classInfoDTOS = new ArrayList<>();
 
-        try(Connection connection = DatabaseUtil.getConnectDB()) {
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
             PreparedStatement preparedStatement = connection.prepareStatement(CLASS_INFO);
-            preparedStatement.setInt(1,studentId);
+            preparedStatement.setInt(1, studentId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 int class_id = resultSet.getInt("class_id");
                 String class_name = resultSet.getString("class_name");
                 String course_name = resultSet.getString("course_name");
                 String status = resultSet.getString("status");
-                classInfoDTOS.add(new ClassInfoDTO(class_id,class_name,course_name,status));
+                classInfoDTOS.add(new ClassInfoDTO(class_id, class_name, course_name, status));
             }
         } catch (SQLException e) {
             System.out.println("Lỗi ở repo student");

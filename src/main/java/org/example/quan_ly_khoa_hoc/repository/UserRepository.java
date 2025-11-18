@@ -19,7 +19,7 @@ public class UserRepository implements IUserRepository {
     public List<UserDTO> getAllUser() {
         List<UserDTO> userDTOList = new ArrayList<>();
 
-        String sql = "SELECT u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  join   staff s on u.user_id = s.user_id UNION SELECT  u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  join students  s on u.user_id = s.user_id" ;
+        String sql = "SELECT u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  join   staff s on u.user_id = s.user_id UNION SELECT  u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  join students  s on u.user_id = s.user_id";
 
         try (Connection connection = DatabaseUtil.getConnectDB();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -31,7 +31,7 @@ public class UserRepository implements IUserRepository {
                 String position = resultSet.getString("position");
                 int roleId = resultSet.getInt("role_id");
                 LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
-                userDTOList.add(new UserDTO(fullName, email, dob,position,roleId, createdAt));
+                userDTOList.add(new UserDTO(fullName, email, dob, position, roleId, createdAt));
             }
 
         } catch (SQLException e) {
@@ -61,7 +61,7 @@ public class UserRepository implements IUserRepository {
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
-            try(ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     user.setUserId(generatedKeys.getInt(1));
                 } else {
@@ -71,6 +71,35 @@ public class UserRepository implements IUserRepository {
 
             return user;
         }
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        String sql = """
+                    SELECT u.user_id, u.email, u.password_hash, u.role_id, u.is_delete, u.created_at
+                    FROM users u
+                    WHERE u.email = ?;
+                """;
+
+        try (Connection c = DatabaseUtil.getConnectDB()) {
+            PreparedStatement p = c.prepareStatement(sql);
+            p.setString(1, email);
+            ResultSet rs = p.executeQuery();
+            if (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("user_id"));
+                u.setEmail(rs.getString("email"));
+                u.setPasswordHash(rs.getString("password_hash"));
+                u.setRoleId((Integer) rs.getObject("role_id"));
+                u.setDelete(rs.getBoolean("is_delete"));
+                u.setCreatedAt(rs.getTimestamp("created_at"));
+                return u;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Lỗi check email repo");
+        }
+        return null;
     }
 
 

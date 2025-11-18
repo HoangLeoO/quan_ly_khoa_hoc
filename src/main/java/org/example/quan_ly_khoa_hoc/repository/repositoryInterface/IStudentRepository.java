@@ -4,15 +4,19 @@ import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
 
 import java.util.List;
 
-import org.example.quan_ly_khoa_hoc.dto.UserDTO;
+
+import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
-import org.example.quan_ly_khoa_hoc.entity.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
+
 
 public interface IStudentRepository {
     List<ClassInfoDTO> getStudentClassesInfoById(int studentId);
     Student addStudentInTransaction(Connection connection, Student student) throws SQLException;
+
+    Integer getStudentIdByEmail(String email);
+
+    StudentProfileDTO getStudentProfileByEmail(String email);
 }
