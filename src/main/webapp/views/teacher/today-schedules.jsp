@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -10,7 +9,7 @@
 <body>
 <div id="wrapper">
   <div>
-    <c:import url="../teacher/navbar-teacher.jsp"/>
+    <c:import url="../common/navbar.jsp"/>
   </div>
 
   <section class="py-5 mt-5">
