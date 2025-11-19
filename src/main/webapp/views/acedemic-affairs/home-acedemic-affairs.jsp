@@ -42,5 +42,14 @@
   </section>
 
   <c:import url="../common/footer.jsp"/>
+    <script>
+      $(document).ready(function() {
+        $('#tableClassInfo').dataTable( {
+          "dom": 'lrtip',
+          "lengthChange": false,
+          "pageLength": 5
+        } );
+      } );
+    </script>
 </body>
 </html>

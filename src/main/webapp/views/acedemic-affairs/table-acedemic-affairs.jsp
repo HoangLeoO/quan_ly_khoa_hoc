@@ -12,7 +12,7 @@
 <div class="mb-5">
     <h4 class="mb-3">Danh sách Lớp học</h4>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
+        <table id='tableClassInfo' class="table table-bordered table-hover align-middle" style="width: 100%">
             <thead class="table-light">
             <tr class="align-middle">
                 <th>STT</th>

@@ -2,6 +2,7 @@ package org.example.quan_ly_khoa_hoc.repository;
 
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherInfoDTO;
+import org.example.quan_ly_khoa_hoc.entity.Staff;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ITeacherRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
@@ -41,5 +42,10 @@ public class TeacherRepository implements ITeacherRepository {
             e.printStackTrace();
         }
         return teacherInfoDTO;
+    }
+
+    @Override
+    public Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException {
+        return null;
     }
 }

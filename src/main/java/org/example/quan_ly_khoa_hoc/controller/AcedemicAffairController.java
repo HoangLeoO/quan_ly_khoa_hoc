@@ -13,6 +13,7 @@ import java.io.IOException;
 @WebServlet(name = "AcedemicAffairController", value = "/acedemic-affairs")
 public class AcedemicAffairController extends HttpServlet {
     private IClassService classService = new ClassService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -20,12 +21,17 @@ public class AcedemicAffairController extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "detail":
-//                showClassDetail(req, resp);
+            case "schedule":
+                showClassSchedule(req, resp);
                 break;
             default:
                 showList(req, resp);
         }
+    }
+
+    private void showClassSchedule(HttpServletRequest req, HttpServletResponse resp) {
+        int classId = Integer.parseInt(req.getParameter("classId"));
+
     }
 
     private void showList(HttpServletRequest req, HttpServletResponse resp) {
