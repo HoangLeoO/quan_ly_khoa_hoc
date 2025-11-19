@@ -43,17 +43,12 @@ public class AttendanceController extends HttpServlet {
             }
         }
     }
-
-    // Hàm logic chính để xử lý việc Reload trang (No-JS)
     private void showAttendanceForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int classId = Integer.parseInt(request.getParameter("classId"));
         TeacherClassDTO currentClass = classRepository.findClassById(classId);
-
         List<Module> moduleList = attendanceService.getModulesByCourse(currentClass.getCourseId());
-
-
         String moduleIdStr = request.getParameter("moduleId");
-        List<Lesson> lessonList = new ArrayList<>(); // Mặc định rỗng
+        List<Lesson> lessonList = new ArrayList<>();
 
         if (moduleIdStr != null && !moduleIdStr.isEmpty()) {
             int moduleId = Integer.parseInt(moduleIdStr);
