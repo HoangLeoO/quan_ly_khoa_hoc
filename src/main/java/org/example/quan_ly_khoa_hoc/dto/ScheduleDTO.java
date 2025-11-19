@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class ScheduleDTO {
     private int scheduleId;
     private int classId;
+    private int lessionId;
     private String className;
     private String lessonName;
     private LocalDateTime timeStart;
@@ -13,13 +14,22 @@ public class ScheduleDTO {
     public ScheduleDTO() {
     }
 
-    public ScheduleDTO(int scheduleId, int classId, String className, String lessonName, LocalDateTime timeStart, String room) {
+    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, LocalDateTime timeStart, String room) {
         this.scheduleId = scheduleId;
         this.classId = classId;
+        this.lessionId = lessionId;
         this.className = className;
         this.lessonName = lessonName;
         this.timeStart = timeStart;
         this.room = room;
+    }
+
+    public int getLessionId() {
+        return lessionId;
+    }
+
+    public void setLessionId(int lessionId) {
+        this.lessionId = lessionId;
     }
 
     public int getScheduleId() {
