@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class StaffRepository implements IStaffRepository {
     @Override
     public Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException {
-        if (staff == null || staff.getUserId() == null) {
+        if (staff == null) {
             throw new IllegalArgumentException("Staff and user_id cannot be null");
         }
         if (staff.getFullName() == null || staff.getFullName().trim().isEmpty()) {

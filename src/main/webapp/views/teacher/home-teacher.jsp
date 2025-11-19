@@ -15,7 +15,7 @@
 <body>
 <div>
     <div>
-        <c:import url="../teacher/navbar-teacher.jsp"/>
+        <c:import url="../common/navbar.jsp"/>
     </div>
 
     <section class="py-5 mt-5">

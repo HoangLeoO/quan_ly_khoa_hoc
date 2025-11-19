@@ -8,7 +8,7 @@ public class Staff {
     private String fullName;
     private String position;
     private String phone;
-    private LocalDate dob;
+    private LocalDate dob; // Sử dụng LocalDate cho kiểu DATE
     private String address;
 
     public Staff() {
@@ -24,7 +24,8 @@ public class Staff {
         this.address = address;
     }
 
-    public int getStaffId() {
+    // Getters and Setters
+    public Integer getStaffId() {
         return staffId;
     }
 
