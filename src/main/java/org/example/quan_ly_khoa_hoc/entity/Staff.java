@@ -3,17 +3,19 @@ package org.example.quan_ly_khoa_hoc.entity;
 import java.time.LocalDate;
 
 public class Staff {
-    private int staffId;
-    private int userId;
+    private Integer staffId;
+    private Integer userId;
     private String fullName;
     private String position;
     private String phone;
-    private LocalDate dob;
+    private LocalDate dob; // Sử dụng LocalDate cho kiểu DATE
     private String address;
 
-    public Staff() {}
+    public Staff() {
+    }
 
-    public Staff(int userId, String fullName, String position) {
+    public Staff(int staffId, int userId, String fullName, String position, String phone, LocalDate dob, String address) {
+        this.staffId = staffId;
         this.userId = userId;
         this.fullName = fullName;
         this.position = position;
@@ -23,19 +25,19 @@ public class Staff {
     }
 
     // Getters and Setters
-    public int getStaffId() {
+    public Integer getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(int staffId) {
+    public void setStaffId(Integer staffId) {
         this.staffId = staffId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
