@@ -1,20 +1,29 @@
 package org.example.quan_ly_khoa_hoc.entity;
 
+import java.time.LocalDate;
+
 public class Staff {
     private int staffId;
     private int userId;
     private String fullName;
     private String position;
+    private String phone;
+    private LocalDate dob;
+    private String address;
 
-    public Staff() {}
+    public Staff() {
+    }
 
-    public Staff(int userId, String fullName, String position) {
+    public Staff(int staffId, int userId, String fullName, String position, String phone, LocalDate dob, String address) {
+        this.staffId = staffId;
         this.userId = userId;
         this.fullName = fullName;
         this.position = position;
+        this.phone = phone;
+        this.dob = dob;
+        this.address = address;
     }
 
-    // Getters and Setters
     public int getStaffId() {
         return staffId;
     }
@@ -45,5 +54,29 @@ public class Staff {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
