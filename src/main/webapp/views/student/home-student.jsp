@@ -36,7 +36,7 @@
                         <div class="mb-5">
                             <h4 class="mb-3">Danh sách khóa học hiện tại</h4>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table id="tableStudent" class="table table-bordered table-hover">
                                     <thead class="table-light">
                                     <tr>
                                         <th>STT</th>
@@ -65,32 +65,6 @@
                             </div>
                         </div>
 
-                        <%-- pagination--%>
-                        <div class="d-flex justify-content-center">
-                            <ul class="pagination">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#">&laquo;</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">5</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">&raquo;</a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
