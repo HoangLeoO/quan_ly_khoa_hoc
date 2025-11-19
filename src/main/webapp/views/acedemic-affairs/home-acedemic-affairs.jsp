@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: Hi
@@ -20,6 +21,7 @@
   <c:import url="navaber-acedemic-affairs.jsp"/>
 </div>
 
+
   <!-- Admin Section -->
   <section class="py-5 mt-5">
     <div class="container" style="margin-top: 50px">
@@ -30,7 +32,7 @@
 
 
               <!-- Class List Table -->
-              <c:import url="table-acedemic-affairs.jsp"/>
+                  <c:import url="table-acedemic-affairs.jsp"/>
 
             </div>
           </div>
