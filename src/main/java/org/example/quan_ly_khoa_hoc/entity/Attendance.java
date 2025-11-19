@@ -16,7 +16,6 @@ public class Attendance {
         this.note = note;
     }
 
-    // Getters and Setters
     public int getAttendanceId() {
         return attendanceId;
     }

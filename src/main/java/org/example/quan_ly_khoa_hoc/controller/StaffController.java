@@ -10,8 +10,5 @@ import java.io.IOException;
 
 @WebServlet(name="StaffController", value = "/staffs")
 public class StaffController extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/views/teacher/home-teacher.jsp").forward(req,resp);
-    }
+
 }
