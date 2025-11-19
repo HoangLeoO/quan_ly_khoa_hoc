@@ -49,10 +49,10 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("currentUser", user);
                 session.setAttribute("role", role.getRoleName());
                 switch (role.getRoleName()) {
-                    case "Admin" -> resp.sendRedirect(req.getContextPath() + "/staffs");
-                    case "Teacher" -> resp.sendRedirect(req.getContextPath() + "/students");
+                    case "Admin" -> resp.sendRedirect(req.getContextPath() + "/admins");
+                    case "Teacher" -> resp.sendRedirect(req.getContextPath() + "/teacher");
                     case "Student" -> resp.sendRedirect(req.getContextPath() + "/students");
-                    case "Academic_Staff" -> resp.sendRedirect(req.getContextPath() + "/students");
+                    case "Academic_Staff" -> resp.sendRedirect(req.getContextPath() + "/acedemic-affairs");
                 }
 
             } else {

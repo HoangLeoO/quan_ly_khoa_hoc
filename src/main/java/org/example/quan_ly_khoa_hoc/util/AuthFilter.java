@@ -45,16 +45,29 @@ public class AuthFilter implements Filter {
     }
 
     private boolean isPublicUri(String uri) {
-        return uri.endsWith("/login") || uri.endsWith("/register") || uri.contains("/assets/");
+        return uri.endsWith("/login")
+                || uri.endsWith("/register")
+                || uri.contains("/assets/")
+                || uri.startsWith("/css/")
+                || uri.startsWith("/js/")
+                || uri.startsWith("/images/")
+                || uri.endsWith(".css")
+                || uri.endsWith(".js")
+                || uri.endsWith(".png")
+                || uri.endsWith(".jpg");
     }
 
     private boolean hasAccess(String uri, String role) {
         if (role == null) return false;
+
+        if (uri.startsWith("/assets") || uri.endsWith(".css") || uri.endsWith(".js")) {
+            return true;
+        }
         switch (role) {
-            case "Admin": return true;
-            case "Teacher": return uri.startsWith("/students") || uri.startsWith("/common") || true;
-            case "Student": return uri.startsWith("/teacher") || uri.startsWith("/common")  || true;
-            case "Academic_Staff": return uri.startsWith("/Academic-Staff") || uri.startsWith("/common")  || true;
+            case "Admin": return uri.startsWith("/admins") || uri.startsWith("/attendance") || uri.startsWith("/logout");
+            case "Teacher": return uri.startsWith("/teacher") || uri.startsWith("/logout") ;
+            case "Student": return uri.startsWith("/students") || uri.startsWith("/logout") ;
+            case "Academic_Staff": return uri.startsWith("/acedemic-affairs") || uri.startsWith("/logout");
             default: return false;
         }
     }

@@ -30,6 +30,12 @@
 </head>
 <body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
 
+<div>
+    <p><span>admin@codegym.vn</span></p>
+    <p><span>teacher1@codegym.vn</span></p>
+    <p><span>hoang.van.e@gmail.com</span></p>
+    <p><span>coordinator@codegym.vn</span></p>
+</div>
 
 <!-- Login Card Container -->
 <div class="container">

@@ -9,15 +9,5 @@ import org.example.quan_ly_khoa_hoc.service.serviceInterface.ICourseService;
 import java.util.List;
 
 public class CourseService implements ICourseService {
-    private ICourseRepository courseRepository = new CourseRepository();
 
-    @Override
-    public List<Module> findModulesByCourseId(int courseId) {
-        return courseRepository.findModulesByCourseId(courseId);
-    }
-
-    @Override
-    public List<Lesson> findLessonsByModuleId(int moduleId) {
-        return courseRepository.findLessonsByModuleId(moduleId);
-    }
 }
