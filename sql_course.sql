@@ -100,7 +100,7 @@ CREATE TABLE classes
     teacher_id INT,
     start_date DATE,
     end_date   DATE,
-    status     ENUM('studying', 'completed', 'dropped') DEFAULT 'studying',
+    status     ENUM('Đang học', 'Sắp mở', 'Đã kết thúc') DEFAULT 'Sắp mở',
     FOREIGN KEY (course_id) REFERENCES courses (course_id) ON DELETE CASCADE,
     FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL
 );

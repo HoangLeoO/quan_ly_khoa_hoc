@@ -78,8 +78,9 @@
         </div>
     </section>
 
-
-    <c:import url="../common/footer.jsp"/>
+    <div class="row">
+        <c:import url="../common/footer.jsp"/>
+    </div>
 </div>
 </body>
 <script>

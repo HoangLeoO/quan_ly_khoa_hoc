@@ -17,20 +17,20 @@ INSERT INTO roles (role_name) VALUES
 -- 2. USERS
 -- -----------------------------------------------------
 INSERT INTO users (email, password_hash, role_id, is_delete) VALUES
-                                                                 ('admin@codegym.vn', '$2a$10$Tu0wN9GJtHDuduATlS0.H.csPPmCRfLTSMMIZgb6QmLx/h0HE0Sni', 1, 0),
-                                                                 ('teacher1@codegym.vn', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 2, 0),
-                                                                 ('teacher2@codegym.vn', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 2, 0),
+                                                                 ('admin@codegym.vn', '$2a$10$Nf5jAVTMNYxKAUH1G1cA4.wo40rCHURiVMaWGQ2HESQdAuq0Kke3S', 1, 0),
+                                                                 ('teacher1@codegym.vn', '$2a$10$Nf5jAVTMNYxKAUH1G1cA4.wo40rCHURiVMaWGQ2HESQdAuq0Kke3S', 2, 0),
+                                                                 ('teacher2@codegym.vn', '$2a$10$Nf5jAVTMNYxKAUH1G1cA4.wo40rCHURiVMaWGQ2HESQdAuq0Kke3S', 2, 0),
                                                                  ('nguyen.van.a@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('tran.thi.b@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('le.van.c@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('pham.thi.d@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
-                                                                 ('hoang.van.e@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
+                                                                 ('hoang.van.e@gmail.com', '$2a$10$Nf5jAVTMNYxKAUH1G1cA4.wo40rCHURiVMaWGQ2HESQdAuq0Kke3S', 3, 0),
                                                                  ('vo.thi.f@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('do.van.g@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('bui.thi.h@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('ngo.van.i@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('dang.thi.k@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
-                                                                 ('coordinator@codegym.vn', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 4, 0);
+                                                                 ('coordinator@codegym.vn', '$2a$10$Nf5jAVTMNYxKAUH1G1cA4.wo40rCHURiVMaWGQ2HESQdAuq0Kke3S', 4, 0);
 
 -- -----------------------------------------------------
 -- 3. STUDENTS
@@ -120,16 +120,16 @@ INSERT INTO lesson_contents (lesson_id, content_type, content_data) VALUES
 -- 9. CLASSES
 -- -----------------------------------------------------
 INSERT INTO classes (class_name, course_id, teacher_id, start_date, end_date, status) VALUES
-                                                                                          ('C0724G1', 1, 1, '2024-07-01', '2024-12-31', 'studying'),
-                                                                                          ('C0824G1', 1, 1, '2024-08-01', '2025-01-31', 'studying'),
-                                                                                          ('C0924P1', 2, 2, '2024-09-01', '2025-02-28', 'studying'),
-                                                                                          ('C0624G1', 1, 1, '2024-06-01', '2024-11-30', 'completed'),
-                                                                                          ('C0524G1', 1, 1, '2024-05-01', '2024-10-31', 'completed'),
-                                                                                          ('C1024G1', 1, 1, '2024-10-01', '2025-03-31', 'studying'),
-                                                                                          ('C0724W1', 3, 2, '2024-07-15', '2024-12-15', 'studying'),
-                                                                                          ('C0824M1', 4, 2, '2024-08-15', '2025-01-15', 'studying'),
-                                                                                          ('C0924D1', 5, 2, '2024-09-15', '2025-02-15', 'studying'),
-                                                                                          ('C0424G1', 1, 1, '2024-04-01', '2024-09-30', 'completed');
+('C0724G1', 1, 1, '2024-07-01', '2024-12-31', 'Đang học'),
+('C0824G1', 1, 1, '2024-08-01', '2025-01-31', 'Đang học'),
+('C0924P1', 2, 2, '2024-09-01', '2025-02-28', 'Đang học'),
+('C0624G1', 1, 1, '2024-06-01', '2024-11-30', 'Đã kết thúc'),
+('C0524G1', 1, 1, '2024-05-01', '2024-10-31', 'Đã kết thúc'),
+('C1024G1', 1, 1, '2024-10-01', '2025-03-31', 'Đang học'),
+('C0724W1', 3, 2, '2024-07-15', '2024-12-15', 'Đang học'),
+('C0824M1', 4, 2, '2024-08-15', '2025-01-15', 'Đang học'),
+('C0924D1', 5, 2, '2024-09-15', '2025-02-15', 'Đang học'),
+('C0424G1', 1, 1, '2024-04-01', '2024-09-30', 'Đã kết thúc');
 
 -- -----------------------------------------------------
 -- 10. ENROLMENTS

@@ -11,5 +11,6 @@ public interface IClassRepository {
     List<StudentDetailDTO> findStudentsByClassId(int classId);
     TeacherClassDTO findClassById(int classId);
     List<ClassDTO> findAll();
+    ClassDTO findByClassID(int classId);
 
 }
