@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.ClassDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentDetailDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IClassRepository;
@@ -15,6 +16,21 @@ import java.util.List;
 
 public class ClassRepository implements IClassRepository {
     private final String SELECT_ALL_STUDYING = "SELECT c.class_id,c.class_name,c.course_id,co.course_name,c.start_date,c.end_date,c.status FROM classes c JOIN courses co ON c.course_id = co.course_id WHERE c.teacher_id = ? and status='studying';";
+    private final String SELECT_ALL = "SELECT \n" +
+            "    c.class_id,\n" +
+            "    c.class_name AS class_name,\n" +
+            "co.course_name AS course_name,\n" +
+            "s.full_name AS teacher_name,\n" +
+            "COUNT(e.student_id) AS student_count,\n" +
+            "c.start_date AS start_date,\n" +
+            "c.end_date AS end_date,\n" +
+            "c.status AS status\n" +
+            "FROM classes c\n" +
+            "LEFT JOIN courses co ON c.course_id = co.course_id\n" +
+            "LEFT JOIN staff s ON c.teacher_id = s.staff_id\n" +
+            "LEFT JOIN enrolments e ON c.class_id = e.class_id\n" +
+            "GROUP BY c.class_id, c.class_name, co.course_name, s.full_name, c.start_date, c.end_date, c.status\n" +
+            "ORDER BY c.class_id;";
     private final String SELECT_STUDENTS_BY_CLASS =
             "SELECT s.student_id,s.full_name, " +
                     "   COUNT(a.attendance_id) AS total_sessions, " +
@@ -28,6 +44,7 @@ public class ClassRepository implements IClassRepository {
                     "LEFT JOIN schedules sch ON a.schedule_id = sch.schedule_id AND sch.class_id = e.class_id " +
                     "WHERE e.class_id = ? " +
                     "GROUP BY s.student_id, s.full_name;";
+
     @Override
     public List<TeacherClassDTO> findClassesByTeacherStaffId(int teacherStaffId) {
         List<TeacherClassDTO> userList = new ArrayList<>();
@@ -40,10 +57,10 @@ public class ClassRepository implements IClassRepository {
                 String className = resultSet.getString("class_name");
                 int courseId = resultSet.getInt("course_id");
                 String courseName = resultSet.getString("course_name");
-                LocalDate startDate= resultSet.getDate("start_date").toLocalDate();
-                LocalDate endDate= resultSet.getDate("end_date").toLocalDate();
+                LocalDate startDate = resultSet.getDate("start_date").toLocalDate();
+                LocalDate endDate = resultSet.getDate("end_date").toLocalDate();
                 String status = resultSet.getString("status");
-                userList.add(new TeacherClassDTO(classId, className, courseId,courseName, startDate,endDate,status));
+                userList.add(new TeacherClassDTO(classId, className, courseId, courseName, startDate, endDate, status));
             }
         } catch (SQLException e) {
             System.out.println("lỗi lấy dữ liệu");
@@ -67,7 +84,7 @@ public class ClassRepository implements IClassRepository {
                 int lateCount = resultSet.getInt("late_count");
                 int absentCount = resultSet.getInt("absent_count");
                 int excusedCount = resultSet.getInt("excused_count");
-                studentDetailDTOList.add(new StudentDetailDTO(studentId,fullName, totalSessions, presentCount, lateCount,absentCount,excusedCount));
+                studentDetailDTOList.add(new StudentDetailDTO(studentId, fullName, totalSessions, presentCount, lateCount, absentCount, excusedCount));
             }
         } catch (SQLException e) {
             System.out.println("lỗi lấy dữ liệu");
@@ -104,5 +121,28 @@ public class ClassRepository implements IClassRepository {
             e.printStackTrace();
         }
         return classDTO;
+    }
+
+    @Override
+    public List<ClassDTO> findAll() {
+        List<ClassDTO> classDTOList = new ArrayList<>();
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int classId = resultSet.getInt("class_id");
+                String className = resultSet.getString("class_name");
+                String courseName = resultSet.getString("course_name");
+                String teacherName = resultSet.getString("teacher_name");
+                int countStudent = resultSet.getInt("student_count");
+                LocalDate startDate = resultSet.getDate("start_date").toLocalDate();
+                LocalDate endDate = resultSet.getDate("end_date").toLocalDate();
+                String status = resultSet.getString("status");
+                classDTOList.add(new ClassDTO(classId, className, courseName, teacherName, countStudent, startDate, endDate, status));
+            }
+        } catch (SQLException e) {
+            System.out.println("lỗi lấy dữ liệu");
+        }
+        return classDTOList;
     }
 }

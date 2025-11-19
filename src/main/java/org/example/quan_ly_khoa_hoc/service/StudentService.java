@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.service;
 
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
+import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
 import org.example.quan_ly_khoa_hoc.repository.StudentRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IStudentRepository;
@@ -19,5 +20,15 @@ public class StudentService implements IStudentService {
     @Override
     public List<ClassInfoDTO> getStudentClassesInfoById(int studentId) {
         return studentRepository.getStudentClassesInfoById(studentId);
+    }
+
+    @Override
+    public Integer getStudentIdByEmail(String email) {
+        return studentRepository.getStudentIdByEmail(email);
+    }
+
+    @Override
+    public StudentProfileDTO getStudentProfileByEmail(String email) {
+        return studentRepository.getStudentProfileByEmail(email);
     }
 }

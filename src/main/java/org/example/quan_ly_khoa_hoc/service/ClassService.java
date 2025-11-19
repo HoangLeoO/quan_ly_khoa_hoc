@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.service;
 
+import org.example.quan_ly_khoa_hoc.dto.ClassDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentDetailDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.repository.ClassRepository;
@@ -18,5 +19,10 @@ public class ClassService implements IClassService {
     @Override
     public List<StudentDetailDTO> findStudentsByClassId(int classId) {
         return classRepository.findStudentsByClassId(classId);
+    }
+
+    @Override
+    public List<ClassDTO> findAll() {
+        return classRepository.findAll();
     }
 }

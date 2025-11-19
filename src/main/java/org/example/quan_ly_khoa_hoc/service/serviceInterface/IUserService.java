@@ -9,4 +9,7 @@ public interface IUserService {
     List<UserDTO> getAllUser();
     User createUserWithProfile(UserDTO userDTO);
     User add(User user);
+
+    User findByEmail(String email);
+
 }
