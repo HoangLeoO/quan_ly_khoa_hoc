@@ -8,22 +8,26 @@ import org.example.quan_ly_khoa_hoc.repository.CourseRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IAttendanceRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ICourseRepository;
 import org.example.quan_ly_khoa_hoc.service.serviceInterface.IAttendanceService;
+import org.example.quan_ly_khoa_hoc.service.serviceInterface.ILessonService;
+import org.example.quan_ly_khoa_hoc.service.serviceInterface.IModuleService;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class AttendanceService implements IAttendanceService {
-    private final ICourseRepository contentRepository = new CourseRepository();
+//    private final ICourseRepository contentRepository = new CourseRepository()
+    private final IModuleService moduleService= new ModuleService();
+    private final ILessonService lessonService= new LessonService();
     private final IAttendanceRepository attendanceRepository = new AttendanceRepository();
 
     @Override
     public List<Module> getModulesByCourse(int courseId) {
-        return contentRepository.findModulesByCourseId(courseId);
+        return moduleService.findModulesByCourseId(courseId);
     }
 
     @Override
     public List<Lesson> getLessonsByModule(int moduleId) {
-        return contentRepository.findLessonsByModuleId(moduleId);
+        return lessonService.findLessonsByModuleId(moduleId);
     }
 
     @Override
