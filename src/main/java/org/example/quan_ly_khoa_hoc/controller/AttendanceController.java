@@ -65,30 +65,28 @@ public class AttendanceController extends HttpServlet {
     }
 
     private void showAttendanceForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int classId = Integer.parseInt(request.getParameter("classId"));
+        String scheduleIdStr = request.getParameter("scheduleId");
+        if (scheduleIdStr == null || scheduleIdStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID lịch học (scheduleId) để điểm danh.");
+            return;
+        }
+        int scheduleId = Integer.parseInt(scheduleIdStr);
+        ScheduleDTO scheduleInfo = attendanceService.getScheduleById(scheduleId);
+        if (scheduleInfo == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy thông tin chi tiết lịch học.");
+            return;
+        }
+        int classId = scheduleInfo.getClassId();
         TeacherClassDTO currentClass = classRepository.findClassById(classId);
-        List<Module> moduleList = attendanceService.getModulesByCourse(currentClass.getCourseId());
-        String moduleIdStr = request.getParameter("moduleId");
-        List<Lesson> lessonList = new ArrayList<>();
 
-        if (moduleIdStr != null && !moduleIdStr.isEmpty()) {
-            int moduleId = Integer.parseInt(moduleIdStr);
-            lessonList = attendanceService.getLessonsByModule(moduleId);
-        }
 
-        String lessonIdStr = request.getParameter("lessonId");
-        List<StudentDetailDTO> studentList = new ArrayList<>();
-
-        if (lessonIdStr != null && !lessonIdStr.isEmpty()) {
-            studentList = classRepository.findStudentsByClassId(classId);
-        }
-
+        List<StudentDetailDTO> studentList = classRepository.findStudentsByClassId(classId);
         request.setAttribute("currentClass", currentClass);
-        request.setAttribute("moduleList", moduleList);
-        request.setAttribute("lessonList", lessonList);
+        request.setAttribute("currentSchedule", scheduleInfo);
         request.setAttribute("studentList", studentList);
-        request.setAttribute("selectedModuleId", moduleIdStr);
-        request.setAttribute("selectedLessonId", lessonIdStr);
+
+        request.setAttribute("scheduleId", scheduleId);
+
         request.getRequestDispatcher("/views/teacher/attendance-form.jsp").forward(request, response);
     }
 
@@ -97,32 +95,41 @@ public class AttendanceController extends HttpServlet {
         try {
             req.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            // Log the exception for better debugging if necessary
+            e.printStackTrace();
+            throw new RuntimeException("Lỗi thiết lập mã hóa ký tự UTF-8", e);
         }
+
         try {
-            int classId = Integer.parseInt(req.getParameter("classId"));
-            int lessonId = Integer.parseInt(req.getParameter("lessonId"));
-            LocalDate date = LocalDate.parse(req.getParameter("attendanceDate"));
+            String scheduleIdStr = req.getParameter("scheduleId");
+            if (scheduleIdStr == null || scheduleIdStr.isEmpty()) {
+                throw new IllegalArgumentException("Thiếu scheduleId từ form điểm danh.");
+            }
+            int scheduleId = Integer.parseInt(scheduleIdStr);
+
             List<Attendance> attendanceList = new ArrayList<>();
             Enumeration<String> params = req.getParameterNames();
+
             while (params.hasMoreElements()) {
                 String p = params.nextElement();
                 if (p.startsWith("status_")) {
                     int studentId = Integer.parseInt(p.split("_")[1]);
                     String status = req.getParameter(p);
                     String note = req.getParameter("note_" + studentId);
-                    attendanceList.add(new Attendance(0, studentId, status, note));
+                    Attendance att = new Attendance(0, studentId, status, note);
+                    att.setScheduleId(scheduleId);
+
+                    attendanceList.add(att);
                 }
             }
 
-            attendanceService.submitAttendance(classId, date, lessonId, attendanceList);
-
-            resp.sendRedirect(req.getContextPath() + "/teacher?msg=saved");
+            attendanceService.submitAttendance(scheduleId, attendanceList);
+            resp.sendRedirect(req.getContextPath() + "/attendance?msg=saved");
 
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                resp.sendRedirect(req.getContextPath() + "/teacher?msg=error");
+                resp.sendRedirect(req.getContextPath() + "/attendance?msg=error");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

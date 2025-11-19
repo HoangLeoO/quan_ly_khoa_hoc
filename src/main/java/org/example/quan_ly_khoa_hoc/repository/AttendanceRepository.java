@@ -1,18 +1,43 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
-import org.example.quan_ly_khoa_hoc.dto.AttendanceDetailDTO;
 import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
 import org.example.quan_ly_khoa_hoc.entity.Attendance;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IAttendanceRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttendanceRepository implements IAttendanceRepository {
+
+    // --- CÁC HẰNG SỐ SQL CẦN THIẾT CHO LUỒNG ĐIỂM DANH MỚI ---
+
+    // 1. Lấy chi tiết Schedule theo ID (Dùng cho showAttendanceForm)
+    private final String SELECT_SCHEDULE_BY_ID =
+            "SELECT sch.schedule_id, sch.class_id, sch.lesson_id, sch.time_start, sch.time_end, sch.room, " +
+                    "       c.class_name, l.lesson_name " +
+                    "FROM schedules sch " +
+                    "JOIN classes c ON sch.class_id = c.class_id " +
+                    "LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id " +
+                    "WHERE sch.schedule_id = ?";
+
+    // 2. Lấy danh sách lịch học hôm nay (Dùng cho showTodaySchedules)
+    private final String SELECT_SCHEDULES_TODAY =
+            "SELECT sch.schedule_id, sch.class_id, c.class_name, l.lesson_name, sch.time_start, sch.room " +
+                    "FROM schedules sch " +
+                    "JOIN classes c ON sch.class_id = c.class_id " +
+                    "LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id " +
+                    "WHERE DATE(sch.time_start) = CURDATE() " +
+                    "ORDER BY sch.time_start ASC";
+
+    // 3. Insert hoặc Update điểm danh hàng loạt (Dùng cho doPost)
+    private final String INSERT_OR_UPDATE_ATTENDANCE =
+            "INSERT INTO attendance (schedule_id, student_id, status, note) VALUES (?, ?, ?, ?) " +
+                    "ON DUPLICATE KEY UPDATE status = VALUES(status), note = VALUES(note)";
+
+    // --- CÁC HẰNG SỐ SQL KHÁC (Giữ nguyên cho mục đích quản lý/chi tiết) ---
+
     private final String SELECT_SCHEDULES_BY_CLASS =
             "SELECT sch.schedule_id, l.lesson_name, sch.time_start, sch.room " +
                     "FROM schedules sch " +
@@ -26,7 +51,6 @@ public class AttendanceRepository implements IAttendanceRepository {
                     "JOIN users u ON s.user_id = u.user_id " +
                     "WHERE a.schedule_id = ? " +
                     "ORDER BY s.full_name ASC";
-
     private final String SELECT_ATTENDANCE_BY_ID =
             "SELECT a.attendance_id, a.status, a.note, " +
                     "       s.student_id, s.full_name, u.email, " +
@@ -38,62 +62,14 @@ public class AttendanceRepository implements IAttendanceRepository {
                     "LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id " +
                     "WHERE a.attendance_id = ?";
 
-    private final String UPDATE_ATTENDANCE =
-            "UPDATE attendance SET status = ?, note = ? WHERE attendance_id = ?";
+    // --- TRIỂN KHAI PHƯƠNG THỨC: Lưu điểm danh hàng loạt ---
 
-    private final String DELETE_ATTENDANCE =
-            "DELETE FROM attendance WHERE attendance_id = ?";
-    private final String SELECT_SCHEDULES_TODAY =
-            "SELECT sch.schedule_id, sch.class_id, c.class_name, l.lesson_name, sch.time_start, sch.room " +
-                    "FROM schedules sch " +
-                    "JOIN classes c ON sch.class_id = c.class_id " +
-                    "LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id " +
-                    "WHERE DATE(sch.time_start) = CURDATE() " +
-                    "ORDER BY sch.time_start ASC";
-    @Override
-    public Integer findScheduleId(int classId, LocalDate date, int lessonId) {
-        String sql = "SELECT schedule_id FROM schedules WHERE class_id = ? AND DATE(time_start) = ? AND lesson_id = ?";
-        try (Connection conn = DatabaseUtil.getConnectDB();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, classId);
-            ps.setDate(2, Date.valueOf(date));
-            ps.setInt(3, lessonId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt("schedule_id");
-        } catch (SQLException e) { e.printStackTrace(); }
-        return null;
-    }
-
-    // 2. TẠO LỊCH HỌC MỚI (Nếu chưa có)
-    @Override
-    public int createSchedule(int classId, LocalDate date, int lessonId) {
-        // Insert vào time_start, time_end (Bắt buộc theo file SQL của bạn)
-        String sql = "INSERT INTO schedules (class_id, lesson_id, time_start, time_end) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseUtil.getConnectDB();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            LocalDateTime startDateTime = date.atTime(8, 0, 0);
-            LocalDateTime endDateTime = date.atTime(17, 0, 0);
-
-            ps.setInt(1, classId);
-            ps.setInt(2, lessonId);
-            ps.setTimestamp(3, Timestamp.valueOf(startDateTime));
-            ps.setTimestamp(4, Timestamp.valueOf(endDateTime));
-//            ps.setString(5, room);
-
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) return rs.getInt(1); // Trả về ID vừa tạo
-        } catch (SQLException e) { e.printStackTrace(); }
-        return -1;
-    }
     @Override
     public void saveBatchAttendance(List<Attendance> attendanceList) {
-        String sql = "INSERT INTO attendance (schedule_id, student_id, status, note) VALUES (?, ?, ?, ?) " +
-                "ON DUPLICATE KEY UPDATE status = VALUES(status), note = VALUES(note)";
+        // Sử dụng hằng số INSERT_OR_UPDATE_ATTENDANCE
         try (Connection conn = DatabaseUtil.getConnectDB()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (PreparedStatement ps = conn.prepareStatement(INSERT_OR_UPDATE_ATTENDANCE)) {
                 for (Attendance att : attendanceList) {
                     ps.setInt(1, att.getScheduleId());
                     ps.setInt(2, att.getStudentId());
@@ -109,6 +85,8 @@ public class AttendanceRepository implements IAttendanceRepository {
             }
         } catch (SQLException e) { e.printStackTrace(); }
     }
+
+    // --- TRIỂN KHAI PHƯƠNG THỨC: Lấy danh sách lịch học hôm nay ---
 
     @Override
     public List<ScheduleDTO> getSchedulesForToday() {
@@ -137,66 +115,40 @@ public class AttendanceRepository implements IAttendanceRepository {
         return schedules;
     }
 
+    // --- TRIỂN KHAI PHƯƠNG THỨC MỚI: Lấy chi tiết lịch học theo ID ---
 
     @Override
-    public List<ScheduleDTO> getSchedulesByClassId(int classId) {
-        List<ScheduleDTO> schedules = new ArrayList<>();
+    public ScheduleDTO getScheduleById(int scheduleId) {
+        ScheduleDTO schedule = null;
         try (Connection conn = DatabaseUtil.getConnectDB();
-             PreparedStatement ps = conn.prepareStatement(SELECT_SCHEDULES_BY_CLASS)) {
+             PreparedStatement ps = conn.prepareStatement(SELECT_SCHEDULE_BY_ID)) {
 
-            ps.setInt(1, classId);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                ScheduleDTO dto = new ScheduleDTO();
-                dto.setScheduleId(rs.getInt("schedule_id"));
-                dto.setLessonName(rs.getString("lesson_name"));
-                Timestamp timeStart = rs.getTimestamp("time_start");
-                dto.setTimeStart(timeStart != null ? timeStart.toLocalDateTime() : null);
-                dto.setRoom(rs.getString("room"));
-                schedules.add(dto);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return schedules;
-    }
-
-    @Override
-    public List<AttendanceDetailDTO> getAttendanceByScheduleId(int scheduleId) {
-        List<AttendanceDetailDTO> attendanceList = new ArrayList<>();
-        try (Connection conn = DatabaseUtil.getConnectDB();
-             PreparedStatement ps = conn.prepareStatement(SELECT_ATTENDANCE_BY_SCHEDULE)) {
             ps.setInt(1, scheduleId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                AttendanceDetailDTO dto = new AttendanceDetailDTO();
-                dto.setAttendanceId(rs.getInt("attendance_id"));
-                dto.setStatus(rs.getString("status"));
-                dto.setNote(rs.getString("note"));
 
-                dto.setStudentId(rs.getInt("student_id"));
-                dto.setFullName(rs.getString("full_name"));
-                attendanceList.add(dto);
+            if (rs.next()) {
+                schedule = new ScheduleDTO();
+                schedule.setScheduleId(rs.getInt("schedule_id"));
+                schedule.setClassId(rs.getInt("class_id"));
+                // Sửa thành setLessonId để khớp với chuẩn Java Bean
+                schedule.setLessionId(rs.getInt("lesson_id"));
+
+                Timestamp timeStart = rs.getTimestamp("time_start");
+                if (timeStart != null) {
+                    schedule.setTimeStart(timeStart.toLocalDateTime());
+                }
+
+                // Cập nhật time_end nếu cần
+                // Timestamp timeEnd = rs.getTimestamp("time_end");
+                // if (timeEnd != null) { schedule.setTimeEnd(timeEnd.toLocalDateTime()); }
+
+                schedule.setRoom(rs.getString("room"));
+                schedule.setClassName(rs.getString("class_name"));
+                schedule.setLessonName(rs.getString("lesson_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return attendanceList;
-    }
-
-    @Override
-    public ScheduleDTO findAttendanceById(int attendanceId) {
-        return null;
-    }
-
-    @Override
-    public boolean updateAttendance(int attendanceId, String status, String note) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteAttendance(int attendanceId) {
-        return false;
+        return schedule;
     }
 }

@@ -50,7 +50,7 @@
 
                       <td class="text-nowrap">
                         <a class="btn btn-sm btn-success me-1"
-                           href="${pageContext.request.contextPath}/teacher/take-attendance?action=takeNew&scheduleId=${schedule.getScheduleId()}">
+                           href="${pageContext.request.contextPath}/attendance?action=takeNew&scheduleId=${schedule.getScheduleId()}">
                           <i class="bi bi-pencil-square"></i> Điểm danh mới
                         </a>
                       </td>

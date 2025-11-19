@@ -16,7 +16,7 @@ import java.util.List;
 
 public class TeacherRepository implements ITeacherRepository {
     private final String SELECT_STAFF_BY_EMAIL =
-            "SELECT s.staff_id, s.full_name, u.email " +
+            "SELECT s.staff_id, s.full_name, s.user_id, s.position, u.email " +
                     "FROM staff s JOIN users u ON s.user_id = u.user_id " +
                     "WHERE u.email = ?";
     @Override
