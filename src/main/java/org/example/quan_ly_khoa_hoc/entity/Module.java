@@ -8,6 +8,11 @@ public class Module {
 
     public Module() {}
 
+    public Module(int moduleId, String moduleName) {
+        this.moduleId = moduleId;
+        this.moduleName = moduleName;
+    }
+
     public Module(int courseId, String moduleName, int sortOrder) {
         this.courseId = courseId;
         this.moduleName = moduleName;
