@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
+import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
 import org.example.quan_ly_khoa_hoc.entity.User;
 
@@ -21,5 +22,5 @@ public interface IStudentRepository {
 
     StudentProfileDTO getStudentProfileByEmail(String email);
 
-    boolean updateStudentInTransaction(Connection connection,UserDTO userDTO) throws SQLException;
+    boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
 }

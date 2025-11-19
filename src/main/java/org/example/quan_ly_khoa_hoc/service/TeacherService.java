@@ -28,8 +28,5 @@ public class TeacherService implements ITeacherService {
         return teacherRepository.findStaffByEmail(email);
     }
 
-    @Override
-    public Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException {
-        return null;
-    }
+
 }

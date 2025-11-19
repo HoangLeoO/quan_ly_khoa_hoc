@@ -54,6 +54,16 @@ public class StudentRepository implements IStudentRepository {
     }
 
     @Override
+    public Integer getStudentIdByEmail(String email) {
+        return 0;
+    }
+
+    @Override
+    public StudentProfileDTO getStudentProfileByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         String sql = "UPDATE students SET full_name = ?, phone = ?, dob = ?, address = ? WHERE user_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

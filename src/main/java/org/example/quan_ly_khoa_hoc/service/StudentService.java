@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.service;
 
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
+import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
 import org.example.quan_ly_khoa_hoc.repository.StudentRepository;
