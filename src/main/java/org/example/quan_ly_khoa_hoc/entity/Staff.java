@@ -11,11 +11,9 @@ public class Staff {
     private LocalDate dob;
     private String address;
 
-    public Staff() {
-    }
+    public Staff() {}
 
-    public Staff(int staffId, int userId, String fullName, String position, String phone, LocalDate dob, String address) {
-        this.staffId = staffId;
+    public Staff(int userId, String fullName, String position) {
         this.userId = userId;
         this.fullName = fullName;
         this.position = position;
@@ -24,6 +22,7 @@ public class Staff {
         this.address = address;
     }
 
+    // Getters and Setters
     public int getStaffId() {
         return staffId;
     }
