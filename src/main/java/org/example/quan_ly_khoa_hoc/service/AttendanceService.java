@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.service;
 
+import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
 import org.example.quan_ly_khoa_hoc.entity.Attendance;
 import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.entity.Module;
@@ -41,5 +42,10 @@ public class AttendanceService implements IAttendanceService {
             att.setScheduleId(scheduleId);
         }
         attendanceRepository.saveBatchAttendance(attendanceData);
+    }
+
+    @Override
+    public List<ScheduleDTO> getSchedulesForToday() {
+        return attendanceRepository.getSchedulesForToday();
     }
 }

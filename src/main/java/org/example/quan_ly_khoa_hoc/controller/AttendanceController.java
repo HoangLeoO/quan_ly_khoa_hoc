@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentDetailDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.entity.Attendance;
@@ -32,17 +33,37 @@ public class AttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        if (action == null) {
+            action = "listToday";
+        }
 
-        // Nếu action là view-form (hoặc null) thì gọi hàm hiển thị form
-        if ("view-form".equals(action) || action == null) {
-            try {
-                showAttendanceForm(req, resp);
-            } catch (Exception e) {
-                e.printStackTrace();
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi tải form điểm danh");
+        try {
+            switch (action) {
+                case "listToday":
+                    showTodaySchedules(req, resp);
+                    break;
+                case "takeNew":
+                    showAttendanceForm(req, resp);
+                    break;
+                default:
+                    showTodaySchedules(req, resp);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    private void showTodaySchedules(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            List<ScheduleDTO> todaySchedules = attendanceService.getSchedulesForToday();
+            req.setAttribute("todaySchedules", todaySchedules);
+            req.getRequestDispatcher("/views/teacher/today-schedules.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
     private void showAttendanceForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int classId = Integer.parseInt(request.getParameter("classId"));
         TeacherClassDTO currentClass = classRepository.findClassById(classId);

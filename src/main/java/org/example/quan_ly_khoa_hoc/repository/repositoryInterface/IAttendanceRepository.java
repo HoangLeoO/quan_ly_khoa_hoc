@@ -17,6 +17,8 @@ public interface IAttendanceRepository {
     // Lưu danh sách điểm danh
     void saveBatchAttendance(List<Attendance> attendanceList);
 
+    List<ScheduleDTO> getSchedulesForToday();
+
     // THÊM: 1. Lấy danh sách lịch học (Schedules) theo Class ID
     List<ScheduleDTO> getSchedulesByClassId(int classId);
 

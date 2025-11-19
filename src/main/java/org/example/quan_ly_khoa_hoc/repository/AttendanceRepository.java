@@ -43,6 +43,13 @@ public class AttendanceRepository implements IAttendanceRepository {
 
     private final String DELETE_ATTENDANCE =
             "DELETE FROM attendance WHERE attendance_id = ?";
+    private final String SELECT_SCHEDULES_TODAY =
+            "SELECT sch.schedule_id, sch.class_id, c.class_name, l.lesson_name, sch.time_start, sch.room " +
+                    "FROM schedules sch " +
+                    "JOIN classes c ON sch.class_id = c.class_id " +
+                    "LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id " +
+                    "WHERE DATE(sch.time_start) = CURDATE() " +
+                    "ORDER BY sch.time_start ASC";
     @Override
     public Integer findScheduleId(int classId, LocalDate date, int lessonId) {
         String sql = "SELECT schedule_id FROM schedules WHERE class_id = ? AND DATE(time_start) = ? AND lesson_id = ?";
@@ -103,6 +110,32 @@ public class AttendanceRepository implements IAttendanceRepository {
         } catch (SQLException e) { e.printStackTrace(); }
     }
 
+    @Override
+    public List<ScheduleDTO> getSchedulesForToday() {
+        List<ScheduleDTO> schedules = new ArrayList<>();
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(SELECT_SCHEDULES_TODAY)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ScheduleDTO dto = new ScheduleDTO();
+                dto.setScheduleId(rs.getInt("schedule_id"));
+                dto.setClassId(rs.getInt("class_id"));
+                dto.setClassName(rs.getString("class_name"));
+                dto.setLessonName(rs.getString("lesson_name"));
+
+                Timestamp timeStart = rs.getTimestamp("time_start");
+                dto.setTimeStart(timeStart != null ? timeStart.toLocalDateTime() : null);
+
+                dto.setRoom(rs.getString("room"));
+                schedules.add(dto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return schedules;
+    }
 
 
     @Override
