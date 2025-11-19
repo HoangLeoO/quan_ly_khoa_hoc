@@ -129,12 +129,7 @@ public class StudentRepository implements IStudentRepository {
        return studentProfileDTOList;
     }
 
-    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, c.course_id, e.status\n" +
-            "            from classes cl\n" +
-            "                  join courses c on c.course_id = cl.course_id\n" +
-            "                    join enrolments e on cl.class_id = e.class_id\n" +
-            "                     join students s on e.student_id = s.student_id\n" +
-            "            where s.student_id =  ?;";
+    
     @Override
     public boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         String sql = "UPDATE students SET full_name = ?, phone = ?, dob = ?, address = ? WHERE user_id = ?";
