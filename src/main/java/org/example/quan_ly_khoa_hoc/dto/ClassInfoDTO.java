@@ -21,6 +21,13 @@ public class ClassInfoDTO {
         this.course_id = course_id;
     }
 
+    public ClassInfoDTO(int classId, String className, String courseName, String status) {
+        this.classId = classId;
+        this.className = className;
+        this.courseName = courseName;
+        this.status = status;
+    }
+
     public int getClassId() {
         return classId;
     }
