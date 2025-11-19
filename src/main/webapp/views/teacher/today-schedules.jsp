@@ -26,7 +26,7 @@
               <p class="text-muted text-center">Chọn buổi học để bắt đầu điểm danh.</p>
 
               <div class="table-responsive">
-                <table class="table table-bordered table-hover">
+                <table id="tableStudent" class="table table-bordered table-hover">
                   <thead class="table-light">
                   <tr>
                     <th>STT</th>
@@ -73,7 +73,7 @@
   </section>
 
   <div class="row">
-    <c:import url="../teacher/footer-teacher.jsp"/>
+    <c:import url="../common/footer.jsp"/>
   </div>
 </div>
 </body>
