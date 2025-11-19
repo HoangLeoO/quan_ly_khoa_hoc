@@ -3,8 +3,8 @@ package org.example.quan_ly_khoa_hoc.entity;
 import java.time.LocalDate;
 
 public class Staff {
-    private int staffId;
-    private int userId;
+    private Integer staffId;
+    private Integer userId;
     private String fullName;
     private String position;
     private String phone;
@@ -28,15 +28,15 @@ public class Staff {
         return staffId;
     }
 
-    public void setStaffId(int staffId) {
+    public void setStaffId(Integer staffId) {
         this.staffId = staffId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
