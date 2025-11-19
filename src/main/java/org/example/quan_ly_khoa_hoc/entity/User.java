@@ -7,6 +7,7 @@ public class User {
     private String email;
     private String passwordHash; // Dùng để lưu trữ mật khẩu đã hash
     private Integer roleId; // role_id có thể là NULL, nên dùng Integer
+    private boolean isDelete;
     private Timestamp createdAt;
 
     // Constructors
@@ -17,6 +18,15 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.roleId = roleId;
+    }
+
+    public User(int userId, String email, String passwordHash, Integer roleId, boolean isDelete, Timestamp createdAt) {
+        this.userId = userId;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.roleId = roleId;
+        this.isDelete = isDelete;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
@@ -35,6 +45,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -57,5 +68,13 @@ public class User {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

@@ -12,4 +12,9 @@ public interface IUserRepository {
     //Lấy tất cả người dùng
     List<UserDTO> getAllUser();
     User  addUserInTransaction(Connection connection, User user) throws SQLException;
+
+    // Tìm user theo email
+    User findByEmail(String email);
+
+
 }
