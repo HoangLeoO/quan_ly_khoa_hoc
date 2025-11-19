@@ -6,17 +6,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.quan_ly_khoa_hoc.entity.Module;
 import org.example.quan_ly_khoa_hoc.entity.User;
+import org.example.quan_ly_khoa_hoc.service.CourseService;
 import org.example.quan_ly_khoa_hoc.service.StudentService;
+import org.example.quan_ly_khoa_hoc.service.serviceInterface.ICourseService;
 import org.example.quan_ly_khoa_hoc.service.serviceInterface.IStudentService;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "StudentController",value = "/students")
 public class StudentController extends HttpServlet {
 
 
     private IStudentService studentService = new StudentService();
+    private ICourseService courseService = new CourseService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -46,6 +51,9 @@ public class StudentController extends HttpServlet {
     }
 
     private void showDetailClass(HttpServletRequest req, HttpServletResponse resp) {
+        int courseId = Integer.parseInt(req.getParameter("course-id"));
+        List<Module> module = courseService.findModulesByCourseId(courseId);
+        req.setAttribute("moduleList",module);
         try {
             req.getRequestDispatcher("/views/student/detail-class-student.jsp").forward(req,resp);
         } catch (ServletException e) {

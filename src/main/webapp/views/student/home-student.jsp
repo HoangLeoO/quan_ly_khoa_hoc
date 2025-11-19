@@ -53,7 +53,7 @@
                                             <td>${c.getClassName()}</td>
                                             <td>${c.getCourseName()}</td>
                                             <td>${c.getStatus()}</td>
-                                            <td><a href="#">
+                                            <td><a href="students?action=detail-class&course-id=${c.getCourse_id()}">
                                                 <button class="btn btn-sm btn-outline-primary me-1">
                                                     Chi tiết
                                                 </button>

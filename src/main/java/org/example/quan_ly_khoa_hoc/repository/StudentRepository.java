@@ -88,12 +88,12 @@ public class StudentRepository implements IStudentRepository {
         return s;
     }
 
-    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, e.status\n" +
-            "from classes cl\n" +
-            "         join codegym.courses c on c.course_id = cl.course_id\n" +
-            "         join codegym.enrolments e on cl.class_id = e.class_id\n" +
-            "         join codegym.students s on e.student_id = s.student_id\n" +
-            "where s.student_id = ? ";
+    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, c.course_id, e.status\n" +
+            "            from classes cl\n" +
+            "                  join courses c on c.course_id = cl.course_id\n" +
+            "                    join enrolments e on cl.class_id = e.class_id\n" +
+            "                     join students s on e.student_id = s.student_id\n" +
+            "            where s.student_id =  ?;";
 
     @Override
     public List<ClassInfoDTO> getStudentClassesInfoById(int studentId) {
@@ -108,7 +108,8 @@ public class StudentRepository implements IStudentRepository {
                 String class_name = resultSet.getString("class_name");
                 String course_name = resultSet.getString("course_name");
                 String status = resultSet.getString("status");
-                classInfoDTOS.add(new ClassInfoDTO(class_id, class_name, course_name, status));
+                int course_id = resultSet.getInt("course_id");
+                classInfoDTOS.add(new ClassInfoDTO(class_id,class_name,course_name,status,course_id));
             }
         } catch (SQLException e) {
             System.out.println("Lỗi ở repo student");

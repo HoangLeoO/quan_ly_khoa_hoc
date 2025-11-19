@@ -47,27 +47,27 @@
                                     </thead>
                                     <tbody>
                                     <%-- Giả định biến ${moduleList} chứa danh sách các module --%>
-<%--                                    <c:forEach items="${moduleList}" var="m" varStatus="stt">--%>
-<%--                                        <tr>--%>
-<%--                                            <td class="text-center">${stt.count}</td>--%>
-<%--                                            <td>${m.moduleName}</td>--%>
-<%--                                            <td class="text-center">--%>
-<%--                                                <a href="${pageContext.request.contextPath}/module/details?id=${m.id}">--%>
-<%--                                                    <button class="btn btn-sm btn-outline-primary me-1 rounded-pill">--%>
-<%--                                                        Xem chi tiết module--%>
-<%--                                                    </button>--%>
-<%--                                                </a>--%>
-<%--                                            </td>--%>
-<%--                                        </tr>--%>
-<%--                                    </c:forEach>--%>
-<%--                                    &lt;%&ndash; Placeholder cho trường hợp không có module nào &ndash;%&gt;--%>
-<%--                                    <c:if test="${empty moduleList}">--%>
-<%--                                        <tr>--%>
-<%--                                            <td colspan="3" class="text-center text-muted py-4">--%>
-<%--                                                Hiện chưa có module nào được gán cho bạn.--%>
-<%--                                            </td>--%>
-<%--                                        </tr>--%>
-<%--                                    </c:if>--%>
+                                    <c:forEach items="${moduleList}" var="m" varStatus="stt">
+                                        <tr>
+                                            <td class="text-center">${stt.count}</td>
+                                            <td>${m.getModuleName()}</td>
+                                            <td class="text-center">
+                                                <a href="${pageContext.request.contextPath}/students?action=details">
+                                                    <button class="btn btn-sm btn-outline-primary me-1 rounded-pill">
+                                                        Xem chi tiết module
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    <%-- Placeholder cho trường hợp không có module nào --%>
+                                    <c:if test="${empty moduleList}">
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted py-4">
+                                                Hiện chưa có module nào được gán cho bạn.
+                                            </td>
+                                        </tr>
+                                    </c:if>
                                     </tbody>
                                 </table>
                             </div>
