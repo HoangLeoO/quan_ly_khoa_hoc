@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
+import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.entity.Module;
 import org.example.quan_ly_khoa_hoc.entity.User;
 import org.example.quan_ly_khoa_hoc.service.CourseService;
@@ -49,11 +50,26 @@ public class StudentController extends HttpServlet {
                 showDetailClass(req, resp);
                 break;
 
-
-
+            case "detail-module":
+                showDetailModule(req,resp);
+                break;
             default:
                 showHome(req, resp); // fallback
                 break;
+        }
+    }
+
+    private void showDetailModule(HttpServletRequest req, HttpServletResponse resp) {
+        int moduleId = Integer.parseInt(req.getParameter("module-id"));
+
+        List<Lesson> Lesson = lessonService.findLessonsByModuleId(moduleId);
+        req.setAttribute("lessonList",Lesson);
+        try {
+            req.getRequestDispatcher("/views/student/detail-module-student.jsp").forward(req,resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

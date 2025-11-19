@@ -41,12 +41,11 @@
 
             // VIỆT HÓA VÀ ĐỔI TÊN NÚT PHÂN TRANG
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json",
 
                 // Ghi đè các nhãn cho nút phân trang
                 "paginate": {
-                    "previous": "Trước",
-                    "next": "Sau",
+                    "previous": "TRƯỚC",
+                    "next": "SAU",
                     "first": "",
                     "last": ""
                 }
