@@ -73,8 +73,8 @@ public class UserService implements IUserService {
             }
             connection.commit();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
