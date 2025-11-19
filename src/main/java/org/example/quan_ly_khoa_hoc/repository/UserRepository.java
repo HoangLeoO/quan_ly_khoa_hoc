@@ -19,7 +19,9 @@ public class UserRepository implements IUserRepository {
     public List<UserDTO> getAllUser() {
         List<UserDTO> userDTOList = new ArrayList<>();
 
-        String sql = "SELECT u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  join   staff s on u.user_id = s.user_id UNION SELECT  u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  join students  s on u.user_id = s.user_id" ;
+        String sql = "SELECT u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  " +
+                "join   staff s on u.user_id = s.user_id UNION SELECT  u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  " +
+                "join students  s on u.user_id = s.user_id ORDER BY role_id" ;
 
         try (Connection connection = DatabaseUtil.getConnectDB();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
