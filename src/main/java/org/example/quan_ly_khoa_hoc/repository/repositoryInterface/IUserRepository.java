@@ -13,6 +13,12 @@ public interface IUserRepository {
     List<UserDTO> getAllUser();
     User  addUserInTransaction(Connection connection, User user) throws SQLException;
 
+    boolean deleteUser (Integer userId);
+
+    UserDTO getUserById(Integer userId);
+
+    UserDTO updateUserInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
+
     // Tìm user theo email
     User findByEmail(String email);
 

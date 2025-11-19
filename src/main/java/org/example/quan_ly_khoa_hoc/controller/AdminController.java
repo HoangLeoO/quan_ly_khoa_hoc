@@ -18,10 +18,22 @@ public class AdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("action") == null) {
-            getAllUser(req, resp);
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
         }
-        req.getRequestDispatcher("/views/admin/admin.jsp").forward(req, resp);
+        switch (action) {
+            case "delete":
+                deleteUser(req, resp);
+                break;
+            case "update":
+                showUpdateForm(req, resp);
+                break;
+            default:
+                getAllUser(req, resp);
+                req.getRequestDispatcher("/views/admin/admin.jsp").forward(req, resp);
+                break;
+        }
     }
 
     private void getAllUser(HttpServletRequest req, HttpServletResponse resp) {
@@ -30,9 +42,27 @@ public class AdminController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("action").equals("add")) {
-            addUser(req, resp);
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
         }
+        switch (action) {
+            case "update":
+                updateUser(req, resp);
+                break;
+            case "add":
+                addUser(req, resp);
+                getAllUser(req, resp);
+                break;
+            default:
+                break;
+        }
+        resp.sendRedirect("/admins");
+    }
+
+    private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        userService.deleteUser(Integer.parseInt(req.getParameter("id")));
+        getAllUser(req, resp);
         resp.sendRedirect("/admins");
     }
 
@@ -45,7 +75,28 @@ public class AdminController extends HttpServlet {
         LocalDate dob = LocalDate.parse(req.getParameter("dob"));
         String position = req.getParameter("position");
         String address = req.getParameter("address");
-        UserDTO userDTO = new UserDTO(fullName, email, dob,position,roleId, LocalDate.now(), password, phone, address);
+        UserDTO userDTO = new UserDTO(fullName, email, dob, position, roleId, LocalDate.now(), password, phone, address);
         userService.createUserWithProfile(userDTO);
+    }
+
+    private void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+        Integer userId = Integer.parseInt(req.getParameter("userId"));
+        String fullName = req.getParameter("fullName");
+        String email = req.getParameter("email");
+        String password = req.getParameter("confirmPassword");
+        int roleId = Integer.parseInt(req.getParameter("roleId"));
+        String phone = req.getParameter("phone");
+        LocalDate dob = LocalDate.parse(req.getParameter("dob"));
+        String position = req.getParameter("position");
+        String address = req.getParameter("address");
+        UserDTO userDTO = new UserDTO(userId,fullName, email, dob, position, roleId, phone, address, password);
+        userService.updateUserWithProfile(userDTO);
+    }
+
+    private void showUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("mode", "update");
+        req.setAttribute("user", userService.getUserById(Integer.parseInt(req.getParameter("id"))));
+        getAllUser(req, resp);
+        req.getRequestDispatcher("/views/admin/admin.jsp").forward(req, resp);
     }
 }

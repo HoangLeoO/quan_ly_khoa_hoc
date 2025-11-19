@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
 import org.example.quan_ly_khoa_hoc.entity.Module;
 import org.example.quan_ly_khoa_hoc.entity.User;
 import org.example.quan_ly_khoa_hoc.service.CourseService;
@@ -92,7 +93,9 @@ public class StudentController extends HttpServlet {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
             System.out.println("Email hiện tại: " + email);
-            req.setAttribute("classInfo",studentService.getStudentClassesInfoById(studentService.getStudentIdByEmail(email)));
+            List<ClassInfoDTO> classInfoDTOS =studentService.getStudentClassesInfoById(studentService.getStudentIdByEmail(email));
+            System.out.println(classInfoDTOS.size());
+            req.setAttribute("classInfo",classInfoDTOS);
         }
         try {
             req.getRequestDispatcher("/views/student/home-student.jsp").forward(req,resp);

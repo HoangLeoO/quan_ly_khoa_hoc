@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
+import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
 import org.example.quan_ly_khoa_hoc.entity.User;
@@ -13,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepository implements IStudentRepository {
+    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name,c.course_id, e.status\n" +
+            "from classes cl\n" +
+            "         join codegym.courses c on c.course_id = cl.course_id\n" +
+            "         join codegym.enrolments e on cl.class_id = e.class_id\n" +
+            "         join codegym.students s on e.student_id = s.student_id\n" +
+            "where s.student_id = ? ";
+
     @Override
     public Student addStudentInTransaction(Connection connection, Student student) throws SQLException {
         if (student == null || student.getUserId() == null) {
@@ -88,12 +96,23 @@ public class StudentRepository implements IStudentRepository {
         return s;
     }
 
-    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, c.course_id, e.status\n" +
-            "            from classes cl\n" +
-            "                  join courses c on c.course_id = cl.course_id\n" +
-            "                    join enrolments e on cl.class_id = e.class_id\n" +
-            "                     join students s on e.student_id = s.student_id\n" +
-            "            where s.student_id =  ?;";
+    @Override
+    public boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
+        String sql = "UPDATE students SET full_name = ?, phone = ?, dob = ?, address = ? WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userDTO.getFullName());
+            preparedStatement.setString(2, userDTO.getPhone());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(userDTO.getDob()));
+            preparedStatement.setString(4, userDTO.getAddress());
+            preparedStatement.setInt(5, userDTO.getUserId());
+            int affectedRow = preparedStatement.executeUpdate();
+            if (affectedRow == 0) {
+                throw new SQLException("Updating user failed, no rows affected.");
+            }
+            System.out.println("✓ Updated Student with uID: " + userDTO.getUserId());
+            return true;
+        }
+    }
 
     @Override
     public List<ClassInfoDTO> getStudentClassesInfoById(int studentId) {

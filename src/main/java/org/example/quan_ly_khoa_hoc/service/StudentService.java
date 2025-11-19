@@ -2,6 +2,7 @@ package org.example.quan_ly_khoa_hoc.service;
 
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
+import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
 import org.example.quan_ly_khoa_hoc.repository.StudentRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IStudentRepository;
@@ -17,6 +18,12 @@ public class StudentService implements IStudentService {
     public Student addStudentInTransaction(Connection connection, Student student) throws SQLException {
         return studentRepository.addStudentInTransaction(connection,student);
     }
+
+    @Override
+    public boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
+        return studentRepository.updateStudentInTransaction(connection,userDTO);
+    }
+
     @Override
     public List<ClassInfoDTO> getStudentClassesInfoById(int studentId) {
         return studentRepository.getStudentClassesInfoById(studentId);
