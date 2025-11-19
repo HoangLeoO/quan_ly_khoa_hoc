@@ -61,4 +61,9 @@ private static IStaffService staffService = new StaffService();
     public User add(User user) {
         return null;
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

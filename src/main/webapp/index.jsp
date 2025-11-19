@@ -11,5 +11,6 @@
 <br/>
 <c:redirect url="/teacher"/>
 <a href="hello-servlet">Hello Servlet</a>
+<a>ok</a>
 </body>
 </html>
