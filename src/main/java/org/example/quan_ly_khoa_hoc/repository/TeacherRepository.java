@@ -2,6 +2,7 @@ package org.example.quan_ly_khoa_hoc.repository;
 
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherInfoDTO;
+import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Staff;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ITeacherRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class TeacherRepository implements ITeacherRepository {
     private final String SELECT_STAFF_BY_EMAIL =
-            "SELECT s.staff_id, s.full_name, u.email " +
+            "SELECT s.staff_id, s.full_name, s.user_id, s.position, u.email " +
                     "FROM staff s JOIN users u ON s.user_id = u.user_id " +
                     "WHERE u.email = ?";
     @Override
@@ -47,5 +48,10 @@ public class TeacherRepository implements ITeacherRepository {
     @Override
     public Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException {
         return null;
+    }
+
+    @Override
+    public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
+        return false;
     }
 }

@@ -41,12 +41,14 @@
                     </c:if>
                     <td>${user.getDob()}</td>
                     <td class="d-flex border-0">
-                        <button class="btn btn-sm btn-outline-primary me-1">
+                        <a href="/admins?action=update&id=${user.getUserId()}"
+                           class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger">
+                        </a>
+                        <a href="/admins?action=delete&id=${user.getUserId()}"
+                           class="btn btn-sm btn-outline-danger">
                             <i class="bi bi-trash"></i>
-                        </button>
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

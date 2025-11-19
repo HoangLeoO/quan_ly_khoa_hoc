@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Staff;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IStaffRepository;
 
@@ -37,6 +38,24 @@ public class StaffRepository implements IStaffRepository {
                 }
             }
             return staff;
+        }
+    }
+
+    @Override
+    public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
+        String sql = "UPDATE staff SET full_name = ?, phone = ?, dob = ?, address = ? WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userDTO.getFullName());
+            preparedStatement.setString(2, userDTO.getPhone());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(userDTO.getDob()));
+            preparedStatement.setString(4, userDTO.getAddress());
+            preparedStatement.setInt(5, userDTO.getUserId());
+            int affectedRow = preparedStatement.executeUpdate();
+            if (affectedRow == 0) {
+                throw new SQLException("Updating user failed, no rows affected.");
+            }
+            System.out.println("✓ Updated Staff with uID: " + userDTO.getUserId());
+            return true;
         }
     }
 }

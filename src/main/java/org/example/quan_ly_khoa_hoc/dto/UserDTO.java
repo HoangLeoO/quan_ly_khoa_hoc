@@ -3,6 +3,7 @@ package org.example.quan_ly_khoa_hoc.dto;
 import java.time.LocalDate;
 
 public class UserDTO {
+    private Integer userId;
     private String fullName;
     private String email;
 
@@ -20,7 +21,8 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(String fullName, String email, LocalDate dob,String position,int  roleId, LocalDate createdAt, String passwordHash, String phone, String address) {
+    public UserDTO(String fullName, String email, LocalDate dob, String position, int roleId, LocalDate createdAt, String passwordHash, String phone, String address) {
+
         this.fullName = fullName;
         this.email = email;
         this.dob = dob;
@@ -32,6 +34,38 @@ public class UserDTO {
         this.address = address;
     }
 
+    public UserDTO(Integer userId, String fullName, String email, LocalDate dob, String position, int roleId, LocalDate createdAt) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.dob = dob;
+        this.position = position;
+        this.roleId = roleId;
+        this.createdAt = createdAt;
+    }
+
+    public UserDTO(Integer userId, String fullName, String email, LocalDate dob, String position, int roleId, String phone, LocalDate createdAt) {
+        this.phone = phone;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.dob = dob;
+        this.position = position;
+        this.roleId = roleId;
+        this.createdAt = createdAt;
+    }
+    public UserDTO(Integer userId, String fullName, String email, LocalDate dob, String position, int roleId, String phone, String address, String passwordHash) {
+        this.phone = phone;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.dob = dob;
+        this.position = position;
+        this.roleId = roleId;
+        this.address = address;
+        this.passwordHash = passwordHash;
+    }
+
     public UserDTO(String fullName, String email, LocalDate dob, String position, int roleId, LocalDate createdAt) {
         this.fullName = fullName;
         this.email = email;
@@ -39,6 +73,14 @@ public class UserDTO {
         this.position = position;
         this.roleId = roleId;
         this.createdAt = createdAt;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getAddress() {
