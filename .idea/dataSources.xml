@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-<<<<<<< HEAD
-    <data-source source="LOCAL" name="@localhost" uuid="55f42817-839b-42e1-983b-14d24236d5b8">
-=======
-    <data-source source="LOCAL" name="@localhost" uuid="61df40fc-a647-451b-a52b-659ce9047fe5">
->>>>>>> origin/main
+    <data-source source="LOCAL" name="codegym@localhost" uuid="4342b051-a180-4446-8561-190c55df99b1">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/codegym</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

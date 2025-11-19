@@ -1,33 +1,69 @@
 package org.example.quan_ly_khoa_hoc.entity;
 
+import java.time.LocalDate;
+
 public class Staff {
-    private int staffId;
-    private int userId;
+    private Integer staffId;
+    private Integer userId;
     private String fullName;
     private String position;
+    private String phone;
+    private LocalDate dob; // Sử dụng LocalDate cho kiểu DATE
+    private String address;
 
-    public Staff() {}
-
-    public Staff(int userId, String fullName, String position) {
+    public Staff() {
+    }
+    public Staff(Integer userId, String phone, String fullName, LocalDate dob, String address) {
+        this.userId = userId;
+        this.phone = phone;
+        this.fullName = fullName;
+        this.dob = dob;
+        this.address = address;
+    }
+    public Staff(Integer userId, String fullName, String position) {
         this.userId = userId;
         this.fullName = fullName;
         this.position = position;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     // Getters and Setters
-    public int getStaffId() {
+    public Integer getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(int staffId) {
+    public void setStaffId(Integer staffId) {
         this.staffId = staffId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
