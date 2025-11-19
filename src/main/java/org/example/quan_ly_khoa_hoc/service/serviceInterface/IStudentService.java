@@ -19,4 +19,5 @@ public interface IStudentService {
 
     Integer getStudentIdByEmail(String email);
     StudentProfileDTO getStudentProfileByEmail(String email);
+    List<StudentProfileDTO> findByClassId(int classId);
 }
