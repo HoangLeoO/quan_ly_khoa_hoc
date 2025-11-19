@@ -145,4 +145,15 @@ public class ClassRepository implements IClassRepository {
         }
         return classDTOList;
     }
+
+    @Override
+    public ClassDTO findByClassID(int classId) {
+        List<ClassDTO> classDTOList = findAll();
+        for (ClassDTO _class : classDTOList) {
+            if (_class.getClassId() == classId) {
+                return _class;
+            }
+        }
+        return null;
+    }
 }

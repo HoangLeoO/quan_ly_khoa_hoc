@@ -27,7 +27,7 @@
           <a class="nav-link" href="/acedemic-affairs">Danh sách lớp học</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Đăng xuất</a>
+          <a class="nav-link" href="/logout">Đăng xuất</a>
         </li>
       </ul>
     </div>

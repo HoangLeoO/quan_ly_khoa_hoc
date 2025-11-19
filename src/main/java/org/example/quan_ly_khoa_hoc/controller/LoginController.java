@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
                     case "Admin" -> resp.sendRedirect(req.getContextPath() + "/admins");
                     case "Teacher" -> resp.sendRedirect(req.getContextPath() + "/teacher");
                     case "Student" -> resp.sendRedirect(req.getContextPath() + "/students");
-                    case "Academic_Staff" -> resp.sendRedirect(req.getContextPath() + "/acedemic-affairs");
+                    case "Academic Staff" -> resp.sendRedirect(req.getContextPath() + "/acedemic-affairs");
                 }
 
             } else {

@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.ClassDTO;
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.entity.Student;
@@ -13,6 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepository implements IStudentRepository {
+    private final String SELECT_STUDENTS_BY_CLASS = "SELECT \n" +
+            "    st.full_name ,\n" +
+            "    st.phone ,\n" +
+            "    st.dob,\n" +
+            "    st.address ,\n" +
+            "    u.email \n" +
+            "FROM enrolments e\n" +
+            "INNER JOIN students st ON e.student_id = st.student_id\n" +
+            "INNER JOIN users u ON st.user_id = u.user_id\n" +
+            "WHERE e.class_id = ?\n" +
+            "ORDER BY st.full_name;";
     @Override
     public Student addStudentInTransaction(Connection connection, Student student) throws SQLException {
         if (student == null || student.getUserId() == null) {
@@ -86,6 +98,27 @@ public class StudentRepository implements IStudentRepository {
             throw new RuntimeException(e);
         }
         return s;
+    }
+
+    @Override
+    public List<StudentProfileDTO> findByClassId(int classId) {
+        List<StudentProfileDTO> studentProfileDTOList = new ArrayList<>();
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STUDENTS_BY_CLASS);
+            preparedStatement.setInt(1, classId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String fullName = resultSet.getString("full_name");
+                String phone = resultSet.getString("phone");
+                LocalDate dob = resultSet.getDate("dob").toLocalDate();
+                String address = resultSet.getString("address");
+                String email = resultSet.getString("email");
+                studentProfileDTOList.add(new StudentProfileDTO(fullName,phone,dob,address,email));
+            }
+        } catch (SQLException e) {
+            System.out.println("lỗi lấy dữ liệu");
+        }
+       return studentProfileDTOList;
     }
 
     private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, c.course_id, e.status\n" +

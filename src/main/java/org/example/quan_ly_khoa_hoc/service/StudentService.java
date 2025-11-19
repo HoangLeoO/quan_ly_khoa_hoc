@@ -31,4 +31,9 @@ public class StudentService implements IStudentService {
     public StudentProfileDTO getStudentProfileByEmail(String email) {
         return studentRepository.getStudentProfileByEmail(email);
     }
+
+    @Override
+    public List<StudentProfileDTO> findByClassId(int classId) {
+        return studentRepository.findByClassId(classId);
+    }
 }

@@ -10,4 +10,5 @@ public interface IClassService {
     List<TeacherClassDTO> findClassesByTeacherStaffId(int teacherStaffId);
     List<StudentDetailDTO> findStudentsByClassId(int classId);
     List<ClassDTO> findAll();
+    ClassDTO findByClassID(int classId);
 }

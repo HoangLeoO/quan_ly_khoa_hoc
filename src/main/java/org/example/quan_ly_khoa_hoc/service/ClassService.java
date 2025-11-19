@@ -25,4 +25,9 @@ public class ClassService implements IClassService {
     public List<ClassDTO> findAll() {
         return classRepository.findAll();
     }
+
+    @Override
+    public ClassDTO findByClassID(int classId) {
+        return classRepository.findByClassID(classId);
+    }
 }
