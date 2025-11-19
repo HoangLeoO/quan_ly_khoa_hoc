@@ -1,0 +1,17 @@
+package org.example.quan_ly_khoa_hoc.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(name = "AcedemicAffairController", value = "/acedemic-affairs")
+public class AcedemicAffairController extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/view/acedemic-affairs/home-adcemic-affairs.jsp").forward(req,resp);
+    }
+}
