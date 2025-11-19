@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepository implements IStudentRepository {
-    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name, e.status\n" +
+    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name,c.course_id, e.status\n" +
             "from classes cl\n" +
             "         join codegym.courses c on c.course_id = cl.course_id\n" +
             "         join codegym.enrolments e on cl.class_id = e.class_id\n" +
@@ -55,12 +55,45 @@ public class StudentRepository implements IStudentRepository {
 
     @Override
     public Integer getStudentIdByEmail(String email) {
-        return 0;
+        Integer id = null;
+
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select s.student_id from students s join codegym.users u on s.user_id = u.user_id where u.email = ?;");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("student_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
     }
 
     @Override
     public StudentProfileDTO getStudentProfileByEmail(String email) {
-        return null;
+        StudentProfileDTO s = null;
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select s.full_name,s.phone,s.dob,s.address,u.email from students s join users u on s.user_id = u.user_id where u.email = ?;");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String fullName = resultSet.getString("full_name");
+                String phone = resultSet.getString("phone");
+                LocalDate dob = null;
+                Date sqlDob = resultSet.getDate("dob");
+                if (sqlDob != null) {
+                    dob = sqlDob.toLocalDate();
+                }
+                String address = resultSet.getString("address");
+                String emailS= resultSet.getString("email");
+                s = new StudentProfileDTO(fullName,phone,dob,address,emailS);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return s;
     }
 
     @Override
@@ -94,7 +127,6 @@ public class StudentRepository implements IStudentRepository {
                 String class_name = resultSet.getString("class_name");
                 String course_name = resultSet.getString("course_name");
                 String status = resultSet.getString("status");
-                classInfoDTOS.add(new ClassInfoDTO(class_id, class_name, course_name, status));
                 int course_id = resultSet.getInt("course_id");
                 classInfoDTOS.add(new ClassInfoDTO(class_id,class_name,course_name,status,course_id));
             }
