@@ -13,30 +13,7 @@
     <c:import url="../common/header.jsp"/>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-white fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="bi bi-mortarboard-fill me-2"></i>CODEGYM Admin
-        </a>
-        <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html">Đăng xuất</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<c:import url="../common/navbar.jsp"/>
 
 <!-- Section -->
 <section class="py-5 mt-5">
@@ -70,13 +47,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${classInfo}" var="c" varStatus="stt" >
+                                    <c:forEach items="${classInfo}" var="c" varStatus="stt">
                                         <tr>
                                             <td>${stt.count}</td>
                                             <td>${c.getClassName()}</td>
                                             <td>${c.getCourseName()}</td>
                                             <td>${c.getStatus()}</td>
-                                            <td><a href="#">chi tiet</a></td>
+                                            <td><a href="students?action=detail-class&course-id=${c.getCourse_id()}">
+                                                <button class="btn btn-sm btn-outline-primary me-1">
+                                                    Chi tiết
+                                                </button>
+                                            </a></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

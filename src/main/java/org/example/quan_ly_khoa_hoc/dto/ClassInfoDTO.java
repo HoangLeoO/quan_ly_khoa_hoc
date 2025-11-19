@@ -7,16 +7,18 @@ public class ClassInfoDTO {
     private String className;
     private String courseName;
     private String status;
+    private Integer course_id;
 
-    public ClassInfoDTO(){
+    public ClassInfoDTO() {
 
     }
 
-    public ClassInfoDTO(int classId, String className, String courseName, String status) {
+    public ClassInfoDTO(int classId, String className, String courseName, String status, Integer course_id) {
         this.classId = classId;
         this.className = className;
         this.courseName = courseName;
         this.status = status;
+        this.course_id = course_id;
     }
 
     public int getClassId() {
@@ -49,5 +51,13 @@ public class ClassInfoDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(Integer course_id) {
+        this.course_id = course_id;
     }
 }

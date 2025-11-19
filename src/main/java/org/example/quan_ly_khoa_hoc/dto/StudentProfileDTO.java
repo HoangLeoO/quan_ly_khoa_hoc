@@ -1,0 +1,62 @@
+package org.example.quan_ly_khoa_hoc.dto;
+
+import java.time.LocalDate;
+
+public class StudentProfileDTO {
+    private String fullName;
+    private String phone;
+    private LocalDate dob;
+    private String address;
+    private String email;
+
+    public StudentProfileDTO() {
+    }
+
+    public StudentProfileDTO(String fullName, String phone, LocalDate dob, String address, String email) {
+        this.fullName = fullName;
+        this.phone = phone;
+        this.dob = dob;
+        this.address = address;
+        this.email = email;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
