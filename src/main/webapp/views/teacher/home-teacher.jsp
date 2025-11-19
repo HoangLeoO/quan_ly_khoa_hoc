@@ -37,7 +37,7 @@
                             <div class="mb-5">
                                 <h4 class="mb-3">Danh sách Lớp học</h4>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover">
+                                    <table id="tableStudent" class="table table-bordered table-hover">
                                         <thead class="table-light">
                                         <tr>
                                             <th>STT</th>
@@ -79,7 +79,7 @@
     </section>
 
     <div class="row">
-        <c:import url="../teacher/footer-teacher.jsp"/>
+        <c:import url="../common/footer.jsp"/>
     </div>
 </div>
 </body>

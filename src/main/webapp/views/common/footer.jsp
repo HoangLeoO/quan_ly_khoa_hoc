@@ -24,7 +24,6 @@
         </div>
     </div>
 </footer>
-
 <script>
     // ĐẶT GIỚI HẠN SỐ LƯỢNG NÚT SỐ HIỂN THỊ
     // Số 1 sẽ chỉ hiển thị 1 nút số (trang hiện tại) xung quanh

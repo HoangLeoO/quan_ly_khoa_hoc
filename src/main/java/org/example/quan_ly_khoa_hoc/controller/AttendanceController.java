@@ -124,7 +124,8 @@ public class AttendanceController extends HttpServlet {
             }
 
             attendanceService.submitAttendance(scheduleId, attendanceList);
-            resp.sendRedirect(req.getContextPath() + "/attendance?msg=saved");
+            String mess = "saved";
+            resp.sendRedirect(req.getContextPath() + "/attendance?msg=" + mess);
 
         } catch (Exception e) {
             e.printStackTrace();
