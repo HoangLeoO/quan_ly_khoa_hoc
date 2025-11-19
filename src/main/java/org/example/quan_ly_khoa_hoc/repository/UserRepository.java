@@ -19,7 +19,7 @@ public class UserRepository implements IUserRepository {
     public List<UserDTO> getAllUser() {
         List<UserDTO> userDTOList = new ArrayList<>();
 
-        String sql = "SELECT u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  join   staff s on u.user_id = s.user_id UNION SELECT  u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  join students  s on u.user_id = s.user_id";
+        String sql = "SELECT u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  join   staff s on u.user_id = s.user_id UNION SELECT  u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  join students  s on u.user_id = s.user_id" ;
 
         try (Connection connection = DatabaseUtil.getConnectDB();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -31,7 +31,7 @@ public class UserRepository implements IUserRepository {
                 String position = resultSet.getString("position");
                 int roleId = resultSet.getInt("role_id");
                 LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
-                userDTOList.add(new UserDTO(fullName, email, dob, position, roleId, createdAt));
+                userDTOList.add(new UserDTO(fullName, email, dob,position,roleId, createdAt));
             }
 
         } catch (SQLException e) {
@@ -61,7 +61,7 @@ public class UserRepository implements IUserRepository {
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+            try(ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     user.setUserId(generatedKeys.getInt(1));
                 } else {
