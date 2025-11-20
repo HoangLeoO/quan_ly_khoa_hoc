@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.ClassDTO;
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
 import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
@@ -14,7 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepository implements IStudentRepository {
-    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name,c.course_id, e.status\n" +
+    private final String SELECT_STUDENTS_BY_CLASS = "SELECT \n" +
+            "    st.full_name ,\n" +
+            "    st.phone ,\n" +
+            "    st.dob,\n" +
+            "    st.address ,\n" +
+            "    u.email \n" +
+            "FROM enrolments e\n" +
+            "INNER JOIN students st ON e.student_id = st.student_id\n" +
+            "INNER JOIN users u ON st.user_id = u.user_id\n" +
+            "WHERE e.class_id = ?\n" +
+            "ORDER BY st.full_name;";
+    private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name,c.course_id, cl.status\n" +
             "from classes cl\n" +
             "         join codegym.courses c on c.course_id = cl.course_id\n" +
             "         join codegym.enrolments e on cl.class_id = e.class_id\n" +
@@ -87,14 +99,62 @@ public class StudentRepository implements IStudentRepository {
                     dob = sqlDob.toLocalDate();
                 }
                 String address = resultSet.getString("address");
-                String emailS= resultSet.getString("email");
-                s = new StudentProfileDTO(fullName,phone,dob,address,emailS);
+                String emailS = resultSet.getString("email");
+                s = new StudentProfileDTO(fullName, phone, dob, address, emailS);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return s;
     }
+
+    @Override
+    public List<StudentProfileDTO> findByClassId(int classId) {
+        List<StudentProfileDTO> studentProfileDTOList = new ArrayList<>();
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STUDENTS_BY_CLASS);
+            preparedStatement.setInt(1, classId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String fullName = resultSet.getString("full_name");
+                String phone = resultSet.getString("phone");
+                LocalDate dob = resultSet.getDate("dob").toLocalDate();
+                String address = resultSet.getString("address");
+                String email = resultSet.getString("email");
+                studentProfileDTOList.add(new StudentProfileDTO(fullName, phone, dob, address, email));
+            }
+        } catch (SQLException e) {
+            System.out.println("lỗi lấy dữ liệu");
+        }
+        return studentProfileDTOList;
+    }
+
+    @Override
+    public boolean updateProfileStudent(Student student) {
+        String sql = "UPDATE students\n" +
+                "SET\n" +
+                "    full_name = ?,\n" +
+                "    phone = ?,\n" +
+                "    dob = ?,\n" +
+                "    address = ?\n" +
+                "WHERE student_id = ?;";
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, student.getFullName());
+            preparedStatement.setString(2, student.getPhone());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(student.getDob()));
+            preparedStatement.setString(4, student.getAddress());
+            preparedStatement.setInt(5, student.getStudentId());
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     @Override
     public boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
@@ -115,6 +175,40 @@ public class StudentRepository implements IStudentRepository {
     }
 
     @Override
+    public String getHashedPasswordByEmail(String email) {
+        String sql = "SELECT u.password_hash FROM users u WHERE u.email = ?";
+        String password = null;
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                password = resultSet.getString("password_hash");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
+
+    @Override
+    public Boolean updatePassword(String userEmail, String newHashedPassword) {
+        String sql = "UPDATE users set users.password_hash = ? where  users.email = ? ;";
+        try(Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,newHashedPassword);
+            preparedStatement.setString(2,userEmail);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public List<ClassInfoDTO> getStudentClassesInfoById(int studentId) {
         List<ClassInfoDTO> classInfoDTOS = new ArrayList<>();
 
@@ -128,7 +222,7 @@ public class StudentRepository implements IStudentRepository {
                 String course_name = resultSet.getString("course_name");
                 String status = resultSet.getString("status");
                 int course_id = resultSet.getInt("course_id");
-                classInfoDTOS.add(new ClassInfoDTO(class_id,class_name,course_name,status,course_id));
+                classInfoDTOS.add(new ClassInfoDTO(class_id, class_name, course_name, status, course_id));
             }
         } catch (SQLException e) {
             System.out.println("Lỗi ở repo student");

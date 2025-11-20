@@ -13,10 +13,11 @@
     <c:import url="../common/header.jsp"/>
 </head>
 <body>
-<c:import url="../common/navbar.jsp"/>
+    <c:import url="../common/navbar.jsp"/>
+
 
 <!-- Section -->
-<section class="py-5 mt-5">
+<section >
     <div class="container" style="margin-top: 50px">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -34,7 +35,15 @@
 
                         <!-- User List Table -->
                         <div class="mb-5">
-                            <h4 class="mb-3">Danh sách khóa học hiện tại</h4>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Danh sách khóa học hiện tại</h4>
+
+                                <div class="">
+                                    <a href="students?action=view-classes" class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-archive-fill me-1"></i> Xem các khóa học đã hoàn thành
+                                    </a>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table id="tableStudent" class="table table-bordered table-hover">
                                     <thead class="table-light">
@@ -52,7 +61,22 @@
                                             <td>${stt.count}</td>
                                             <td>${c.getClassName()}</td>
                                             <td>${c.getCourseName()}</td>
-                                            <td>${c.getStatus()}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${c.getStatus() == 'Đang học'}">
+                                                        <span class="badge bg-success">${c.getStatus()}</span>
+                                                    </c:when>
+                                                    <c:when test="${c.getStatus() == 'Sắp mở'}">
+                                                        <span class="badge bg-warning text-dark">${c.getStatus()}</span>
+                                                    </c:when>
+                                                    <c:when test="${c.getStatus() == 'Đã kết thúc'}">
+                                                        <span class="badge bg-secondary">${c.getStatus()}</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="badge bg-info text-dark">${c.getStatus()}</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                             <td><a href="students?action=detail-class&course-id=${c.getCourse_id()}">
                                                 <button class="btn btn-sm btn-outline-primary me-1">
                                                     Chi tiết
@@ -71,6 +95,7 @@
         </div>
     </div>
 </section>
+
 
 <c:import url="../common/footer.jsp"/>
 </body>
