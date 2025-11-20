@@ -87,7 +87,6 @@ public class ScheduleController extends HttpServlet {
         // Lấy danh sách lịch
         List<ScheduleDTO> list = scheduleService.findScheduleDTOByClassId(classId);
 
-
         req.setAttribute("list", list);
 
         // Lấy thông báo từ session

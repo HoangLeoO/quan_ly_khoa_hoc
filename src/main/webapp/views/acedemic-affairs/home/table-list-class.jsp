@@ -32,13 +32,13 @@
                     <td class="text-start">${classes.getTeacherName()}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${classes.getStatus() == 'Đang học'}">
+                            <c:when test="${classes.getStatus() == 'studying'}">
                                 <span class="badge bg-success">${classes.getStatus()}</span>
                             </c:when>
-                            <c:when test="${classes.getStatus() == 'Sắp mở'}">
+                            <c:when test="${classes.getStatus() == 'completed'}">
                                 <span class="badge bg-warning text-dark">${classes.getStatus()}</span>
                             </c:when>
-                            <c:when test="${classes.getStatus() == 'Đã kết thúc'}">
+                            <c:when test="${classes.getStatus() == 'dropped'}">
                                 <span class="badge bg-danger">${classes.getStatus()}</span>
                             </c:when>
                             <c:otherwise>

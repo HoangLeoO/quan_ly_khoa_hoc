@@ -102,7 +102,7 @@ public class ScheduleRepository implements IScheduleRepository {
             preparedStatement.setTimestamp(3, schedule.getTimeStart());
             preparedStatement.setTimestamp(4, schedule.getTimeEnd());
             preparedStatement.setString(5, schedule.getRoom());
-            preparedStatement.setInt(6, scheduleId); // ✅ Đúng index
+            preparedStatement.setInt(6, scheduleId);
             int effectRow = preparedStatement.executeUpdate();
             return effectRow == 1;
         } catch (SQLException e) {
@@ -137,7 +137,7 @@ public class ScheduleRepository implements IScheduleRepository {
             preparedStatement.setInt(1, classId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int scheduleId = resultSet.getInt("schedule_id");
                 String className = resultSet.getString("class_name");
                 LocalDate studyDate = resultSet.getDate("study_date").toLocalDate();

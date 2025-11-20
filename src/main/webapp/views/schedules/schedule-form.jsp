@@ -37,7 +37,7 @@
                                         style="font-size: 4rem"></i>
                                 <h3 class="mb-3">${schedule == null ? "Thêm buổi học" : "Cập nhật buổi học"}</h3>
                             </div>
-                            <a href="schedule?action=add&classId=${classId}" class="btn btn-primary mb-3">Thêm buổi học</a>
+
                             <!-- Class List Table -->
                             <form method="post" action="schedule">
                                 <input type="hidden" name="action" value="${schedule == null ? 'add' : 'edit'}">
@@ -86,6 +86,8 @@
             </div>
         </div>
     </section>
+    <c:import url="../common/footer.jsp"/>
+
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
             <div class="d-flex">
@@ -116,7 +118,7 @@
         </c:if>
     </script>
 
-    <c:import url="../common/footer.jsp"/>
+
 
 </body>
 </html>

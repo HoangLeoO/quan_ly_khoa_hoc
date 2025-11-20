@@ -39,7 +39,7 @@
                             </div>
                             <a href="schedule?action=add&classId=${classId}" class="btn btn-primary mb-3">Thêm buổi học</a>
                             <!-- Class List Table -->
-                            <table class="table table-bordered table-hover align-middle">
+                            <table id="tableStudent" class="table table-bordered table-hover align-middle">
                                 <thead class="table-light text-center">
                                 <tr>
                                     <th>Ngày</th>
@@ -79,6 +79,7 @@
             </div>
         </div>
     </section>
+    <c:import url="../common/footer.jsp"/>
     <!-- Modal xác nhận xóa -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -138,7 +139,7 @@
         toast.show()
         </c:if>
     </script>
-    <c:import url="../common/footer.jsp"/>
+
 
 </body>
 </html>
