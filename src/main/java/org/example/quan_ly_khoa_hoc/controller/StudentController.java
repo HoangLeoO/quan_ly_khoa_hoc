@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
 import org.example.quan_ly_khoa_hoc.dto.LessonDTO;
+import org.example.quan_ly_khoa_hoc.dto.ModuleDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
 import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.entity.Module;
@@ -19,6 +20,7 @@ import org.example.quan_ly_khoa_hoc.util.PasswordUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -137,9 +139,13 @@ public class StudentController extends HttpServlet {
     }
 
     private void showDetailClass(HttpServletRequest req, HttpServletResponse resp) {
-        int courseId = Integer.parseInt(req.getParameter("course-id"));
-        List<Module> module = moduleService.findModulesByCourseId(courseId);
-        req.setAttribute("moduleList", module);
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            User u = (User) session.getAttribute("currentUser");
+            String email = u.getEmail();
+            List<ModuleDTO> module = moduleService.findModulesDTOByStudentId(studentService.getStudentIdByEmail(email));
+            req.setAttribute("moduleList", module);
+        }
         try {
             req.getRequestDispatcher("/views/student/detail-class-student.jsp").forward(req, resp);
         } catch (ServletException e) {
@@ -154,7 +160,11 @@ public class StudentController extends HttpServlet {
         if (session != null) {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
+            StudentProfileDTO student = studentService.getStudentProfileByEmail(email);
+            DateTimeFormatter formatterVN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDateVN = student.getDob().format(formatterVN);
             req.setAttribute("student", studentService.getStudentProfileByEmail(email));
+            req.setAttribute("formattedDateVN",formattedDateVN);
         }
         try {
             req.getRequestDispatcher("/views/student/profile-student.jsp").forward(req, resp);

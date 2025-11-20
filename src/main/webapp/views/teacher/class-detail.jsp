@@ -33,6 +33,12 @@
                                     <div class="col-6">
                                         <h4 class="mb-3">Danh sách sinh viên của lớp ${className}</h4>
                                     </div>
+                                    <div class="col-3"></div>
+                                    <div class="col-3 text-end">
+                                        <a href="/class-log?classId=${classId}" class="btn btn-primary">
+                                            Viết nhật ký lớp học
+                                        </a>
+                                    </div>
                                 </div>
                                 <div>
                                     <table class="table table-bordered table-hover">
@@ -58,7 +64,7 @@
                                                 <td>${student.getLateCount()}</td>
                                                 <td>${student.getAbsentCount()}</td>
                                                 <td>${student.getExcusedCount()}</td>
-                                                <td><a href="/attendance?action=view-form&classId=${classId}&courseId=${courseId}" class="btn btn-primary">
+                                                <td><a href="/attendance?action=takeNew&classId=${classId}" class="btn btn-primary">
                                                     <i class="bi bi-calendar-check"></i>Chi tiết
                                                 </a></td>
                                             </tr>

@@ -24,8 +24,8 @@
 
                 <!-- ADMIN -->
                 <c:if test="${sessionScope.role == 'Admin'}">
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý người dùng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý khóa học</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/users">Quản lý người dùng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/courses">Quản lý khóa học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Module</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Bài học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Lớp học</a></li>
@@ -35,7 +35,7 @@
                 <c:if test="${sessionScope.role == 'Teacher'}">
                     <li class="nav-item"><a class="nav-link" href="/teacher">Trang chủ</a></li>
                     <li class="nav-item"> <a class="nav-link" href="/attendance?action=listToday">📋Điểm danh</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="/teacher">Thông tin cá nhân</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/teacher?action=profile">Thông tin cá nhân</a></li>
                 </c:if>
 
                 <!-- STUDENT -->

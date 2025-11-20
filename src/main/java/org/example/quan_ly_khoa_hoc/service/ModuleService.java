@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.service;
 
+import org.example.quan_ly_khoa_hoc.dto.ModuleDTO;
 import org.example.quan_ly_khoa_hoc.entity.Module;
 import org.example.quan_ly_khoa_hoc.repository.ModuleRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IModuleRepository;
@@ -12,5 +13,10 @@ public class ModuleService implements IModuleService {
     @Override
     public List<Module> findModulesByCourseId(int courseId) {
         return moduleRepository.findModulesByCourseId(courseId);
+    }
+
+    @Override
+    public List<ModuleDTO> findModulesDTOByStudentId(int studentId) {
+        return moduleRepository.findModulesDTOByStudentId(studentId);
     }
 }

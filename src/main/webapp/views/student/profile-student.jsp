@@ -51,7 +51,7 @@
 
                                 <!-- Ngày sinh -->
                                 <dt class="col-sm-4 fw-bold">Ngày sinh:</dt>
-                                <dd class="col-sm-8">${student.getDob()}</dd>
+                                <dd class="col-sm-8">${formattedDateVN}</dd>
 
                                 <!-- Địa chỉ -->
                                 <dt class="col-sm-4 fw-bold">Địa chỉ:</dt>
