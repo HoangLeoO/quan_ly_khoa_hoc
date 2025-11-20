@@ -64,7 +64,7 @@
 
                     <!-- Email/Tên đăng nhập -->
                     <div class="mb-4">
-                        <label for="email" class="form-label fw-bold">Email hoặc Tên đăng nhập</label>
+                        <label for="email" class="form-label fw-bold">Email</label>
                         <input
                                 type="email"
                                 id="email"

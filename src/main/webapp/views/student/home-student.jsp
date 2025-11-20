@@ -39,7 +39,7 @@
                                 <h4 class="mb-0">Danh sách khóa học hiện tại</h4>
 
                                 <div class="">
-                                    <a href="students?action=view-classes&filter=completed" class="btn btn-outline-secondary btn-sm">
+                                    <a href="students?action=view-classes" class="btn btn-outline-secondary btn-sm">
                                         <i class="bi bi-archive-fill me-1"></i> Xem các khóa học đã hoàn thành
                                     </a>
                                 </div>
