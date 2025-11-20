@@ -11,5 +11,6 @@ public interface IAttendanceService {
     List<ScheduleDTO> getSchedulesForToday();
     ScheduleDTO getScheduleById(int scheduleId);
     void submitAttendance(int scheduleId, List<Attendance> attendanceList);
-
+    boolean isAttendanceTaken(int scheduleId);
+    List<Attendance> getAttendanceByScheduleId(int scheduleId);
 }

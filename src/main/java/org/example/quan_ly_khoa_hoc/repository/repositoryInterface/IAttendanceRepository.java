@@ -11,5 +11,6 @@ public interface IAttendanceRepository {
     void saveBatchAttendance(List<Attendance> attendanceList);
     List<ScheduleDTO> getSchedulesForToday();
     ScheduleDTO getScheduleById(int scheduleId);
-
+    int countAttendanceByScheduleId(int scheduleId);
+    List<Attendance> findByScheduleId(int scheduleId);
 }
