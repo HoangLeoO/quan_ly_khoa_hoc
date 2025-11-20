@@ -18,7 +18,7 @@ public class TeacherRepository implements ITeacherRepository {
     private final String UPDATE_STAFF_SQL =
             "UPDATE staff SET full_name = ?, phone = ?, dob = ?, address = ? WHERE staff_id = ?";
     private final String SELECT_STAFF_BY_EMAIL =
-            "SELECT s.staff_id, s.full_name, s.user_id, s.position, s.phone, s.dob, s.address, u.email " + // ĐÃ THÊM: phone, dob, address
+            "SELECT s.staff_id, s.full_name, s.user_id, s.position, s.phone, s.dob, s.address, u.email " +
                     "FROM staff s JOIN users u ON s.user_id = u.user_id " +
                     "WHERE u.email = ?";
     @Override
