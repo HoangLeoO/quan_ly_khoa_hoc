@@ -76,6 +76,61 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public List<UserDTO> search(String keyword, Integer roleId) {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT user_id, role_id, full_name, email, dob, created_at, position " +
+                        "FROM ( " +
+                        "    SELECT u.user_id, u.role_id, s.full_name, u.email, s.dob, u.created_at, s.position " +
+                        "    FROM users u " +
+                        "    JOIN staff s ON u.user_id = s.user_id " +
+                        "    UNION ALL " +
+                        "    SELECT u.user_id, u.role_id, st.full_name, u.email, st.dob, u.created_at, st.position " +
+                        "    FROM users u " +
+                        "    JOIN students st ON u.user_id = st.user_id " +
+                        ") AS all_users " +
+                        "WHERE 1=1 "
+        );
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND full_name LIKE ? ");
+        }
+
+        if (roleId != null ) {
+            sql.append(" AND role_id = ? ");
+        }
+
+        sql.append(" ORDER BY role_id ");
+        try (Connection connection = DatabaseUtil.getConnectDB();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
+
+            int index = 1;
+
+            if (keyword != null && !keyword.isEmpty()) {
+                preparedStatement.setString(index++, "%" + keyword + "%");
+            }
+            if (roleId != null) {
+                preparedStatement.setInt(index++, roleId);
+            }
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer userId = resultSet.getInt("user_id");
+                String fullName = resultSet.getString("full_name");
+                String email = resultSet.getString("email");
+                LocalDate dob = resultSet.getDate("dob").toLocalDate();
+                String position = resultSet.getString("position");
+                Integer userRoleId = resultSet.getInt("role_id");
+                LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
+                userDTOList.add(new UserDTO(userId, fullName, email, dob, position, userRoleId, createdAt));
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return userDTOList;
+    }
+
+        @Override
     public boolean deleteUser(Integer userId) {
         String sql = "DELETE FROM users WHERE user_id = ?";
         try (Connection connection = DatabaseUtil.getConnectDB();
@@ -120,12 +175,11 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public UserDTO updateUserInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
-        String sql = "UPDATE users SET email = ?, password_hash = ?, role_id = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET email = ?,  role_id = ? WHERE user_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, userDTO.getEmail());
-            preparedStatement.setString(2, userDTO.getPasswordHash());
-            preparedStatement.setInt(3, userDTO.getRoleId());
-            preparedStatement.setInt(4, userDTO.getUserId());
+            preparedStatement.setInt(2, userDTO.getRoleId());
+            preparedStatement.setInt(3, userDTO.getUserId());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
@@ -133,6 +187,7 @@ public class UserRepository implements IUserRepository {
             return userDTO;
         }
     }
+
     @Override
     public User findByEmail(String email) {
         String sql = """

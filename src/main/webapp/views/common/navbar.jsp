@@ -24,8 +24,8 @@
 
                 <!-- ADMIN -->
                 <c:if test="${sessionScope.role == 'Admin'}">
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý người dùng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý khóa học</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/users">Quản lý người dùng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/courses">Quản lý khóa học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Module</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Bài học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Lớp học</a></li>
