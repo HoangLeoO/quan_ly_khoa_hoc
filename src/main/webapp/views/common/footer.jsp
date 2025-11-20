@@ -31,7 +31,7 @@
     $.fn.dataTable.ext.pager.numbers_length = 5;
 
     $(document).ready(function() {
-        $('#tableStudent').dataTable({
+        $('#tableClassInfo').dataTable({
             // SỬ DỤNG KIỂU PHÂN TRANG NÂNG CAO
             "pagingType": "full_numbers",
 

@@ -1,6 +1,8 @@
 package org.example.quan_ly_khoa_hoc.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ScheduleDTO {
     private int scheduleId;
@@ -10,6 +12,13 @@ public class ScheduleDTO {
     private String lessonName;
     private LocalDateTime timeStart;
     private String room;
+    private LocalDate studyDate;
+    private String weekday;
+    private LocalTime timeEnd;
+    private LocalTime timeBegin;
+    private String moduleName;
+    private int teacherId;
+    private String teacherName;
 
     public ScheduleDTO() {
     }
@@ -22,6 +31,23 @@ public class ScheduleDTO {
         this.lessonName = lessonName;
         this.timeStart = timeStart;
         this.room = room;
+    }
+
+    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, String room, LocalDate studyDate, String weekday, LocalTime timeEnd, LocalTime timeBegin, String moduleName, int teacherId, String teacherName) {
+        this.scheduleId = scheduleId;
+        this.classId = classId;
+        this.lessionId = lessionId;
+        this.className = className;
+        this.lessonName = lessonName;
+
+        this.room = room;
+        this.studyDate = studyDate;
+        this.weekday = weekday;
+        this.timeEnd = timeEnd;
+        this.timeBegin = timeBegin;
+        this.moduleName = moduleName;
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
     }
 
     public int getLessionId() {
@@ -78,5 +104,61 @@ public class ScheduleDTO {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public LocalDate getStudyDate() {
+        return studyDate;
+    }
+
+    public void setStudyDate(LocalDate studyDate) {
+        this.studyDate = studyDate;
+    }
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
+    public LocalTime getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(LocalTime timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public LocalTime getTimeBegin() {
+        return timeBegin;
+    }
+
+    public void setTimeBegin(LocalTime timeBegin) {
+        this.timeBegin = timeBegin;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 }

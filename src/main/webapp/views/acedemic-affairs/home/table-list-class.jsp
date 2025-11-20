@@ -18,6 +18,7 @@
                 <th style="width: 3%;">STT</th>
                 <th style="width: 15%;">Tên lớp</th>
                 <th style="width: 20%;">Khóa học</th>
+                <th style="width: 20%;">Giáo viên</th>
                 <th style="width: 7%;">Trạng thái</th>
                 <th style="width: 15%;">Thao tác</th>
             </tr>
@@ -28,6 +29,7 @@
                     <td>${status.count}</td>
                     <td class="text-start">${classes.getClassName()}</td>
                     <td class="text-start">${classes.getCourseName()}</td>
+                    <td class="text-start">${classes.getTeacherName()}</td>
                     <td>
                         <c:choose>
                             <c:when test="${classes.getStatus() == 'Đang học'}">
@@ -59,32 +61,3 @@
 </div>
 
 
-<script>
-    // ĐẶT GIỚI HẠN SỐ LƯỢNG NÚT SỐ HIỂN THỊ
-    // Số 1 sẽ chỉ hiển thị 1 nút số (trang hiện tại) xung quanh
-    $.fn.dataTable.ext.pager.numbers_length = 5;
-
-    $(document).ready(function() {
-        $('#tableClassInfo').dataTable({
-            // SỬ DỤNG KIỂU PHÂN TRANG NÂNG CAO
-            "pagingType": "full_numbers",
-
-            "dom": 'lrti<"row"<"col-sm-12 col-md-5"l><"col-sm-12 col-md-7 d-flex justify-content-end"p>>',
-            "lengthChange": false,
-            "pageLength": 5,
-
-            // VIỆT HÓA VÀ ĐỔI TÊN NÚT PHÂN TRANG
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/2.0.8/i18n/vi.json",
-
-                // Ghi đè các nhãn cho nút phân trang
-                "paginate": {
-                    "previous": "Trước",
-                    "next": "Sau",
-                    "first": "",
-                    "last": ""
-                }
-            }
-        });
-    });
-</script>

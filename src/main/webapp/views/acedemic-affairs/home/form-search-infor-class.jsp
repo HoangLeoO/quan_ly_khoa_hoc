@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<form action="class" method="get" class="row g-3">
+<form action="#" method="get" class="row g-3">
 
     <!-- Tên lớp -->
     <div class="col-md-3">
