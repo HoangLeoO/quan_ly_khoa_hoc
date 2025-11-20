@@ -59,11 +59,12 @@ public class ScheduleRepository implements IScheduleRepository {
                 String room = resultSet.getString("room");
                 String lessonName = resultSet.getString("lesson_name");
                 int lessonId = resultSet.getInt("lesson_id");
+                int moduleId = resultSet.getInt("module_id");
                 String moduleName = resultSet.getString("module_name");
                 int teacherId = resultSet.getInt("teacher_id");
                 String teacherName = resultSet.getString("teacher_name");
 
-                scheduleDTOList.add(new ScheduleDTO(scheduleId, classId, lessonId, className, lessonName, room, studyDate, weekday, timeEnd, timeBegin, moduleName, teacherId, teacherName));
+                scheduleDTOList.add(new ScheduleDTO(scheduleId, classId, lessonId, className, lessonName, room, studyDate, weekday, timeEnd, timeBegin,moduleId, moduleName, teacherId, teacherName));
             }
         } catch (SQLException e) {
             System.out.println("lỗi lấy dữ liệu");
@@ -147,12 +148,13 @@ public class ScheduleRepository implements IScheduleRepository {
                 String room = resultSet.getString("room");
                 String lessonName = resultSet.getString("lesson_name");
                 int lessonId = resultSet.getInt("lesson_id");
+                int moduleId = resultSet.getInt("module_id");
                 String moduleName = resultSet.getString("module_name");
                 int teacherId = resultSet.getInt("teacher_id");
                 String teacherName = resultSet.getString("teacher_name");
 
                 scheduleDTOList.add(new ScheduleDTO(scheduleId, classId, lessonId, className,
-                        lessonName, room, studyDate, weekday, timeEnd, timeBegin,
+                        lessonName, room, studyDate, weekday, timeEnd, timeBegin,moduleId,
                         moduleName, teacherId, teacherName));
             }
         } catch (SQLException e) {

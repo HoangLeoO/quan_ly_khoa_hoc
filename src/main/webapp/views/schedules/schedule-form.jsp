@@ -47,10 +47,10 @@
                                 <div class="mb-3">
                                     <label class="form-label">Bài học</label>
                                     <select name="lessonId" class="form-select" required>
-                                        <c:forEach items="${lessonList}" var="l">
-                                            <option value="${l.lessonId}"
-                                                    <c:if test="${schedule != null && schedule.lessonId == l.lessonId}">selected</c:if>>
-                                                    ${l.lessonName} - ${l.moduleName}
+                                        <c:forEach items="${lessonList}" var="lessonList">
+                                            <option value="${lessonList.lessonId}"
+                                                    <c:if test="${schedule != null && schedule.lessonId == lessonList.lessonId}">selected</c:if>>
+                                                    ${lessonList.lessonName} - ${lessonList.moduleName}
                                             </option>
                                         </c:forEach>
                                     </select>

@@ -16,6 +16,7 @@ public class ScheduleDTO {
     private String weekday;
     private LocalTime timeEnd;
     private LocalTime timeBegin;
+    private int moduleId;
     private String moduleName;
     private int teacherId;
     private String teacherName;
@@ -34,18 +35,18 @@ public class ScheduleDTO {
         this.room = room;
     }
 
-    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, String room, LocalDate studyDate, String weekday, LocalTime timeEnd, LocalTime timeBegin, String moduleName, int teacherId, String teacherName) {
+    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, String room, LocalDate studyDate, String weekday, LocalTime timeEnd, LocalTime timeBegin,int moduleId, String moduleName, int teacherId, String teacherName) {
         this.scheduleId = scheduleId;
         this.classId = classId;
         this.lessionId = lessionId;
         this.className = className;
         this.lessonName = lessonName;
-
         this.room = room;
         this.studyDate = studyDate;
         this.weekday = weekday;
         this.timeEnd = timeEnd;
         this.timeBegin = timeBegin;
+        this.moduleId = moduleId;
         this.moduleName = moduleName;
         this.teacherId = teacherId;
         this.teacherName = teacherName;
@@ -180,5 +181,13 @@ public class ScheduleDTO {
 
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    public int getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
     }
 }
