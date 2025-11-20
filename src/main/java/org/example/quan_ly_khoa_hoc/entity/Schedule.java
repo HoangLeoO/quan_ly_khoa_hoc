@@ -19,6 +19,15 @@ public class Schedule {
         this.room = room;
     }
 
+    public Schedule(int scheduleId, int classId, Integer lessonId, Timestamp timeStart, Timestamp timeEnd, String room) {
+        this.scheduleId = scheduleId;
+        this.classId = classId;
+        this.lessonId = lessonId;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.room = room;
+    }
+
     // Getters and Setters
     public int getScheduleId() {
         return scheduleId;

@@ -7,7 +7,6 @@ public class Test {
         String pw = "123";
         String hash = BCrypt.hashpw(pw, BCrypt.gensalt());
         System.out.println(hash);
-
         boolean match = BCrypt.checkpw("123", hash);
         System.out.println("Đúng? " + match);
     }
