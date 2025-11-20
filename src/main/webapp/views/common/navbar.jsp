@@ -28,7 +28,6 @@
                     <li class="nav-item"><a class="nav-link" href="/admin/courses">Quản lý khóa học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Module</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Bài học</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý Lớp học</a></li>
                 </c:if>
 
                 <!-- TEACHER -->
