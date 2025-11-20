@@ -12,19 +12,20 @@
 <html>
 <head>
     <title>Title</title>
+    <c:import url="../../common/header.jsp"/>
 </head>
 <body>
 <div>
-    <c:import url="../../common/header.jsp"/>
+
 
     <!-- Navigation -->
     <div>
-        <c:import url="../navaber-acedemic-affairs.jsp"/>
+        <c:import url="../../common/navbar.jsp"/>
     </div>
 
 
 
-    <section class="py-5 mt-5">
+    <section>
         <div class="container" style="margin-top: 50px">
             <div class="row justify-content-center">
                 <div class="col-md-10">
@@ -36,7 +37,9 @@
                                         style="font-size: 4rem"></i>
                                 <h3 class="mt-3">HOME</h3>
                                 </div>
-
+                            <div>
+                                <c:import url="form-search-infor-class.jsp"/>
+                            </div>
                             <!-- Class List Table -->
                             <c:import url="table-list-class.jsp"/>
 

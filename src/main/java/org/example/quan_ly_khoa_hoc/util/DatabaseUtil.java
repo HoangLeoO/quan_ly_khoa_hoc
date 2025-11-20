@@ -8,6 +8,7 @@ public class DatabaseUtil {
     private static final String URL = "jdbc:mysql://localhost:3306/codegym";
     private static final String USER = "root";
     private static final String PASS = "Codegym123";
+    private static final String PASS = "Codegym@2025";
 
     // Phương thức kết nối database
     public static Connection getConnectDB() {

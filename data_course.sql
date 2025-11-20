@@ -17,20 +17,20 @@ INSERT INTO roles (role_name) VALUES
 -- 2. USERS
 -- -----------------------------------------------------
 INSERT INTO users (email, password_hash, role_id, is_delete) VALUES
-                                                                 ('admin@codegym.vn', '$2a$10$Tu0wN9GJtHDuduATlS0.H.csPPmCRfLTSMMIZgb6QmLx/h0HE0Sni', 1, 0),
-                                                                 ('teacher1@codegym.vn', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 2, 0),
-                                                                 ('teacher2@codegym.vn', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 2, 0),
+                                                                 ('admin@codegym.vn', '$2a$10$5gdzs7wgcGPeEKnGpjynx.N.zGhfINLDm9El9kM0qzxK0NRi5Ed.G', 1, 0),
+                                                                 ('teacher1@codegym.vn', '$2a$10$5gdzs7wgcGPeEKnGpjynx.N.zGhfINLDm9El9kM0qzxK0NRi5Ed.G', 2, 0),
+                                                                 ('teacher2@codegym.vn', '$2a$10$5gdzs7wgcGPeEKnGpjynx.N.zGhfINLDm9El9kM0qzxK0NRi5Ed.G', 2, 0),
                                                                  ('nguyen.van.a@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('tran.thi.b@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('le.van.c@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('pham.thi.d@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
-                                                                 ('hoang.van.e@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
+                                                                 ('hoang.van.e@gmail.com', '$2a$10$5gdzs7wgcGPeEKnGpjynx.N.zGhfINLDm9El9kM0qzxK0NRi5Ed.G', 3, 0),
                                                                  ('vo.thi.f@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('do.van.g@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('bui.thi.h@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('ngo.van.i@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
                                                                  ('dang.thi.k@gmail.com', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 3, 0),
-                                                                 ('coordinator@codegym.vn', '$2a$10$4pX7QtExImjuSsUyGhMV8OUzuuGhLz3ikbe0jp0zPrIVhdIHz2sui', 4, 0);
+                                                                 ('coordinator@codegym.vn', '$2a$10$5gdzs7wgcGPeEKnGpjynx.N.zGhfINLDm9El9kM0qzxK0NRi5Ed.G', 4, 0);
 
 -- -----------------------------------------------------
 -- 3. STUDENTS
