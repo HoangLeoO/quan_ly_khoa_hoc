@@ -37,19 +37,19 @@ public class AttendanceController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if (action == null || action.isEmpty()) {
-            action = "listToday";
+            action = "listToday"; // hoặc action khác hiển thị danh sách lớp
         }
 
         try {
             switch (action) {
                 case "listToday":
-                    showTodaySchedules(req, resp);
+                    showTodaySchedules(req, resp); // hoặc show danh sách lớp
                     break;
-                case "takeNew":
-                    showNewAttendanceForm(req, resp); // <-- Xử lý tạo mới
+                case "takeToday":
+                    showTodayAttendanceForm(req, resp); // <-- MỚI
                     break;
                 case "edit":
-                    showEditAttendanceForm(req, resp); // <-- Xử lý chỉnh sửa
+                    showEditAttendanceForm(req, resp);  // ← CHỈNH SỬA THEO scheduleId
                     break;
                 default:
                     showTodaySchedules(req, resp);
@@ -58,6 +58,80 @@ public class AttendanceController extends HttpServlet {
             e.printStackTrace();
             resp.sendRedirect(req.getContextPath() + "/attendance?msg=system_error");
         }
+    }
+
+    private void showTodayAttendanceForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String classIdStr = request.getParameter("classId");
+        if (classIdStr == null || classIdStr.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/attendance?msg=missing_class");
+            return;
+        }
+        int classId = Integer.parseInt(classIdStr);
+
+        TeacherClassDTO currentClass = classRepository.findClassById(classId);
+        List<StudentDetailDTO> studentList = classRepository.findStudentsByClassId(classId);
+
+        if (currentClass == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy thông tin lớp học.");
+            return;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+        // 1. Lấy schedule hôm nay (nếu có)
+        ScheduleDTO todaySchedule = attendanceService.getTodayScheduleByClassId(classId);
+
+        String formattedTimeStart;
+        String formattedTimeEnd;
+        Map<Integer, Attendance> oldAttendanceMap = new HashMap<>();
+        Integer scheduleId = null;
+
+        if (todaySchedule != null) {
+            // Đã từng điểm danh hôm nay → chế độ "chỉnh sửa"
+            scheduleId = todaySchedule.getScheduleId();
+
+            if (todaySchedule.getTimeStart() != null) {
+                formattedTimeStart = todaySchedule.getTimeStart().format(formatter);
+            } else {
+                formattedTimeStart = LocalDateTime.now().format(formatter);
+            }
+
+            if (todaySchedule.getTimeEnd() != null) {
+                formattedTimeEnd = todaySchedule.getTimeEnd().format(formatter);
+            } else {
+                formattedTimeEnd = LocalDateTime.now().plusHours(1).format(formatter);
+            }
+
+            // Lấy attendance cũ
+            List<Attendance> oldAttendanceList = attendanceService.getAttendanceByScheduleId(scheduleId);
+            if (oldAttendanceList != null && !oldAttendanceList.isEmpty()) {
+                oldAttendanceMap = oldAttendanceList.stream()
+                        .collect(Collectors.toMap(
+                                Attendance::getStudentId,
+                                att -> att
+                        ));
+            }
+
+            request.setAttribute("isNewForm", false);
+        } else {
+            // Chưa có schedule hôm nay → chế độ "điểm danh mới"
+            LocalDateTime now = LocalDateTime.now();
+            formattedTimeStart = now.format(formatter);
+            formattedTimeEnd = now.plusHours(1).format(formatter);
+
+            request.setAttribute("isNewForm", true);
+        }
+
+        request.setAttribute("currentClass", currentClass);
+        request.setAttribute("studentList", studentList);
+        request.setAttribute("scheduleId", scheduleId); // sẽ null nếu form mới
+        request.setAttribute("scheduleTimeStart", formattedTimeStart);
+        request.setAttribute("scheduleTimeEnd", formattedTimeEnd);
+        request.setAttribute("oldAttendanceMap", oldAttendanceMap);
+
+        request.getRequestDispatcher("/views/teacher/attendance-form.jsp").forward(request, response);
     }
 
     // Phương thức showTodaySchedules giữ nguyên
@@ -148,47 +222,33 @@ public class AttendanceController extends HttpServlet {
     // ----------------------------------------------------
     // PHƯƠNG THỨC CŨ (ĐỔI TÊN): HIỂN THỊ FORM CHỈNH SỬA (Dựa trên Schedule ID)
     // ----------------------------------------------------
-    private void showEditAttendanceForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void showEditAttendanceForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String scheduleIdStr = request.getParameter("scheduleId");
         if (scheduleIdStr == null || scheduleIdStr.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID lịch học (scheduleId).");
             return;
         }
         int scheduleId = Integer.parseInt(scheduleIdStr);
+
         ScheduleDTO scheduleInfo = attendanceService.getScheduleById(scheduleId);
-
-
         if (scheduleInfo == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy thông tin chi tiết lịch học.");
             return;
         }
 
-        // Cần import java.time.format.DateTimeFormatter;
-        // =============================================================
-        // BƯỚC SỬA: FORMAT THỜI GIAN VỚI KIỂM TRA NULL AN TOÀN
-        // =============================================================
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
-        // Khai báo biến chuỗi để lưu giá trị đã format
         String formattedTimeStart = "";
-        String formattedTimeEnd = "";
+        String formattedTimeEnd   = "";
 
-        // Kiểm tra NULL trước khi format timeStart
         if (scheduleInfo.getTimeStart() != null) {
-            // Lưu ý: Đảm bảo getTimeStart() trả về LocalDateTime, không phải LocalTime
             formattedTimeStart = scheduleInfo.getTimeStart().format(formatter);
         }
-
-        // Kiểm tra NULL trước khi format timeEnd
         if (scheduleInfo.getTimeEnd() != null) {
-            // Lỗi của bạn xảy ra tại đây: scheduleInfo.getTimeEnd() bị null
             formattedTimeEnd = scheduleInfo.getTimeEnd().format(formatter);
         }
-
-        // Truyền các giá trị đã được format (có thể là chuỗi rỗng nếu giá trị gốc là null)
-        request.setAttribute("scheduleTimeStart", formattedTimeStart);
-        request.setAttribute("scheduleTimeEnd", formattedTimeEnd);
-        // =============================================================
 
         int classId = scheduleInfo.getClassId();
         TeacherClassDTO currentClass = classRepository.findClassById(classId);
@@ -197,7 +257,6 @@ public class AttendanceController extends HttpServlet {
         Map<Integer, Attendance> oldAttendanceMap = new HashMap<>();
         List<Attendance> oldAttendanceList = attendanceService.getAttendanceByScheduleId(scheduleId);
 
-        // Logic an toàn để tạo Map
         if (oldAttendanceList != null && !oldAttendanceList.isEmpty()) {
             try {
                 oldAttendanceMap = oldAttendanceList.stream()
@@ -210,12 +269,17 @@ public class AttendanceController extends HttpServlet {
             }
         }
 
+        // Gửi dữ liệu sang JSP
         request.setAttribute("currentClass", currentClass);
         request.setAttribute("currentSchedule", scheduleInfo);
         request.setAttribute("studentList", studentList);
         request.setAttribute("scheduleId", scheduleId);
         request.setAttribute("oldAttendanceMap", oldAttendanceMap);
-        request.setAttribute("isNewForm", false);
+
+        request.setAttribute("scheduleTimeStart", formattedTimeStart);
+        request.setAttribute("scheduleTimeEnd", formattedTimeEnd);
+
+        request.setAttribute("isNewForm", false); // để JSP biết là đang chế độ edit
 
         request.getRequestDispatcher("/views/teacher/attendance-form.jsp").forward(request, response);
     }
@@ -239,29 +303,66 @@ public class AttendanceController extends HttpServlet {
         }
 
         try {
-            if ("saveNewAttendance".equals(action)) {
-                // Xử lý tạo Schedule mới và lưu điểm danh
-                handleSaveNewAttendance(req, resp);
-            } else if ("saveAttendance".equals(action)) {
-                // Xử lý cập nhật điểm danh cho Schedule đã tồn tại
-                handleUpdateAttendance(req, resp);
+            if ("saveTodayAttendance".equals(action)) {
+                handleSaveTodayAttendance(req, resp);
             } else {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Hành động POST không hợp lệ.");
             }
-        } catch (IllegalStateException e) {
-            // BƯỚC SỬA: Bắt lỗi nghiệp vụ (ví dụ: Lịch học bị trùng lặp trong ngày)
-            e.printStackTrace();
-            // Lưu thông báo lỗi chi tiết (ví dụ: "Lớp này đã có buổi học...")
-            req.getSession().setAttribute("errorMessage", e.getMessage());
-            // Chuyển hướng với cờ báo hiệu lỗi trùng lặp
-            resp.sendRedirect(req.getContextPath() + "/attendance?msg=duplicate_schedule");
         } catch (Exception e) {
-            // Bắt các lỗi hệ thống, I/O, SQL không mong muốn
             e.printStackTrace();
             req.getSession().setAttribute("errorMessage", "Lỗi xử lý điểm danh: " + e.getMessage());
             resp.sendRedirect(req.getContextPath() + "/attendance?msg=error");
         }
     }
+
+    private void handleSaveTodayAttendance(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
+        String classIdStr = req.getParameter("classId");
+        if (classIdStr == null || classIdStr.isEmpty()) {
+            throw new IllegalArgumentException("Thiếu classId.");
+        }
+        int classId = Integer.parseInt(classIdStr);
+
+        Integer lessonId = null;
+        String lessonIdStr = req.getParameter("lessonId");
+        if (lessonIdStr != null && !lessonIdStr.isEmpty()) {
+            lessonId = Integer.parseInt(lessonIdStr);
+        }
+
+        String timeStartStr = req.getParameter("timeStart");
+        String timeEndStr = req.getParameter("timeEnd");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime timeStart;
+        LocalDateTime timeEnd;
+
+        try {
+            if (timeStartStr == null || timeStartStr.trim().isEmpty()
+                    || timeEndStr == null || timeEndStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("Thời gian bắt đầu và kết thúc không được để trống.");
+            }
+
+            timeStart = LocalDateTime.parse(timeStartStr, formatter);
+            timeEnd = LocalDateTime.parse(timeEndStr, formatter);
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.getSession().setAttribute("errorMessage", "Lỗi định dạng thời gian hoặc thiếu thông tin. Vui lòng kiểm tra lại ngày/giờ.");
+            resp.sendRedirect(req.getContextPath() + "/attendance?msg=error");
+            return;
+        }
+
+        String room = req.getParameter("room");
+
+        // Thu thập dữ liệu attendance (scheduleId sẽ set trong service)
+        List<Attendance> attendanceList = collectAttendanceData(req, 0);
+
+        // Gọi service: tự hiểu là tạo mới hoặc update hôm nay
+        attendanceService.saveTodayAttendance(classId, lessonId, timeStart, timeEnd, room, attendanceList);
+
+        resp.sendRedirect(req.getContextPath() + "/attendance?msg=saved_today");
+    }
+
+
 
     /**
      * Xử lý tạo Schedule mới và lưu điểm danh (Logic mới)

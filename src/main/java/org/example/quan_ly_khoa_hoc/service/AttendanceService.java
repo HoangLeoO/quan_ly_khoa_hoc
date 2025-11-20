@@ -94,6 +94,45 @@ public class AttendanceService implements IAttendanceService {
     }
 
     @Override
+    public ScheduleDTO getTodayScheduleByClassId(int classId) {
+        return attendanceRepository.findTodayScheduleByClassId(classId);
+    }
+
+    @Override
+    public void saveTodayAttendance(int classId, Integer lessonId, LocalDateTime timeStart, LocalDateTime timeEnd, String room, List<Attendance> attendanceList) {
+        if (attendanceList == null || attendanceList.isEmpty()) {
+            throw new IllegalArgumentException("Danh sách điểm danh không được trống.");
+        }
+
+        // 1. Tìm schedule hôm nay của class
+        ScheduleDTO todaySchedule = attendanceRepository.findTodayScheduleByClassId(classId);
+        int scheduleId;
+
+        if (todaySchedule == null) {
+            // 2A. Chưa có → tạo mới
+            scheduleId = attendanceRepository.createScheduleAndGetId(
+                    classId,
+                    lessonId,
+                    timeStart,
+                    timeEnd,
+                    room
+            );
+        } else {
+            // 2B. Đã có → dùng lại
+            scheduleId = todaySchedule.getScheduleId();
+            // Nếu muốn, có thể update timeStart/timeEnd/room ở bảng schedules,
+            // nhưng tạm thời giữ nguyên cho đơn giản.
+        }
+
+        // 3. Gán scheduleId cho tất cả attendance và lưu
+        List<Attendance> updated = attendanceList.stream()
+                .peek(att -> att.setScheduleId(scheduleId))
+                .collect(Collectors.toList());
+
+        attendanceRepository.saveBatchAttendance(updated);
+    }
+
+    @Override
     public List<ScheduleDTO> getSchedulesForToday() {
         return attendanceRepository.getSchedulesForToday();
     }

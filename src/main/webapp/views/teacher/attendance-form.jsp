@@ -73,8 +73,15 @@
                 <c:choose>
                     <c:when test="${requestScope.isNewForm}">
                         <%-- LUỒNG TẠO MỚI --%>
-                        <input type="hidden" name="action" value="saveNewAttendance">
-                        <input type="hidden" name="classId" value="${currentClass.classId}">
+                        <input type="datetime-local" name="timeStart" value="${scheduleTimeStart}" />
+                        <input type="datetime-local" name="timeEnd" value="${scheduleTimeEnd}" />
+
+                        <input type="hidden" name="action" value="saveTodayAttendance" />
+                        <input type="hidden" name="classId" value="${currentClass.classId}" />
+                        <!-- scheduleId có thể null, nhưng hiện tại ta không dùng ở server nữa -->
+                        <c:if test="${not empty scheduleId}">
+                            <input type="hidden" name="scheduleId" value="${scheduleId}" />
+                        </c:if>
 
                         <div class="alert alert-warning p-3 mb-4">
                             <h6 class="text-danger"><i class="bi bi-info-circle me-1"></i> Thông tin Buổi học Mới</h6>

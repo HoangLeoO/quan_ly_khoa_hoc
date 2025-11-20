@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.NewAttendanceFormDTO;
 import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
 import org.example.quan_ly_khoa_hoc.entity.Schedule;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IScheduleRepository;
@@ -7,6 +8,7 @@ import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,24 +40,37 @@ public class ScheduleRepository implements IScheduleRepository {
                      LEFT JOIN modules m ON l.module_id = m.module_id
                      LEFT JOIN staff s   ON c.teacher_id = s.staff_id
                      """;
-
+    private NewAttendanceFormDTO schedule;
 
     @Override
     public List<ScheduleDTO> findAll() {
         List<ScheduleDTO> scheduleDTOList = new ArrayList<>();
-        try (Connection connection = DatabaseUtil.getConnectDB()) {
-            // Query đầy đủ cho findAll
-            String SELECT_ALL = SELECT_BASE + "ORDER BY sch.time_start;";
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
-            ResultSet resultSet = preparedStatement.executeQuery();
+
+        // Query đầy đủ cho findAll
+        String SELECT_ALL = SELECT_BASE + " ORDER BY sch.time_start";
+
+        try (Connection connection = DatabaseUtil.getConnectDB();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
             while (resultSet.next()) {
                 int scheduleId = resultSet.getInt("schedule_id");
                 int classId = resultSet.getInt("class_id");
                 String className = resultSet.getString("class_name");
-                LocalDate studyDate = resultSet.getDate("study_date").toLocalDate();
+
+                // study_date có thể null nên check cẩn thận
+                LocalDate studyDate = null;
+                java.sql.Date studyDateSql = resultSet.getDate("study_date");
+                if (studyDateSql != null) {
+                    studyDate = studyDateSql.toLocalDate();
+                }
+
                 String weekday = resultSet.getString("weekday");
-                LocalTime timeBegin = resultSet.getTime("time_start").toLocalTime();
-                LocalTime timeEnd = resultSet.getTime("time_end").toLocalTime();
+
+                // Dùng LocalDateTime cho cả time_start và time_end
+                LocalDateTime timeStart = resultSet.getObject("time_start", LocalDateTime.class);
+                LocalDateTime timeEnd   = resultSet.getObject("time_end", LocalDateTime.class);
+
                 String room = resultSet.getString("room");
                 String lessonName = resultSet.getString("lesson_name");
                 int lessonId = resultSet.getInt("lesson_id");
@@ -63,13 +78,37 @@ public class ScheduleRepository implements IScheduleRepository {
                 int teacherId = resultSet.getInt("teacher_id");
                 String teacherName = resultSet.getString("teacher_name");
 
-                scheduleDTOList.add(new ScheduleDTO(scheduleId, classId, lessonId, className, lessonName, room, studyDate, weekday, timeEnd, timeBegin, moduleName, teacherId, teacherName));
+                // Dùng constructor đã sửa trong ScheduleDTO:
+                // (int scheduleId, int classId, int lessionId, String className, String lessonName,
+                //  String room, LocalDate studyDate, String weekday,
+                //  LocalDateTime timeStart, LocalDateTime timeEnd,
+                //  String moduleName, int teacherId, String teacherName)
+                ScheduleDTO dto = new ScheduleDTO(
+                        scheduleId,
+                        classId,
+                        lessonId,
+                        className,
+                        lessonName,
+                        room,
+                        studyDate,
+                        weekday,
+                        timeStart,
+                        timeEnd,
+                        moduleName,
+                        teacherId,
+                        teacherName
+                );
+
+                scheduleDTOList.add(dto);
             }
         } catch (SQLException e) {
-            System.out.println("lỗi lấy dữ liệu");
+            System.out.println("Lỗi lấy dữ liệu: " + e.getMessage());
+            e.printStackTrace();
         }
+
         return scheduleDTOList;
     }
+
 
     // CREATE
     @Override
@@ -143,7 +182,7 @@ public class ScheduleRepository implements IScheduleRepository {
                 LocalDate studyDate = resultSet.getDate("study_date").toLocalDate();
                 String weekday = resultSet.getString("weekday");
                 LocalTime timeBegin = resultSet.getTime("time_start").toLocalTime();
-                LocalTime timeEnd = resultSet.getTime("time_end").toLocalTime();
+                LocalDateTime timeEnd = resultSet.getTime("time_end").toLocalTime();
                 String room = resultSet.getString("room");
                 String lessonName = resultSet.getString("lesson_name");
                 int lessonId = resultSet.getInt("lesson_id");

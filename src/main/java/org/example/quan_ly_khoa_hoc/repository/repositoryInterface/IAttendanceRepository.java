@@ -19,4 +19,5 @@ public interface IAttendanceRepository {
     // PHƯƠNG THỨC MỚI: TẠO SCHEDULE VÀ LẤY ID
     int createScheduleAndGetId(int classId, Integer lessonId, LocalDateTime timeStart, LocalDateTime timeEnd, String room);
     boolean hasScheduleForClassOnDate(int classId, LocalDateTime date);
+    ScheduleDTO findTodayScheduleByClassId(int classId);
 }

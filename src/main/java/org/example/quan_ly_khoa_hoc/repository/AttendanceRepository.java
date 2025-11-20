@@ -7,6 +7,7 @@ import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,14 @@ public class AttendanceRepository implements IAttendanceRepository {
     private final String INSERT_SCHEDULE =
             "INSERT INTO schedules (class_id, lesson_id, time_start, time_end, room) VALUES (?, ?, ?, ?, ?)";
 
-
+    private final String FIND_TODAY_SCHEDULE_BY_CLASS =
+            "SELECT sch.schedule_id, sch.class_id, sch.lesson_id, sch.time_start, sch.time_end, sch.room, " +
+                    "       c.class_name, l.lesson_name " +
+                    "FROM schedules sch " +
+                    "JOIN classes c ON sch.class_id = c.class_id " +
+                    "LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id " +
+                    "WHERE sch.class_id = ? AND DATE(sch.time_start) = CURDATE() " +
+                    "LIMIT 1";
 
     @Override
     public void saveBatchAttendance(List<Attendance> attendanceList) {
@@ -130,6 +138,12 @@ public class AttendanceRepository implements IAttendanceRepository {
                 if (timeStart != null) {
                     schedule.setTimeStart(timeStart.toLocalDateTime());
                 }
+
+                Timestamp timeEnd = rs.getTimestamp("time_end");
+                if (timeEnd != null) {
+                    schedule.setTimeEnd(timeEnd.toLocalDateTime());
+                }
+
                 schedule.setRoom(rs.getString("room"));
                 schedule.setClassName(rs.getString("class_name"));
                 schedule.setLessonName(rs.getString("lesson_name"));
@@ -288,5 +302,40 @@ public class AttendanceRepository implements IAttendanceRepository {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public ScheduleDTO findTodayScheduleByClassId(int classId) {
+        ScheduleDTO schedule = null;
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(FIND_TODAY_SCHEDULE_BY_CLASS)) {
+
+            ps.setInt(1, classId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                schedule = new ScheduleDTO();
+                schedule.setScheduleId(rs.getInt("schedule_id"));
+                schedule.setClassId(rs.getInt("class_id"));
+                schedule.setLessionId(rs.getInt("lesson_id"));
+
+                Timestamp timeStart = rs.getTimestamp("time_start");
+                if (timeStart != null) {
+                    schedule.setTimeStart(timeStart.toLocalDateTime());
+                }
+
+                Timestamp timeEnd = rs.getTimestamp("time_end");
+                if (timeEnd != null) {
+                    schedule.setTimeEnd(timeEnd.toLocalDateTime());
+                }
+
+                schedule.setRoom(rs.getString("room"));
+                schedule.setClassName(rs.getString("class_name"));
+                schedule.setLessonName(rs.getString("lesson_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return schedule;
     }
 }

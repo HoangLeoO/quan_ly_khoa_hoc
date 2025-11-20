@@ -17,4 +17,12 @@ public interface IAttendanceService {
     List<Attendance> getAttendanceByScheduleId(int scheduleId);
     List<ScheduleDTO> getSchedulesForToday(int teacherStaffId);
     void createScheduleAndSaveAttendance(NewAttendanceFormDTO formDTO);
+    ScheduleDTO getTodayScheduleByClassId(int classId);
+    void saveTodayAttendance(int classId,
+                             Integer lessonId,
+                             LocalDateTime timeStart,
+                             LocalDateTime timeEnd,
+                             String room,
+                             List<Attendance> attendanceList);
+
 }

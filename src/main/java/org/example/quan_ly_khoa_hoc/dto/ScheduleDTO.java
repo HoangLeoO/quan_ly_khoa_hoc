@@ -11,10 +11,11 @@ public class ScheduleDTO {
     private String className;
     private String lessonName;
     private LocalDateTime timeStart;
+
     private String room;
     private LocalDate studyDate;
     private String weekday;
-    private LocalTime timeEnd;
+    private LocalDateTime timeEnd;
     private LocalTime timeBegin;
     private String moduleName;
     private int teacherId;
@@ -34,7 +35,7 @@ public class ScheduleDTO {
         this.room = room;
     }
 
-    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, String room, LocalDate studyDate, String weekday, LocalTime timeEnd, LocalTime timeBegin, String moduleName, int teacherId, String teacherName) {
+    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, String room, LocalDate studyDate, String weekday, LocalDateTime timeEnd, LocalTime timeBegin, String moduleName, int teacherId, String teacherName) {
         this.scheduleId = scheduleId;
         this.classId = classId;
         this.lessionId = lessionId;
@@ -142,11 +143,11 @@ public class ScheduleDTO {
         this.weekday = weekday;
     }
 
-    public LocalTime getTimeEnd() {
+    public LocalDateTime getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(LocalTime timeEnd) {
+    public void setTimeEnd(LocalDateTime timeEnd) {
         this.timeEnd = timeEnd;
     }
 
