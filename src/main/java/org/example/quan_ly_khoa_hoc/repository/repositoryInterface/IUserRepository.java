@@ -13,6 +13,8 @@ public interface IUserRepository {
     List<UserDTO> getAllUser();
     User  addUserInTransaction(Connection connection, User user) throws SQLException;
 
+    List<UserDTO> search(String keyword, Integer roleId);
+
     boolean deleteUser (Integer userId);
 
     UserDTO getUserById(Integer userId);
