@@ -10,6 +10,8 @@ public class TeacherClassDTO {
     LocalDate startDate;
     LocalDate endDate;
     String status;
+    private String startDayFormatted;
+    private String endDayFormatted;
 
     public TeacherClassDTO() {
     }
@@ -22,6 +24,34 @@ public class TeacherClassDTO {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+    }
+
+    public TeacherClassDTO(int classId, String className, int courseId, String courseName, LocalDate startDate, LocalDate endDate, String status, String startDayFormatted, String endDayFormatted) {
+        this.classId = classId;
+        this.className = className;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.startDayFormatted = startDayFormatted;
+        this.endDayFormatted = endDayFormatted;
+    }
+
+    public String getStartDayFormatted() {
+        return startDayFormatted;
+    }
+
+    public void setStartDayFormatted(String startDayFormatted) {
+        this.startDayFormatted = startDayFormatted;
+    }
+
+    public String getEndDayFormatted() {
+        return endDayFormatted;
+    }
+
+    public void setEndDayFormatted(String endDayFormatted) {
+        this.endDayFormatted = endDayFormatted;
     }
 
     public int getCourseId() {
