@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.service;
 
+import org.example.quan_ly_khoa_hoc.dto.LessonDTO;
 import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.repository.LessonRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ILessonRepository;
@@ -12,5 +13,10 @@ public class LessonService implements ILessonService {
     @Override
     public List<Lesson> findLessonsByModuleId(int moduleId) {
         return lessonRepository.findLessonsByModuleId(moduleId);
+    }
+
+    @Override
+    public List<LessonDTO> getAllByModuleIdAndStudentId(int moduleId, int studentId) {
+        return lessonRepository.getAllByModuleIdAndStudentId(moduleId,studentId);
     }
 }
