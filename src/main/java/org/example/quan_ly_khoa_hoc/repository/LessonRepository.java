@@ -35,7 +35,7 @@ public class LessonRepository implements ILessonRepository {
         List<LessonDTO> list = new ArrayList<>();
         String sql = "SELECT l.lesson_id, l.lesson_name,COALESCE(lp.is_completed, 0) as is_completed \n" +
                 "                 FROM lessons l\n" +
-                "                 LEFT JOIN lesson_progress lp ON l.lesson_id = lp.lesson_id AND lp.student_id = ?\n" +
+                "                 JOIN lesson_progress lp ON l.lesson_id = lp.lesson_id AND lp.student_id = ?\n" +
                 "                 WHERE l.module_id = ?;";
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {

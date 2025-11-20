@@ -5,14 +5,15 @@
 <head>
     <title>Thông tin lớp học</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <c:import url="../../common/header.jsp"/>
 </head>
 <body>
 <div>
-    <c:import url="../../common/header.jsp"/>
+
 
     <!-- Navigation -->
     <div>
-        <c:import url="../navaber-acedemic-affairs.jsp"/>
+        <c:import url="../../common/navbar.jsp"/>
     </div>
 
     <section class="py-5 mt-4">
@@ -53,7 +54,10 @@
                                 <div class="col-sm-4 fw-bold">Trạng thái:</div>
                                 <div class="col-sm-8">${_class.getStatus()}</div>
                             </div>
-
+                            <a class="btn btn-sm btn-outline-primary me-1"
+                               href="/schedule?classId=${_class.classId}">
+                                Thời khóa biểu
+                            </a>
                             <!-- Bảng danh sách học viên -->
                             <c:import url="table-list-student.jsp"/>
 

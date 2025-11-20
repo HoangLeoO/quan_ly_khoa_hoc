@@ -24,8 +24,8 @@
 
                 <!-- ADMIN -->
                 <c:if test="${sessionScope.role == 'Admin'}">
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý người dùng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Quản lý khóa học</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/users">Quản lý người dùng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/courses">Quản lý khóa học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Module</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Bài học</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Quản lý Lớp học</a></li>
@@ -44,6 +44,31 @@
                     <li class="nav-item"><a class="nav-link" href="/students?action=profile">Hồ sơ của tôi</a></li>
                 </c:if>
 
+                <!-- Academic Staff -->
+                <c:if test="${sessionScope.role == 'Academic Staff'}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/acedemic-affairs">Trang chủ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            📝 Nhật kí</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Nhật kí lớp học</a>
+                            <a class="dropdown-item" href="#">Nhật kí học sinh</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            📊 Thống kê</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Chuyên cần</a>
+                            <a class="dropdown-item" href="#">Tiến độ học tập</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/acedemic-affairs">👤Thông tin cá nhân</a>
+                    </li>
+                </c:if>
                 <!-- LOGOUT -->
                 <li class="nav-item">
                     <a class="nav-link text-danger" href="/logout">Đăng xuất</a>
