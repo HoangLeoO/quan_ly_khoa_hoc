@@ -24,7 +24,7 @@
               <h4 class="mb-3 text-center">Danh sách lịch học hôm nay</h4>
               <p class="text-muted text-center">Chọn buổi học để bắt đầu điểm danh.</p>
 
-              <div class="table-responsive">
+              <div>
                 <table id="tableStudent" class="table table-bordered table-hover">
                   <thead class="table-light">
                   <tr>

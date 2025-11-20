@@ -5,34 +5,36 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession; // CẦN THIẾT
 import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
 import org.example.quan_ly_khoa_hoc.dto.StudentDetailDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
+import org.example.quan_ly_khoa_hoc.dto.TeacherInfoDTO; // CẦN THIẾT
 import org.example.quan_ly_khoa_hoc.entity.Attendance;
+import org.example.quan_ly_khoa_hoc.entity.User; // CẦN THIẾT
 import org.example.quan_ly_khoa_hoc.repository.ClassRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IClassRepository;
 import org.example.quan_ly_khoa_hoc.service.AttendanceService;
+import org.example.quan_ly_khoa_hoc.service.TeacherService; // CẦN THIẾT
 import org.example.quan_ly_khoa_hoc.service.serviceInterface.IAttendanceService;
+import org.example.quan_ly_khoa_hoc.service.serviceInterface.ITeacherService; // CẦN THIẾT
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap; // THÊM IMPORT
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map; // THÊM IMPORT
-import java.util.stream.Collectors; // THÊM IMPORT
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "AttendanceController", value = "/attendance")
 public class AttendanceController extends HttpServlet {
 
     private IAttendanceService attendanceService = new AttendanceService();
     private IClassRepository classRepository = new ClassRepository();
+    private ITeacherService teacherService = new TeacherService(); // KHAI BÁO TeacherService
 
-    // ----------------------------------------------------
-    // PHƯƠNG THỨC doGet (ĐÃ CẬP NHẬT PHÂN LUỒNG)
-    // ----------------------------------------------------
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -46,11 +48,9 @@ public class AttendanceController extends HttpServlet {
                     showTodaySchedules(req, resp);
                     break;
                 case "takeNew":
-                    // Sử dụng cờ false cho Điểm danh mới
                     showAttendanceForm(req, resp, false);
                     break;
                 case "edit":
-                    // Sử dụng cờ true cho Chỉnh sửa
                     showAttendanceForm(req, resp, true);
                     break;
                 default:
@@ -58,33 +58,62 @@ public class AttendanceController extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Xử lý lỗi hệ thống
             resp.sendRedirect(req.getContextPath() + "/attendance?msg=system_error");
         }
     }
 
     // ----------------------------------------------------
-    // PHƯƠNG THỨC showTodaySchedules (ĐÃ THÊM LOGIC KIỂM TRA TRẠNG THÁI)
+    // PHƯƠNG THỨC showTodaySchedules ĐÃ SỬA LỖI LỌC THEO GIÁO VIÊN
     // ----------------------------------------------------
     private void showTodaySchedules(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            List<ScheduleDTO> todaySchedules = attendanceService.getSchedulesForToday();
+            // --- 1. Lấy thông tin Giáo viên đang đăng nhập ---
+            HttpSession session = req.getSession();
+            User currentUser = (User) session.getAttribute("currentUser");
 
-            // SỬ DỤNG LOGIC MỚI: Gắn trạng thái đã điểm danh vào từng Schedule
+            if (currentUser == null) {
+                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+                resp.sendRedirect(req.getContextPath() + "/login?msg=session_expired");
+                return;
+            }
+
+            TeacherInfoDTO teacherInfo = teacherService.findStaffByEmail(currentUser.getEmail());
+
+            if (teacherInfo == null) {
+                // Nếu người dùng không phải là Giáo viên (không tìm thấy Staff ID)
+                req.setAttribute("errorMessage", "Bạn không có quyền truy cập chức năng này.");
+                req.getRequestDispatcher("/views/error.jsp").forward(req, resp);
+                return;
+            }
+
+            int teacherStaffId = teacherInfo.getStaffId();
+
+            // --- 2. Gọi Service với Staff ID ---
+            // CHÚ Ý: Cần cập nhật IAttendanceService/AttendanceService để chấp nhận tham số này!
+            List<ScheduleDTO> todaySchedules = attendanceService.getSchedulesForToday(teacherStaffId);
+
+            // --- 3. Gắn trạng thái đã điểm danh ---
             for (ScheduleDTO schedule : todaySchedules) {
                 boolean isTaken = attendanceService.isAttendanceTaken(schedule.getScheduleId());
-                schedule.setAttendanceTaken(isTaken); // PHẢI CÓ trong ScheduleDTO
+                schedule.setAttendanceTaken(isTaken);
             }
 
             req.setAttribute("todaySchedules", todaySchedules);
+            req.setAttribute("nameTeacher", teacherInfo.getFullName());
             req.getRequestDispatcher("/views/teacher/today-schedules.jsp").forward(req, resp);
         } catch (Exception e) {
+            System.out.println("Lỗi khi hiển thị lịch học hôm nay: " + e.getMessage());
             e.printStackTrace();
+            try {
+                resp.sendRedirect(req.getContextPath() + "/attendance?msg=error_load");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 
     // ----------------------------------------------------
-    // PHƯƠNG THỨC showAttendanceForm (HỢP NHẤT logic NEW và EDIT)
+    // showAttendanceForm (Giữ nguyên)
     // ----------------------------------------------------
     private void showAttendanceForm(HttpServletRequest request, HttpServletResponse response, boolean isEdit) throws ServletException, IOException {
         String scheduleIdStr = request.getParameter("scheduleId");
@@ -104,12 +133,9 @@ public class AttendanceController extends HttpServlet {
         TeacherClassDTO currentClass = classRepository.findClassById(classId);
         List<StudentDetailDTO> studentList = classRepository.findStudentsByClassId(classId);
 
-        // LOGIC MỚI: Tải dữ liệu điểm danh cũ nếu đang ở chế độ chỉnh sửa
         Map<Integer, Attendance> oldAttendanceMap = new HashMap<>();
         if (isEdit) {
             List<Attendance> oldAttendanceList = attendanceService.getAttendanceByScheduleId(scheduleId);
-
-            // Chuyển List thành Map để JSP dễ tra cứu bằng StudentId
             oldAttendanceMap = oldAttendanceList.stream()
                     .collect(Collectors.toMap(
                             Attendance::getStudentId,
@@ -121,13 +147,13 @@ public class AttendanceController extends HttpServlet {
         request.setAttribute("currentSchedule", scheduleInfo);
         request.setAttribute("studentList", studentList);
         request.setAttribute("scheduleId", scheduleId);
-        request.setAttribute("oldAttendanceMap", oldAttendanceMap); // Gửi map dữ liệu cũ (rỗng nếu là NEW)
+        request.setAttribute("oldAttendanceMap", oldAttendanceMap);
 
         request.getRequestDispatcher("/views/teacher/attendance-form.jsp").forward(request, response);
     }
 
     // ----------------------------------------------------
-    // PHƯƠNG THỨC doPost (ĐÃ LOẠI BỎ NOTE)
+    // doPost (Giữ nguyên)
     // ----------------------------------------------------
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp){
@@ -154,10 +180,8 @@ public class AttendanceController extends HttpServlet {
                     int studentId = Integer.parseInt(p.split("_")[1]);
                     String status = req.getParameter(p);
 
-                    // >>> KHÔI PHỤC LOGIC LẤY VÀ LƯU GHI CHÚ <<<
                     String note = req.getParameter("note_" + studentId);
                     Attendance att = new Attendance(0, studentId, status, note);
-                    // >>> END KHÔI PHỤC <<<
 
                     att.setScheduleId(scheduleId);
 

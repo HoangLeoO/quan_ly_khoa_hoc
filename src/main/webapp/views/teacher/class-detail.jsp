@@ -34,7 +34,7 @@
                                         <h4 class="mb-3">Danh sách sinh viên của lớp ${className}</h4>
                                     </div>
                                 </div>
-                                <div class="table-responsive">
+                                <div>
                                     <table class="table table-bordered table-hover">
                                         <thead class="table-light">
                                         <tr>
@@ -78,7 +78,7 @@
     </section>
 
     <div class="row">
-        <c:import url="../teacher/footer-teacher.jsp"/>
+        <c:import url="../common/footer.jsp"/>
     </div>
 </div>
 </body>
