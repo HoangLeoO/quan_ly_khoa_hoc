@@ -1,4 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- BỎ COMMENT DÒNG NÀY (CHO JAVA EE / TOMCAT 9 TRỞ XUỐNG) --%>
+<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
+<%-- HOẶC DÒNG NÀY (CHO JAKARTA EE / TOMCAT 10 TRỞ LÊN) --%>
+<%-- <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %> --%>
 <%--
   Created by IntelliJ IDEA.
   User: USER
@@ -36,8 +40,8 @@
                             </div>
                             <div class="mb-5">
                                 <h4 class="mb-3">Danh sách Lớp học</h4>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover">
+                                <div>
+                                    <table id="tableStudent" class="table table-bordered table-hover">
                                         <thead class="table-light">
                                         <tr>
                                             <th>STT</th>
@@ -54,11 +58,15 @@
                                                 <td>${status.count}</td>
                                                 <td>${classes.getClassName()}</td>
                                                 <td>${classes.getCourseName()}</td>
-                                                <td>${classes.getStartDate()}</td>
-                                                <td>${classes.getEndDate()}</td>
+                                                <td>
+                                                    <fmt:formatDate value="${classes.getStartDate()}" pattern="dd/MM/yyyy" />
+                                                </td>
+                                                <td>
+                                                    <fmt:formatDate value="${classes.getEndDate()}" pattern="dd/MM/yyyy" />
+                                                </td>
                                                 <td class="d-flex border-0 text-nowrap">
                                                     <a class="btn btn-sm btn-outline-primary me-1"
-                                                       href="/teacher?action=detail&classId=${classes.getClassId()}&courseId=${classes.getCourseId()}&className=${classes.getClassName()}">
+                                                       href="/class?action=detail&classId=${classes.getClassId()}&courseId=${classes.getCourseId()}&className=${classes.getClassName()}">
                                                         Chi tiết
                                                     </a>
                                                 </td>
@@ -79,7 +87,7 @@
     </section>
 
     <div class="row">
-        <c:import url="../teacher/footer-teacher.jsp"/>
+        <c:import url="../common/footer.jsp"/>
     </div>
 </div>
 </body>

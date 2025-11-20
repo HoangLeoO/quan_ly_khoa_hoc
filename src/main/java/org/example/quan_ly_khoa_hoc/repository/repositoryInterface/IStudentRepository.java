@@ -22,6 +22,10 @@ public interface IStudentRepository {
 
     StudentProfileDTO getStudentProfileByEmail(String email);
     List<StudentProfileDTO> findByClassId(int classId);
+    boolean updateProfileStudent(Student student);
 
     boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
+
+    String getHashedPasswordByEmail(String email);
+    Boolean updatePassword(String userEmail,String newHashedPassword);
 }

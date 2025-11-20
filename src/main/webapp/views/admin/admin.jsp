@@ -6,15 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Quản trị viên - CODEGYM</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-4Gqr6jhmNs4sKfyRatL2w+g3UqE8vh4h8S9f4kG2jxRUX9N1nf8e3B4tFy4eB5W"
-            crossorigin="anonymous"/>
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+    <c:import url="../common/header.jsp"/>
 </head>
 <body>
 <!-- Navigation -->

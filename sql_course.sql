@@ -1,9 +1,9 @@
 drop
-database codegym;
+    database codegym;
 create
-DATABASE codegym;
+    DATABASE codegym;
 USE
-codegym;
+    codegym;
 
 -- -----------------------------------------------------
 -- 1. QUẢN LÝ NGƯỜI DÙNG & VAI TRÒ
@@ -100,7 +100,7 @@ CREATE TABLE classes
     teacher_id INT,
     start_date DATE,
     end_date   DATE,
-    status     ENUM('Đang học', 'Sắp mở', 'Đã kết thúc') DEFAULT 'Sắp mở',
+    status     ENUM('studying', 'completed', 'dropped') DEFAULT 'studying',
     FOREIGN KEY (course_id) REFERENCES courses (course_id) ON DELETE CASCADE,
     FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL
 );

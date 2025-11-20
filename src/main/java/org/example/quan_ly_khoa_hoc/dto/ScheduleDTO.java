@@ -19,6 +19,7 @@ public class ScheduleDTO {
     private String moduleName;
     private int teacherId;
     private String teacherName;
+    private boolean attendanceTaken;
 
     public ScheduleDTO() {
     }
@@ -48,6 +49,25 @@ public class ScheduleDTO {
         this.moduleName = moduleName;
         this.teacherId = teacherId;
         this.teacherName = teacherName;
+    }
+
+    public ScheduleDTO(int scheduleId, int classId, int lessionId, String className, String lessonName, LocalDateTime timeStart, String room, boolean attendanceTaken) {
+        this.scheduleId = scheduleId;
+        this.classId = classId;
+        this.lessionId = lessionId;
+        this.className = className;
+        this.lessonName = lessonName;
+        this.timeStart = timeStart;
+        this.room = room;
+        this.attendanceTaken = attendanceTaken;
+    }
+
+    public boolean isAttendanceTaken() {
+        return attendanceTaken;
+    }
+
+    public void setAttendanceTaken(boolean attendanceTaken) {
+        this.attendanceTaken = attendanceTaken;
     }
 
     public int getLessionId() {

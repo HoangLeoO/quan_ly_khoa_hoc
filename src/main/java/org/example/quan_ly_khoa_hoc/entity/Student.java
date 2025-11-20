@@ -13,6 +13,15 @@ public class Student {
     // Constructors, Getters, và Setters...
     public Student() {}
 
+    public Student(Integer studentId, Integer userId, String fullName, String phone, LocalDate dob, String address) {
+        this.studentId = studentId;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.dob = dob;
+        this.address = address;
+    }
+
     public Student(Integer userId, String phone, String fullName, LocalDate dob, String address) {
         this.userId = userId;
         this.phone = phone;
