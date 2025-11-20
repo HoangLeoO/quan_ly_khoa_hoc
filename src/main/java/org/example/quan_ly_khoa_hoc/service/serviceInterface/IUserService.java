@@ -12,6 +12,8 @@ public interface IUserService {
 
     User updateUserWithProfile(UserDTO userDTO);
 
+    List<UserDTO> search(String keyword, Integer roleId);
+
     boolean deleteUser(Integer userId);
     User add(User user);
 

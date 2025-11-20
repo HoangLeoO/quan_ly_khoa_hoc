@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Footer -->
-<footer class="bg-dark text-white py-4" style="margin-top: 99.5px">
+<footer class="bg-dark text-white py-4" style="margin-top: 99.5px; position: relative; z-index: 1;">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -34,7 +34,6 @@
         $('#tableStudent').dataTable({
             // SỬ DỤNG KIỂU PHÂN TRANG NÂNG CAO
             "pagingType": "full_numbers",
-
             "dom": 'lrti<"row"<"col-sm-12 col-md-5"l><"col-sm-12 col-md-7 d-flex justify-content-end"p>>',
             "lengthChange": false,
             "pageLength": 5,

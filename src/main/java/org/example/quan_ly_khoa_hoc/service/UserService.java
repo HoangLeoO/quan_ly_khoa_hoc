@@ -80,6 +80,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<UserDTO> search(String keyword, Integer roleId) {
+        return userRepository.search(keyword, roleId);
+    }
+
+    @Override
     public boolean deleteUser(Integer userId) {
         return userRepository.deleteUser(userId);
     }

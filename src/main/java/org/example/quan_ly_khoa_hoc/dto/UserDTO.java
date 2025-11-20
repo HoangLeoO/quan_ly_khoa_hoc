@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.dto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class UserDTO {
     private Integer userId;
@@ -162,4 +163,22 @@ public class UserDTO {
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
+
+    public String getDobString() {
+        if (this.dob == null) {
+            return "";
+        }
+        // Định dạng ngày theo kiểu Việt Nam dd/MM/yyyy
+        return this.dob.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String getCreatedAtString() {
+        if (this.createdAt == null) {
+            return "";
+        }
+        // Định dạng ngày theo kiểu Việt Nam dd/MM/yyyy
+        return this.createdAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+
 }

@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="mb-5">
     <h4 class="mb-3">Danh sách người dùng</h4>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover">
+        <table id="tableStudent" class="table table-bordered table-hover">
             <thead class="table-light">
             <tr>
                 <th>STT</th>
@@ -20,35 +21,46 @@
             <c:forEach var="user" items="${userList}" varStatus="index">
                 <tr>
                     <td>${index.count}</td>
-                    <td>${user.getFullName()}</td>
-                    <td>${user.getEmail()}</td>
-                    <td>${user.getDob()}</td>
-                    <td>${user.getPosition()}</td>
-                    <c:if test="${empty user.getRoleId()}">
-                        <td><span class="badge bg-success" style="width: 60px">Not Assigned</span></td>
-                    </c:if>
-                    <c:if test="${user.getRoleId() == 1}">
-                        <td><span class="badge bg-danger"style="width: 60px">Admin</span></td>
-                    </c:if>
-                    <c:if test="${user.getRoleId() == 2}">
-                        <td><span class="badge bg-success"style="width: 60px">Teacher</span></td>
-                    </c:if>
-                    <c:if test="${user.getRoleId() == 3}">
-                        <td><span class="badge bg-info"style="width: 60px">Student</span></td>
-                    </c:if>
-                    <c:if test="${user.getRoleId() == 4}">
-                        <td><span class="badge bg-warning"style="width: 60px">AO</span></td>
-                    </c:if>
-                    <td>${user.getDob()}</td>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td>
+                            ${user.getDobString()}
+                    </td>
+                    <td>${user.position}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${user.roleId == 1}">
+                                <span class="badge bg-danger" style="width: 60px">Admin</span>
+                            </c:when>
+                            <c:when test="${user.roleId == 2}">
+                                <span class="badge bg-success" style="width: 60px">Teacher</span>
+                            </c:when>
+                            <c:when test="${user.roleId == 3}">
+                                <span class="badge bg-info" style="width: 60px">Student</span>
+                            </c:when>
+                            <c:when test="${user.roleId == 4}">
+                                <span class="badge bg-warning" style="width: 60px">AO</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="badge bg-secondary" style="width: 60px">Not Assigned</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:if test="${not empty user.createdAt}">
+                            ${user.getCreatedAtString()}
+                        </c:if>
+                    </td>
                     <td class="d-flex border-0">
-                        <a href="/admins?action=update&id=${user.getUserId()}"
+                        <a href="/admin/users?action=update&id=${user.userId}"
                            class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a href="/admins?action=delete&id=${user.getUserId()}"
-                           class="btn btn-sm btn-outline-danger">
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                data-delete-url="/admin/users?action=delete&id=${user.userId}">
                             <i class="bi bi-trash"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
             </c:forEach>

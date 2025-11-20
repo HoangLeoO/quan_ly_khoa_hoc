@@ -64,7 +64,7 @@ public class AuthFilter implements Filter {
             return true;
         }
         switch (role) {
-            case "Admin": return uri.startsWith("/admins")  || uri.startsWith("/logout");
+            case "Admin": return uri.startsWith("/admin/users") || uri.startsWith("/admin/courses") || uri.startsWith("/logout");
             case "Teacher": return uri.startsWith("/teacher") || uri.startsWith("/attendance") || uri.startsWith("/logout") ;
             case "Student": return uri.startsWith("/students") || uri.startsWith("/logout") ;
             case "Academic Staff": return uri.startsWith("/acedemic-affairs") || uri.startsWith("/logout");
