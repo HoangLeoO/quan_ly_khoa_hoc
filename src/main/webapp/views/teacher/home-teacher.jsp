@@ -25,7 +25,7 @@
     <section class="py-5 mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-2">Xin chào</div>
+                <div class="col-2">Xin chào ${nameTeacher}</div>
                 <div class="col-8"></div>
                 <div class="col-2" id="today"></div>
             </div>
@@ -58,12 +58,14 @@
                                                 <td>${status.count}</td>
                                                 <td>${classes.getClassName()}</td>
                                                 <td>${classes.getCourseName()}</td>
-                                                <td>
-                                                    <fmt:formatDate value="${classes.getStartDate()}" pattern="dd/MM/yyyy" />
-                                                </td>
-                                                <td>
-                                                    <fmt:formatDate value="${classes.getEndDate()}" pattern="dd/MM/yyyy" />
-                                                </td>
+<%--                                                <td>--%>
+<%--                                                    <fmt:formatDate value="${classes.startDate}" pattern="dd/MM/yyyy" />--%>
+<%--                                                </td>--%>
+<%--                                                <td>--%>
+<%--                                                    <fmt:formatDate value="${classes.endDate}" pattern="dd/MM/yyyy" />--%>
+<%--                                                </td>--%>
+                                                <td>${classes.getStartDayFormatted()}</td>
+                                                <td>${classes.getEndDayFormatted()}</td>
                                                 <td class="d-flex border-0 text-nowrap">
                                                     <a class="btn btn-sm btn-outline-primary me-1"
                                                        href="/class?action=detail&classId=${classes.getClassId()}&courseId=${classes.getCourseId()}&className=${classes.getClassName()}">

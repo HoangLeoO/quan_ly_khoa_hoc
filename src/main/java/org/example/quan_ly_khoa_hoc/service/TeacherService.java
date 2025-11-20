@@ -28,5 +28,10 @@ public class TeacherService implements ITeacherService {
         return teacherRepository.findStaffByEmail(email);
     }
 
+    @Override
+    public boolean updateStaffProfile(Staff staff) {
+        return teacherRepository.updateStaffProfile(staff);
+    }
+
 
 }

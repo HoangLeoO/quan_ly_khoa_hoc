@@ -35,7 +35,7 @@
                 <c:if test="${sessionScope.role == 'Teacher'}">
                     <li class="nav-item"><a class="nav-link" href="/teacher">Trang chủ</a></li>
                     <li class="nav-item"> <a class="nav-link" href="/attendance?action=listToday">📋Điểm danh</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="/teacher">Thông tin cá nhân</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/teacher?action=profile">Thông tin cá nhân</a></li>
                 </c:if>
 
                 <!-- STUDENT -->
