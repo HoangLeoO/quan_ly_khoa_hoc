@@ -16,7 +16,7 @@
 <body>
 <div>
     <div>
-        <c:import url="../teacher/navbar-teacher.jsp"/>
+        <c:import url="../common/navbar.jsp"/>
     </div>
 
     <section class="py-5 mt-5">
@@ -33,13 +33,8 @@
                                     <div class="col-6">
                                         <h4 class="mb-3">Danh sách sinh viên của lớp ${className}</h4>
                                     </div>
-                                    <div class="col-6 text-end">
-                                        <a href="/attendance?action=view-form&classId=${classId}&courseId=${courseId}" class="btn btn-primary">
-                                            <i class="bi bi-calendar-check"></i> Điểm danh ngay
-                                        </a>
-                                    </div>
                                 </div>
-                                <div class="table-responsive">
+                                <div>
                                     <table class="table table-bordered table-hover">
                                         <thead class="table-light">
                                         <tr>
@@ -50,6 +45,7 @@
                                             <th>Đi muộn</th>
                                             <th>Vắng</th>
                                             <th>Có phép</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -62,6 +58,9 @@
                                                 <td>${student.getLateCount()}</td>
                                                 <td>${student.getAbsentCount()}</td>
                                                 <td>${student.getExcusedCount()}</td>
+                                                <td><a href="/attendance?action=view-form&classId=${classId}&courseId=${courseId}" class="btn btn-primary">
+                                                    <i class="bi bi-calendar-check"></i>Chi tiết
+                                                </a></td>
                                             </tr>
 
 
@@ -79,7 +78,7 @@
     </section>
 
     <div class="row">
-        <c:import url="../teacher/footer-teacher.jsp"/>
+        <c:import url="../common/footer.jsp"/>
     </div>
 </div>
 </body>

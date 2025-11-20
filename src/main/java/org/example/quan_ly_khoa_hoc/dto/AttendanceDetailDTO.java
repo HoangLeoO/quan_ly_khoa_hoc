@@ -6,7 +6,6 @@ public class AttendanceDetailDTO {
     private String fullName;
     private String status;
     private String note;
-
     public AttendanceDetailDTO() {
     }
 

@@ -1,9 +1,9 @@
 drop
-database codegym;
+    database codegym;
 create
-DATABASE codegym;
+    DATABASE codegym;
 USE
-codegym;
+    codegym;
 
 -- -----------------------------------------------------
 -- 1. QUẢN LÝ NGƯỜI DÙNG & VAI TRÒ

@@ -16,7 +16,7 @@
 <c:import url="../common/navbar.jsp"/>
 
 <!-- Section -->
-<section class="py-5 mt-5">
+<section>
     <div class="container" style="margin-top: 50px">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -52,7 +52,7 @@
                                             <td class="text-center">${stt.count}</td>
                                             <td>${m.getModuleName()}</td>
                                             <td class="text-center">
-                                                <a href="${pageContext.request.contextPath}/students?action=details">
+                                                <a href="${pageContext.request.contextPath}/students?action=detail-module&module-id=${m.getModuleId()}">
                                                     <button class="btn btn-sm btn-outline-primary me-1 rounded-pill">
                                                         Xem chi tiết module
                                                     </button>
@@ -72,27 +72,7 @@
                                 </table>
                             </div>
                         </div>
-
-                        <%-- pagination - Giữ nguyên cấu trúc phân trang --%>
-                        <div class="d-flex justify-content-center">
-                            <ul class="pagination shadow-sm rounded-pill">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" aria-label="Next">&raquo;</a>
-                                </li>
-                            </ul>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

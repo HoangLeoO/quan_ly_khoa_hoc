@@ -33,7 +33,7 @@
 <div>
     <p><span>admin@codegym.vn</span></p>
     <p><span>teacher1@codegym.vn</span></p>
-    <p><span>hoang.van.e@gmail.com</span></p>
+    <p><span>nguyen.van.a@gmail.com</span></p>
     <p><span>coordinator@codegym.vn</span></p>
 </div>
 
@@ -64,7 +64,7 @@
 
                     <!-- Email/Tên đăng nhập -->
                     <div class="mb-4">
-                        <label for="email" class="form-label fw-bold">Email hoặc Tên đăng nhập</label>
+                        <label for="email" class="form-label fw-bold">Email</label>
                         <input
                                 type="email"
                                 id="email"

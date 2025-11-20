@@ -38,4 +38,24 @@ public class StudentService implements IStudentService {
     public StudentProfileDTO getStudentProfileByEmail(String email) {
         return studentRepository.getStudentProfileByEmail(email);
     }
+
+    @Override
+    public List<StudentProfileDTO> findByClassId(int classId) {
+        return studentRepository.findByClassId(classId);
+    }
+
+    @Override
+    public boolean updateProfileStudent(Student student) {
+        return studentRepository.updateProfileStudent(student);
+    }
+
+    @Override
+    public String getHashedPasswordByEmail(String email) {
+        return studentRepository.getHashedPasswordByEmail(email);
+    }
+
+    @Override
+    public Boolean updatePassword(String userEmail, String newHashedPassword) {
+        return studentRepository.updatePassword(userEmail,newHashedPassword);
+    }
 }
