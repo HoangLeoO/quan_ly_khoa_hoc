@@ -58,8 +58,10 @@ CREATE TABLE courses
 (
     course_id   INT AUTO_INCREMENT PRIMARY KEY,
     course_name VARCHAR(255) NOT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     description TEXT
 );
+
 
 CREATE TABLE modules
 (
@@ -100,7 +102,7 @@ CREATE TABLE classes
     teacher_id INT,
     start_date DATE,
     end_date   DATE,
-    status     ENUM('studying', 'completed', 'dropped') DEFAULT 'studying',
+    status     ENUM('studying', 'completed', 'dropped','coming-soon') DEFAULT 'studying',
     FOREIGN KEY (course_id) REFERENCES courses (course_id) ON DELETE CASCADE,
     FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL
 );
@@ -135,14 +137,14 @@ CREATE TABLE schedules
 CREATE TABLE attendance
 (
     attendance_id INT AUTO_INCREMENT PRIMARY KEY,
-    schedule_id   INT NOT NULL,
     student_id    INT NOT NULL,
     status        ENUM('present', 'absent', 'late', 'excused') NOT NULL,
     note          TEXT,
-    FOREIGN KEY (schedule_id) REFERENCES schedules (schedule_id) ON DELETE CASCADE,
     FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
-    UNIQUE (schedule_id, student_id)
+    UNIQUE (student_id)
 );
+
+
 
 CREATE TABLE grades
 (
@@ -189,3 +191,17 @@ CREATE TABLE class_logs
     FOREIGN KEY (class_id) REFERENCES classes (class_id) ON DELETE CASCADE,
     FOREIGN KEY (author_staff_id) REFERENCES staff (staff_id) ON DELETE CASCADE
 );
+
+# CREATE TABLE class_module_progress (
+#                                        progress_id INT AUTO_INCREMENT PRIMARY KEY,
+#                                        class_id    INT NOT NULL,
+#                                        module_id   INT NOT NULL,
+#                                        status      ENUM('not-started', 'in-progress', 'completed') DEFAULT 'not-started',
+#                                        started_at  TIMESTAMP NULL,
+#                                        completed_at TIMESTAMP NULL,
+#
+#                                        UNIQUE (class_id, module_id),
+#
+#                                        FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE CASCADE,
+#                                        FOREIGN KEY (module_id) REFERENCES modules(module_id) ON DELETE CASCADE
+# );
