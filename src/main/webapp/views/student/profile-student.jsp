@@ -16,7 +16,7 @@
 <c:import url="../common/navbar.jsp"/>
 
 <!-- Section -->
-<section class="py-5 mt-5">
+<section>
     <div class="container" style="margin-top: 50px">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -61,12 +61,12 @@
 
                         <!-- Action Button -->
                         <div class="d-flex justify-content-center">
-                            <a href="#">
+                            <a href="students?action=update-profile">
                                 <button class="btn btn-lg btn-outline-primary shadow-sm me-2">
                                     <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa hồ sơ
                                 </button>
                             </a>
-                            <a href="#">
+                            <a href="students?action=change-password">
                                 <button class="btn btn-lg btn-outline-secondary shadow-sm">
                                     <i class="bi bi-key me-2"></i>Đổi mật khẩu
                                 </button>

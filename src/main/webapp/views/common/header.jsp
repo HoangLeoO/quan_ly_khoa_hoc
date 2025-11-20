@@ -23,3 +23,13 @@
 
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+<style>
+    .dataTables_wrapper .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        text-transform: uppercase;
+    }
+</style>
