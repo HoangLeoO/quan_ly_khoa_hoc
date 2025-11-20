@@ -74,7 +74,7 @@
                 <form id="attendanceForm" action="${pageContext.request.contextPath}/attendance" method="post">
                     <input type="hidden" name="action" value="saveAttendance">
                     <input type="hidden" name="scheduleId" value="${scheduleId}">
-                    <div class="table-responsive">
+                    <div>
                         <table class="table table-bordered table-hover align-middle table-sm">
                             <thead class="table-light text-center">
                             <tr>

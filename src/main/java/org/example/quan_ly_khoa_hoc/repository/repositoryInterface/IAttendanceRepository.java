@@ -13,4 +13,5 @@ public interface IAttendanceRepository {
     ScheduleDTO getScheduleById(int scheduleId);
     int countAttendanceByScheduleId(int scheduleId);
     List<Attendance> findByScheduleId(int scheduleId);
+    List<ScheduleDTO> findSchedulesForToday(int teacherStaffId);
 }

@@ -6,12 +6,25 @@ import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IAttendanceRe
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttendanceRepository implements IAttendanceRepository {
 
-
+    private final String SELECT_SCHEDULES_FOR_TODAY =
+            "SELECT " +
+                    "    s.schedule_id, s.class_id, s.lesson_id, s.time_start, s.time_end, s.room, " +
+                    "    c.class_name, l.lesson_name, co.course_name " +
+                    "FROM schedules s " +
+                    "JOIN classes c ON s.class_id = c.class_id " +
+                    "LEFT JOIN lessons l ON s.lesson_id = l.lesson_id " +
+                    "JOIN courses co ON c.course_id = co.course_id " +
+                    // Điều kiện lọc theo ngày hiện tại
+                    "WHERE DATE(s.time_start) = CURRENT_DATE() " +
+                    // Điều kiện lọc theo Staff ID của giáo viên
+                    "  AND c.teacher_id = ? " +
+                    "ORDER BY s.time_start ASC";
     private final String SELECT_SCHEDULE_BY_ID =
             "SELECT sch.schedule_id, sch.class_id, sch.lesson_id, sch.time_start, sch.time_end, sch.room, " +
                     "       c.class_name, l.lesson_name " +
@@ -180,5 +193,36 @@ public class AttendanceRepository implements IAttendanceRepository {
             e.printStackTrace();
         }
         return attendanceList;
+    }
+
+    @Override
+    public List<ScheduleDTO> findSchedulesForToday(int teacherStaffId) {
+        List<ScheduleDTO> scheduleList = new ArrayList<>();
+
+        try (Connection connection = DatabaseUtil.getConnectDB();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SCHEDULES_FOR_TODAY)) {
+
+            // Gán giá trị teacherStaffId vào tham số đầu tiên (?)
+            preparedStatement.setInt(1, teacherStaffId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ScheduleDTO schedule = new ScheduleDTO();
+                schedule.setScheduleId(resultSet.getInt("schedule_id"));
+                schedule.setClassId(resultSet.getInt("class_id"));
+                schedule.setLessionId(resultSet.getInt("lesson_id"));
+                schedule.setTimeStart(resultSet.getObject("time_start", LocalDateTime.class));
+                schedule.setRoom(resultSet.getString("room"));
+                schedule.setClassName(resultSet.getString("class_name"));
+                schedule.setLessonName(resultSet.getString("lesson_name"));
+                scheduleList.add(schedule);
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy danh sách lịch học hôm nay theo giáo viên: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return scheduleList;
     }
 }

@@ -37,6 +37,11 @@ public class AttendanceService implements IAttendanceService {
     }
 
     @Override
+    public List<ScheduleDTO> getSchedulesForToday(int teacherStaffId) {
+        return attendanceRepository.findSchedulesForToday(teacherStaffId);
+    }
+
+    @Override
     public List<ScheduleDTO> getSchedulesForToday() {
         return attendanceRepository.getSchedulesForToday();
     }
