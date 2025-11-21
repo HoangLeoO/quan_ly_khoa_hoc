@@ -12,7 +12,7 @@
                     <input type="hidden" id="moduleIdContent" name="moduleId" value="${moduleId}"/>
                     
                     <div class="mb-3">
-                        <label for="contentTypeContent" class="form-label">Loại nội dung</label>
+                        <label for="contentTypeContent" class="form-label d-flex align-items-center"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Loại nội dung</label>
                         <select class="form-select" id="contentTypeContent" name="contentType" required>
                             <option value="">Chọn loại nội dung</option>
                             <option value="text">Bài đọc</option>

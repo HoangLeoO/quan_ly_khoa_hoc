@@ -22,7 +22,7 @@ public interface IUserRepository {
     UserDTO updateUserInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
 
     // Tìm user theo email
-    User findByEmail(String email);
+    User findByEmail(String email); // Changed return type to User
 
 
 }

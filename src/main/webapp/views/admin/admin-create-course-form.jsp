@@ -20,7 +20,7 @@
                     <input type="hidden" id="courseId" name="courseId"/>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="courseName" class="form-label">Tên khóa học</label>
+                            <label for="courseName" class="form-label d-flex align-items-center"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Tên khóa học</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-book"></i></span>
                                 <input type="text" class="form-control" id="courseName" name="courseName"
@@ -31,7 +31,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="description" class="form-label">Mô tả</label>
+                            <label for="description" class="form-label d-flex align-items-center"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Mô tả</label>
                             <div class="input-group">
                                 <span class="input-group-text align-items-start"><i
                                         class="bi bi-text-paragraph"></i></span>

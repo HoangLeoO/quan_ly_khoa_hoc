@@ -19,8 +19,8 @@ public class UserRepository implements IUserRepository {
         List<UserDTO> userDTOList = new ArrayList<>();
 
         String sql = "SELECT u.user_id, u.role_id,s.full_name, u.email,s.dob,u.created_at, s.position  FROM users u  " +
-                "join   staff s on u.user_id = s.user_id UNION SELECT  u.user_id,u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  " +
-                "join students  s on u.user_id = s.user_id ORDER BY role_id";
+                "join   staff s on u.user_id = s.user_id WHERE u.is_delete = 0 UNION SELECT  u.user_id,u.role_id,s.full_name,  u.email ,s.dob,u.created_at, s.position FROM users u  " +
+                "join students  s on u.user_id = s.user_id WHERE u.is_delete = 0 ORDER BY role_id";
 
         try (Connection connection = DatabaseUtil.getConnectDB();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -132,7 +132,7 @@ public class UserRepository implements IUserRepository {
 
         @Override
     public boolean deleteUser(Integer userId) {
-        String sql = "DELETE FROM users WHERE user_id = ?";
+        String sql = "UPDATE users SET is_delete = 1 WHERE user_id = ?";
         try (Connection connection = DatabaseUtil.getConnectDB();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, userId);
@@ -190,32 +190,24 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User findByEmail(String email) {
-        String sql = """
-                    SELECT u.user_id, u.email, u.password_hash, u.role_id, u.is_delete, u.created_at
-                    FROM users u
-                    WHERE u.email = ?;
-                """;
-
+        String sql = "SELECT user_id, email, password_hash, role_id, is_delete, created_at FROM users WHERE email = ?";
         try (Connection c = DatabaseUtil.getConnectDB()) {
             PreparedStatement p = c.prepareStatement(sql);
             p.setString(1, email);
             ResultSet rs = p.executeQuery();
             if (rs.next()) {
-                User u = new User();
-                u.setUserId(rs.getInt("user_id"));
-                u.setEmail(rs.getString("email"));
-                u.setPasswordHash(rs.getString("password_hash"));
-                u.setRoleId((Integer) rs.getObject("role_id"));
-                u.setDelete(rs.getBoolean("is_delete"));
-                u.setCreatedAt(rs.getTimestamp("created_at"));
-                return u;
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setPasswordHash(rs.getString("password_hash"));
+                user.setRoleId(rs.getInt("role_id"));
+                user.setDelete(rs.getBoolean("is_delete"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                return user;
             }
-
-        } catch (Exception e) {
-            System.out.println("Lỗi check email repo");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
-
-
 }

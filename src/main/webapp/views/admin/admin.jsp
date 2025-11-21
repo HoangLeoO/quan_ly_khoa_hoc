@@ -144,6 +144,10 @@
                     toastMessage = 'Lỗi: ID người dùng không hợp lệ hoặc không tìm thấy.';
                     isError = true;
                     break;
+                case 'duplicate_email':
+                    toastMessage = 'Email đã tồn tại. Vui lòng sử dụng email khác.';
+                    isError = true;
+                    break;
             }
 
             if (toastMessage) {
