@@ -107,6 +107,20 @@ CREATE TABLE classes
     FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL
 );
 
+CREATE TABLE class_module_progress (
+                                       progress_id INT AUTO_INCREMENT PRIMARY KEY,
+                                       class_id    INT NOT NULL,
+                                       module_id   INT NOT NULL,
+                                       status      ENUM('not-started', 'in-progress', 'completed') DEFAULT 'not-started',
+                                       started_at  TIMESTAMP NULL,
+                                       completed_at TIMESTAMP NULL,
+
+                                       UNIQUE (class_id, module_id),
+
+                                       FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE CASCADE,
+                                       FOREIGN KEY (module_id) REFERENCES modules(module_id) ON DELETE CASCADE
+);
+
 CREATE TABLE enrolments
 (
     student_id INT NOT NULL,
@@ -133,16 +147,17 @@ CREATE TABLE schedules
 -- -----------------------------------------------------
 -- 4. THEO DÕI & LOG
 -- -----------------------------------------------------
-
-CREATE TABLE attendance
-(
-    attendance_id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id    INT NOT NULL,
-    status        ENUM('present', 'absent', 'late', 'excused') NOT NULL,
-    note          TEXT,
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
-    UNIQUE (student_id)
+CREATE TABLE attendance (
+                            attendance_id INT AUTO_INCREMENT PRIMARY KEY,
+                            schedule_id INT NOT NULL,
+                            student_id INT NOT NULL,
+                            status ENUM('present', 'absent', 'late', 'excused') NOT NULL,
+                            note TEXT,
+                            FOREIGN KEY (schedule_id) REFERENCES schedules(schedule_id) ON DELETE CASCADE,
+                            FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+                            UNIQUE(schedule_id, student_id)
 );
+
 
 
 
@@ -192,16 +207,3 @@ CREATE TABLE class_logs
     FOREIGN KEY (author_staff_id) REFERENCES staff (staff_id) ON DELETE CASCADE
 );
 
-# CREATE TABLE class_module_progress (
-#                                        progress_id INT AUTO_INCREMENT PRIMARY KEY,
-#                                        class_id    INT NOT NULL,
-#                                        module_id   INT NOT NULL,
-#                                        status      ENUM('not-started', 'in-progress', 'completed') DEFAULT 'not-started',
-#                                        started_at  TIMESTAMP NULL,
-#                                        completed_at TIMESTAMP NULL,
-#
-#                                        UNIQUE (class_id, module_id),
-#
-#                                        FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE CASCADE,
-#                                        FOREIGN KEY (module_id) REFERENCES modules(module_id) ON DELETE CASCADE
-# );

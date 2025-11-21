@@ -21,4 +21,9 @@ public class StaffService implements IStaffService {
     public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         return staffRepository.updateStaffInTransaction(connection,userDTO);
     }
+
+    @Override
+    public String getStaffById(int id_staff) {
+        return staffRepository.getStaffNameById(id_staff);
+    }
 }

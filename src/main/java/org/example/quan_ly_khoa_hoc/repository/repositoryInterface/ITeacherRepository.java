@@ -9,4 +9,5 @@ import java.util.List;
 public interface ITeacherRepository extends IStaffRepository{
     TeacherInfoDTO findStaffByEmail(String email);
     boolean updateStaffProfile(Staff staff);
+
 }

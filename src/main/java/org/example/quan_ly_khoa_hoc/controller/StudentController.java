@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
-import org.example.quan_ly_khoa_hoc.dto.LessonDTO;
-import org.example.quan_ly_khoa_hoc.dto.ModuleDTO;
-import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
+import org.example.quan_ly_khoa_hoc.dto.*;
 import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.entity.Module;
 import org.example.quan_ly_khoa_hoc.entity.Student;
@@ -33,6 +30,8 @@ public class StudentController extends HttpServlet {
     private IModuleService moduleService = new ModuleService();
     private ILessonService lessonService = new LessonService();
     private ILessonProgressService lessonProgressService = new LessonProgressService();
+    private IClassService classService = new ClassService();
+    private ILessonContentService lessonContentService = new LessonContentService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -57,7 +56,7 @@ public class StudentController extends HttpServlet {
                 showDetailModule(req, resp);
                 break;
             case "lesson-content":
-                req.getRequestDispatcher("/views/student/lesson_demo.jsp").forward(req, resp);
+                req.getRequestDispatcher("/views/student/detail-lesson-contents.jsp").forward(req, resp);
                 break;
             case "update-profile":
                 showUpdate(req, resp);
@@ -107,7 +106,7 @@ public class StudentController extends HttpServlet {
                 resp.sendRedirect(req.getHeader("Referer"));
                 break;
             case "update-profile":
-                saveUpdateProfile(req,resp);
+                saveUpdateProfile(req, resp);
                 break;
             case "change-password":
                 try {
@@ -120,31 +119,78 @@ public class StudentController extends HttpServlet {
     }
 
     private void showDetailModule(HttpServletRequest req, HttpServletResponse resp) {
-        int moduleId = Integer.parseInt(req.getParameter("module-id"));
+        String moduleIdStr = req.getParameter("module-id");
+        String progressStr = req.getParameter("progress");
+        String moduleName = req.getParameter("module-name");
+        String courseName = req.getParameter("course-name");
+
+        int moduleId = -1;
+        Float progress = 0f;
+
+        if (moduleIdStr != null && !moduleIdStr.isEmpty()) {
+            try {
+                moduleId = Integer.parseInt(moduleIdStr);
+            } catch (NumberFormatException e) {
+                System.err.println("Lỗi NumberFormatException cho module-id: " + moduleIdStr);
+            }
+        }
+        if (progressStr != null && !progressStr.isEmpty()) {
+            try {
+                progress = Float.parseFloat(progressStr);
+            } catch (NumberFormatException e) {
+                System.err.println("Lỗi NumberFormatException cho progress: " + progressStr);
+            }
+        }
+        if (moduleId == -1) {
+            try {
+                resp.sendRedirect(req.getContextPath() + "/students?action=home");
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException("Lỗi chuyển hướng về trang chủ", e);
+            }
+        }
+
 
         HttpSession session = req.getSession(false);
         if (session != null) {
             User u = (User) session.getAttribute("currentUser");
-            String email = u.getEmail();
-            List<LessonDTO> Lesson = lessonService.getAllByModuleIdAndStudentId(moduleId, studentService.getStudentIdByEmail(email));
-            req.setAttribute("lessons", Lesson);
+            if (u != null) {
+                String email = u.getEmail();
+
+                // Chỉ gọi service khi moduleId hợp lệ
+                List<LessonDTO> Lesson = lessonService.getAllByModuleIdAndStudentId(
+                        moduleId,
+                        studentService.getStudentIdByEmail(email)
+                );
+                req.setAttribute("lessons", Lesson);
+            }
+
+            req.setAttribute("moduleName", moduleName);
+            req.setAttribute("courseName", courseName);
+            req.setAttribute("overallLessonProgress", progress); // Sử dụng giá trị đã kiểm tra
+
         }
+
+        // Chuyển tiếp tới JSP
         try {
             req.getRequestDispatcher("/views/student/detail-module-student.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException("Lỗi chuyển tiếp trang JSP", e);
         }
     }
 
     private void showDetailClass(HttpServletRequest req, HttpServletResponse resp) {
+        int course_id = Integer.parseInt(req.getParameter("course-id"));
         HttpSession session = req.getSession(false);
+        ClassDTO classDTO = classService.findByClassID(Integer.parseInt(req.getParameter("class-id")));
         if (session != null) {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
-            List<ModuleDTO> module = moduleService.findModulesDTOByStudentId(studentService.getStudentIdByEmail(email));
+            List<ModuleDTO> module = moduleService.findModulesDTOByStudentId(studentService.getStudentIdByEmail(email), course_id);
             req.setAttribute("moduleList", module);
+            req.setAttribute("courseName", classDTO.getCourseName());
+            req.setAttribute("className", classDTO.getClassName());
+            req.setAttribute("instructorName", classDTO.getTeacherName());
         }
         try {
             req.getRequestDispatcher("/views/student/detail-class-student.jsp").forward(req, resp);
@@ -164,7 +210,7 @@ public class StudentController extends HttpServlet {
             DateTimeFormatter formatterVN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDateVN = student.getDob().format(formatterVN);
             req.setAttribute("student", studentService.getStudentProfileByEmail(email));
-            req.setAttribute("formattedDateVN",formattedDateVN);
+            req.setAttribute("formattedDateVN", formattedDateVN);
         }
         try {
             req.getRequestDispatcher("/views/student/profile-student.jsp").forward(req, resp);
@@ -181,8 +227,11 @@ public class StudentController extends HttpServlet {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
             List<ClassInfoDTO> classInfoDTOS = studentService.getStudentClassesInfoById(studentService.getStudentIdByEmail(email));
+            StudentProfileDTO studentProfileDTO = studentService.getStudentProfileByEmail(email);
             System.out.println(classInfoDTOS.size());
+            req.setAttribute("studentName", studentProfileDTO.getFullName());
             req.setAttribute("classInfo", classInfoDTOS);
+
         }
         try {
             req.getRequestDispatcher("/views/student/home-student.jsp").forward(req, resp);
@@ -202,6 +251,7 @@ public class StudentController extends HttpServlet {
             throw new RuntimeException("Lỗi IO khi hiển thị trang đổi mật khẩu", e);
         }
     }
+
     private void saveUpdateProfile(HttpServletRequest req, HttpServletResponse resp) {
         Student student = new Student();
         student.setStudentId(studentService.getStudentIdByEmail(req.getParameter("email")));
@@ -234,7 +284,6 @@ public class StudentController extends HttpServlet {
         boolean hasError = false;
 
         String currentHashedPassword = studentService.getHashedPasswordByEmail(userEmail);
-
 
 
         if (!PasswordUtil.checkPassword(currentPassword, currentHashedPassword)) {

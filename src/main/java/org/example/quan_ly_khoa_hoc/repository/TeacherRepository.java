@@ -85,4 +85,10 @@ public class TeacherRepository implements ITeacherRepository {
     public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         return false;
     }
+
+    @Override
+    public String getStaffNameById(int id_staff) {
+        return "";
+    }
+
 }

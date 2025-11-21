@@ -3,6 +3,7 @@ package org.example.quan_ly_khoa_hoc.repository;
 import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Staff;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IStaffRepository;
+import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,5 +58,23 @@ public class StaffRepository implements IStaffRepository {
             System.out.println("✓ Updated Staff with uID: " + userDTO.getUserId());
             return true;
         }
+    }
+
+    @Override
+    public String getStaffNameById(int id_staff) {
+        String sql = "select * from staff where staff.staff_id = ?";
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_staff);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String name = resultSet.getString("full_name");
+                return name;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

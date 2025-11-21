@@ -22,6 +22,12 @@ public class TeacherService implements ITeacherService {
     public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         return false;
     }
+
+    @Override
+    public String getStaffById(int id_staff) {
+        return "";
+    }
+
     private ITeacherRepository teacherRepository= new TeacherRepository();
     @Override
     public TeacherInfoDTO findStaffByEmail(String email) {

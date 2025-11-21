@@ -10,4 +10,6 @@ public interface IStaffService {
     Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException;
 
     boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
+
+    String getStaffById(int id_staff);
 }

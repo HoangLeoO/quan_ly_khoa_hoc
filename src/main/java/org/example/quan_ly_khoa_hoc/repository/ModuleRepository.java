@@ -29,7 +29,7 @@ public class ModuleRepository implements IModuleRepository {
     }
 
     @Override
-    public List<ModuleDTO> findModulesDTOByStudentId(int studentId) {
+    public List<ModuleDTO> findModulesDTOByStudentId(int studentId,int course_id) {
         List<ModuleDTO> list = new ArrayList<>();
         // Chú ý: Cột progress_percentage trong SQL trả về kiểu DECIMAL/FLOAT, phù hợp với Float trong Java
         String sql = "SELECT\n" +
@@ -40,18 +40,19 @@ public class ModuleRepository implements IModuleRepository {
                 "    (COALESCE(SUM(CASE WHEN lp.is_completed = 1 THEN 1 ELSE 0 END), 0) * 100.0 / NULLIF(COUNT(l.lesson_id), 0)) AS progress_percentage\n" +
                 "FROM\n" +
                 "    modules m\n" +
-                "        JOIN\n" +
-                "    lessons l ON m.module_id = l.module_id\n" +
-                "        LEFT JOIN\n" +
-                "    lesson_progress lp ON l.lesson_id = lp.lesson_id AND lp.student_id = ? " + // <-- THÊM KHOẢNG TRẮNG Ở ĐÂY
+                "    JOIN lessons l ON m.module_id = l.module_id\n" +
+                "    LEFT JOIN lesson_progress lp ON l.lesson_id = lp.lesson_id AND lp.student_id = ?\n" +
+                "WHERE\n" +
+                "    m.course_id = ?\n" +
                 "GROUP BY\n" +
                 "    m.module_id, m.module_name\n" +
                 "ORDER BY\n" +
-                "    m.module_id";
+                "    m.module_id;";
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, studentId);
+            ps.setInt(2,course_id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
