@@ -50,7 +50,8 @@ public class LessonContentRepository implements ILessonContentRepository {
                     dto.setModuleName(rs.getString("module_name"));
                     dto.setContentId(rs.getInt("content_id"));
                     dto.setContentType(rs.getString("content_type"));
-                    dto.setContentName(rs.getString("content_data"));   dto.setContentData(rs.getString("content_name"));
+                    dto.setContentName(rs.getString("content_name"));
+                    dto.setContentData(rs.getString("content_data"));
                     dto.setStudentLessonCompleted(rs.getBoolean("student_lesson_completed"));
                     dto.setCompletedAt(rs.getTimestamp("completed_at"));
 
@@ -71,6 +72,29 @@ public class LessonContentRepository implements ILessonContentRepository {
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, lessonId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                contents.add(new LessonContentDTO(
+                        rs.getInt("content_id"),
+                        rs.getInt("lesson_id"),
+                        rs.getString("content_type"),
+                        rs.getString("content_name"), // Get content_name
+                        rs.getString("content_data")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    @Override
+    public List<LessonContentDTO> findByContentId(int contentId) {
+        List<LessonContentDTO> contents = new ArrayList<>();
+        String sql = "SELECT content_id, lesson_id, content_type, content_name, content_data FROM lesson_contents WHERE content_id = ? ORDER BY content_id ASC";
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, contentId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 contents.add(new LessonContentDTO(

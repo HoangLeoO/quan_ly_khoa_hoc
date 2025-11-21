@@ -15,4 +15,5 @@ public interface ILessonContentRepository {
     void update(LessonContentDTO lessonContentDTO);
     void delete(int contentId);
     List<LessonContentRowDTO> getLessonContentById(int studentId,int lessonId,int moduleId);
+    List<LessonContentDTO> findByContentId(int contentId);
 }

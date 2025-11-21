@@ -15,7 +15,13 @@ public class LessonContentService implements ILessonContentService {
     public List<LessonContentRowDTO> getLessonContentById(int studentId, int lessonId, int moduleId) {
         return lessonContentRepository.getLessonContentById(studentId,lessonId,moduleId);
     }
-;
+
+    @Override
+    public List<LessonContentDTO> findByContentId(int contentId) {
+        return lessonContentRepository.findByContentId(contentId);
+    }
+
+    ;
 
     @Override
     public List<LessonContentDTO> findByLessonId(int lessonId) {

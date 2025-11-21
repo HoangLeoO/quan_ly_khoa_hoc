@@ -16,5 +16,5 @@ public interface ILessonContentService {
     void delete(int contentId);
     // No changes needed here, as contentName is part of LessonContentDTO
     List<LessonContentRowDTO> getLessonContentById(int studentId, int lessonId, int moduleId);
-
+    List<LessonContentDTO> findByContentId(int contentId);
 }

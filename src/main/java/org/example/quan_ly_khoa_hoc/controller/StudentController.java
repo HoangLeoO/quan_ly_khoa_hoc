@@ -18,6 +18,7 @@ import org.example.quan_ly_khoa_hoc.util.PasswordUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -208,14 +209,18 @@ public class StudentController extends HttpServlet {
 
     private void showDetailLessonContent(HttpServletRequest req, HttpServletResponse resp) {
         int lessonContentId = Integer.parseInt(req.getParameter("contentId"));
-        int lessonId = Integer.parseInt(req.getParameter("lesson-id"));
+        int lessonId = Integer.parseInt(req.getParameter("lessonId"));
         int moduleId = Integer.parseInt(req.getParameter("module-id"));
-        List<LessonContentDTO> contentDTO = lessonContentService.findByLessonId(lessonContentId);
-        req.setAttribute("lesson", contentDTO);
+        List<LessonContentDTO> contentDTO = lessonContentService.findByContentId(lessonContentId);
+        for (int i = 0 ; i < contentDTO.size() ; i++){
+            System.out.println(contentDTO.get(i).getContentName());
+            System.out.println(contentDTO.get(i).getContentData());
+        }
+        req.setAttribute("lessonContents", contentDTO);
         req.setAttribute("lessonId", lessonId);
         req.setAttribute("moduleId", moduleId);
         try {
-            req.getRequestDispatcher("/views/student/detail-lesson-content.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/student/list-lesson-content.jsp").forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
