@@ -44,10 +44,17 @@
     <div class="col-md-3">
         <label>Trạng thái:</label>
         <select name="status" class="form-control">
-            <option value="">-- Tất cả --</option>
-            <option value="studying"   ${param.status == 'studying' ? "selected" : ""}>Đang học</option>
-            <option value="completed"  ${param.status == 'completed' ? "selected" : ""}>Đã hoàn thành</option>
-            <option value="dropped"    ${param.status == 'dropped' ? "selected" : ""}>Đã hủy</option>
+            <option value="default"
+            ${param.status == null || param.status == 'default' ? "selected" : ""}>
+                Đang học và sắp mở
+            </option>
+            <option value=""
+            ${param.status != null && param.status == '' ? "selected" : ""}>
+                -- Tất cả --
+            </option>
+            <option value="studying" ${param.status == 'studying' ? "selected" : ""}>Đang học</option>
+            <option value="completed" ${param.status == 'completed' ? "selected" : ""}>Sắp mở</option>
+            <option value="dropped" ${param.status == 'dropped' ? "selected" : ""}>Đã hủy</option>
         </select>
     </div>
 

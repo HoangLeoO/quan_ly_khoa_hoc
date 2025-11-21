@@ -17,23 +17,14 @@ import java.util.List;
 
 public class ClassRepository implements IClassRepository {
     private final String SELECT_ALL_STUDYING = "SELECT c.class_id,c.class_name,c.course_id,co.course_name,c.start_date,c.end_date,c.status FROM classes c JOIN courses co ON c.course_id = co.course_id WHERE c.teacher_id = ? and status='studying';";
-    private final String SELECT_ALL = "SELECT \n" +
-            "              c.class_id,\n" +
-            "               c.class_name AS class_name,\n" +
-            "               co.course_id,\n" +
-            "            co.course_name AS course_name,\n" +
-            "            s.staff_id,\n" +
-            "            s.full_name AS teacher_name,\n" +
-            "            COUNT(e.student_id) AS student_count,\n" +
-            "            c.start_date AS start_date,\n" +
-            "            c.end_date AS end_date,\n" +
-            "            c.status AS status\n" +
-            "            FROM classes c\n" +
-            "            LEFT JOIN courses co ON c.course_id = co.course_id\n" +
-            "            LEFT JOIN staff s ON c.teacher_id = s.staff_id\n" +
-            "            LEFT JOIN enrolments e ON c.class_id = e.class_id\n" +
-            "            GROUP BY c.class_id, c.class_name, co.course_name, s.full_name, c.start_date, c.end_date, c.status\n" +
-            "            ORDER BY c.class_id;";
+    private final String SELECT_ALL = "SELECT c.class_id, c.class_name AS class_name, co.course_id, co.course_name AS course_name, s.staff_id, s.full_name AS teacher_name, COUNT(e.student_id) AS student_count, c.start_date AS start_date, c.end_date AS end_date, c.status AS status \n" +
+            "FROM classes c\n" +
+            "LEFT JOIN courses co ON c.course_id = co.course_id\n" +
+            "LEFT JOIN staff s ON c.teacher_id = s.staff_id\n" +
+            "LEFT JOIN enrolments e ON c.class_id = e.class_id\n" +
+            "where  c.status = 'completed' or c.status = 'studying'\n" +
+            "GROUP BY c.class_id, c.class_name, co.course_name, s.full_name, c.start_date, c.end_date, c.status\n" +
+            "ORDER BY c.class_id;";
     private final String SELECT_LATEST_MODULE_ORDER =
             "SELECT m.sort_order " +
                     "FROM schedules s " +

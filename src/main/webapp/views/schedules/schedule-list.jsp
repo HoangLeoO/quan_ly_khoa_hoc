@@ -59,11 +59,11 @@
                                         <td>${s.room}</td>
                                         <td>
                                             <a class="btn btn-sm btn-outline-primary"
-                                               href="schedule?action=edit&schedule_id=${s.scheduleId}&classId=${classId}&moduleId=${s.moduleId}">
+                                               href="schedule?action=edit&schedule_id=${s.scheduleId}&classId=${classId}">
                                                 Sửa
                                             </a>
                                             <a class="btn btn-sm btn-outline-danger"
-                                               href="schedule?action=delete&schedule_id=${s.scheduleId}&classId=${classId}&moduleId=${s.moduleId}"
+                                               href="schedule?action=delete&schedule_id=${s.scheduleId}&classId=${classId}"
                                                onclick="return confirm('Xóa buổi học?')">
                                                 Xóa
                                             </a>

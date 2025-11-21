@@ -52,14 +52,20 @@
                         </c:choose>
                     </td>
                     <td>
-                        <div class="d-flex justify-content-center flex-wrap gap-1">
-                            <a class="btn btn-sm btn-outline-primary flex-grow-1 text-truncate"
-                               style="min-width:100px"
-                               href="/acedemic-affairs?action=detail&id=${classes.classId}">Chi tiết</a>
-                            <button class="btn btn-warning btn-sm btn-edit" data-id="${classes.classId}">Sửa</button>
-                            <button class="btn btn-danger btn-sm btn-delete" data-id="${classes.classId}">Xóa</button>
+                        <div class="d-flex flex-column align-items-center gap-1">
+                            <!-- Nút Chi tiết: giữ màu nhưng hiệu ứng giống btn-warning/btn-danger -->
+                            <a class="btn btn-primary w-100 text-truncate btn-sm custom-hover"
+                               href="/acedemic-affairs?action=detail&id=${classes.classId}">
+                                Chi tiết
+                            </a>
+                            <!-- Nút Sửa và Xóa -->
+                            <div class="d-flex justify-content-center gap-1 w-100">
+                                <button class="btn btn-warning btn-sm flex-grow-1" data-id="${classes.classId}">Sửa</button>
+                                <button class="btn btn-danger btn-sm flex-grow-1" data-id="${classes.classId}">Xóa</button>
+                            </div>
                         </div>
                     </td>
+
                 </tr>
             </c:forEach>
             </tbody>

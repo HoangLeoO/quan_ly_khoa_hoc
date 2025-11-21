@@ -14,7 +14,7 @@ public class CourseService implements ICourseService {
     public List<org.example.quan_ly_khoa_hoc.entity.Course> findAll() {
         return courseRepository.findAll();
     }
-    private final ICourseRepository courseRepository = new CourseRepository();
+
 
 
     @Override
