@@ -11,12 +11,14 @@
                     <input type="hidden" id="moduleId" name="moduleId"/>
                     <input type="hidden" id="courseId" name="courseId" value="${course.courseId}"/>
                     <div class="mb-3">
-                        <label for="moduleName" class="form-label d-flex align-items-center"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Tên Module</label>
+                        <label for="moduleName" class="form-label d-flex align-items-center">Tên Module<span
+                                class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="moduleName" name="moduleName" required/>
                         <div class="invalid-feedback">Vui lòng nhập tên module.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="sortOrder" class="form-label d-flex align-items-centerl"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Thứ tự</label>
+                        <label for="sortOrder" class="form-label d-flex align-items-centerl">Thứ tự<span
+                                class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="sortOrder" name="sortOrder" value="0" min="0" required/>
                         <div class="invalid-feedback">Vui lòng nhập thứ tự sắp xếp (số không âm).</div>
                     </div>

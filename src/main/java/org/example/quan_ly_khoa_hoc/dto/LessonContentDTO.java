@@ -3,16 +3,18 @@ package org.example.quan_ly_khoa_hoc.dto;
 public class LessonContentDTO {
     private Integer contentId;
     private Integer lessonId;
-    private String contentType; // Added contentType
-    private String contentData; // Changed from contentText/videoUrl to contentData
+    private String contentType;
+    private String contentName; // Added contentName
+    private String contentData;
 
     public LessonContentDTO() {
     }
 
-    public LessonContentDTO(Integer contentId, Integer lessonId, String contentType, String contentData) {
+    public LessonContentDTO(Integer contentId, Integer lessonId, String contentType, String contentName, String contentData) {
         this.contentId = contentId;
         this.lessonId = lessonId;
         this.contentType = contentType;
+        this.contentName = contentName;
         this.contentData = contentData;
     }
 
@@ -39,6 +41,14 @@ public class LessonContentDTO {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getContentName() {
+        return contentName;
+    }
+
+    public void setContentName(String contentName) {
+        this.contentName = contentName;
     }
 
     public String getContentData() {

@@ -38,7 +38,10 @@ public class LessonController extends HttpServlet {
             case "viewContent":
                 viewLessonContent(req, resp);
                 break;
-            case "showUpdateForm": // New action for showing update form
+            case "viewSingleContent":
+                viewSingleContent(req, resp);
+                break;
+            case "showUpdateForm":
                 showUpdateForm(req, resp);
                 break;
             default:
@@ -64,8 +67,14 @@ public class LessonController extends HttpServlet {
             case "delete":
                 deleteLesson(req, resp);
                 break;
+            case "addContent":
+                addLessonContent(req, resp);
+                break;
             case "updateContent":
                 updateLessonContent(req, resp);
+                break;
+            case "deleteContent":
+                deleteLessonContent(req, resp);
                 break;
             default:
                 resp.sendRedirect(req.getContextPath() + "/admin/courses");
@@ -88,13 +97,29 @@ public class LessonController extends HttpServlet {
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
 
         LessonDTO lesson = lessonService.findById(lessonId);
-        LessonContentDTO lessonContent = lessonContentService.findByLessonId(lessonId);
+        List<LessonContentDTO> lessonContents = lessonContentService.findByLessonId(lessonId);
 
         req.setAttribute("lesson", lesson);
-        req.setAttribute("lessonContent", lessonContent);
+        req.setAttribute("lessonContents", lessonContents);
         req.setAttribute("moduleId", moduleId);
 
         req.getRequestDispatcher("/views/admin/admin-lesson-detail.jsp").forward(req, resp);
+    }
+
+    private void viewSingleContent(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int contentId = Integer.parseInt(req.getParameter("contentId"));
+        int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+        int moduleId = Integer.parseInt(req.getParameter("moduleId"));
+
+        LessonDTO lesson = lessonService.findById(lessonId);
+        LessonContentDTO singleContent = lessonContentService.findById(contentId);
+
+        req.setAttribute("lesson", lesson);
+        req.setAttribute("singleContent", singleContent);
+        req.setAttribute("moduleId", moduleId);
+        req.setAttribute("lessonId", lessonId);
+
+        req.getRequestDispatcher("/views/admin/admin-single-lesson-content-detail.jsp").forward(req, resp);
     }
 
     private void showUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -102,16 +127,21 @@ public class LessonController extends HttpServlet {
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
 
         LessonDTO lessonToEdit = lessonService.findById(lessonId);
-        LessonContentDTO lessonContentToEdit = lessonContentService.findByLessonId(lessonId);
-        ModuleDTO module = moduleService.findById(moduleId); // Need module for context and back button
+        List<LessonContentDTO> lessonContentsToEdit = lessonContentService.findByLessonId(lessonId);
+        LessonContentDTO lessonContentToEdit = null;
+        if (lessonContentsToEdit != null && !lessonContentsToEdit.isEmpty()) {
+            lessonContentToEdit = lessonContentsToEdit.get(0);
+        }
+        
+        ModuleDTO module = moduleService.findById(moduleId);
 
-        List<LessonDTO> lessonList = lessonService.findLessonsByModuleId(moduleId); // To re-render the list
+        List<LessonDTO> lessonList = lessonService.findLessonsByModuleId(moduleId);
 
         req.setAttribute("module", module);
         req.setAttribute("lessonList", lessonList);
         req.setAttribute("lessonToEdit", lessonToEdit);
         req.setAttribute("lessonContentToEdit", lessonContentToEdit);
-        req.setAttribute("mode", "update"); // Set mode to trigger modal
+        req.setAttribute("mode", "update");
 
         req.getRequestDispatcher("/views/admin/admin-lesson-list.jsp").forward(req, resp);
     }
@@ -119,16 +149,12 @@ public class LessonController extends HttpServlet {
     private void addLesson(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String lessonName = req.getParameter("lessonName");
         String sortOrderStr = req.getParameter("sortOrder");
-        String contentType = req.getParameter("contentType");
-        String contentData = req.getParameter("contentData");
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
         int sortOrder;
 
         String redirectUrl = req.getContextPath() + "/admin/lessons?action=listByModule&moduleId=" + moduleId;
 
-        // Basic validation
-        if (lessonName == null || lessonName.trim().isEmpty() || sortOrderStr == null || sortOrderStr.trim().isEmpty() ||
-            contentType == null || contentType.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
+        if (lessonName == null || lessonName.trim().isEmpty() || sortOrderStr == null || sortOrderStr.trim().isEmpty()) {
             resp.sendRedirect(redirectUrl + "&message=add_lesson_failed");
             return;
         }
@@ -144,26 +170,17 @@ public class LessonController extends HttpServlet {
             return;
         }
 
-        // Check for duplicate lesson name within the module
         if (lessonService.findByNameAndModuleId(lessonName, moduleId) != null) {
             resp.sendRedirect(redirectUrl + "&message=duplicate_lesson");
             return;
         }
 
-        // Create Lesson DTO
         LessonDTO lessonDTO = new LessonDTO();
         lessonDTO.setLessonName(lessonName);
         lessonDTO.setModuleId(moduleId);
         lessonDTO.setSortOrder(sortOrder);
-        lessonDTO.setContentType(contentType); // Set content type for lesson DTO
 
-        // Create LessonContent DTO
-        LessonContentDTO lessonContentDTO = new LessonContentDTO();
-        lessonContentDTO.setContentType(contentType);
-        lessonContentDTO.setContentData(contentData);
-
-        // Save lesson and content
-        lessonService.saveLessonWithContent(lessonDTO, lessonContentDTO);
+        lessonService.save(lessonDTO);
 
         resp.sendRedirect(redirectUrl + "&message=add_lesson_success");
     }
@@ -172,16 +189,12 @@ public class LessonController extends HttpServlet {
         int lessonId = Integer.parseInt(req.getParameter("lessonId"));
         String lessonName = req.getParameter("lessonName");
         String sortOrderStr = req.getParameter("sortOrder");
-        String contentType = req.getParameter("contentType");
-        String contentData = req.getParameter("contentData");
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
         int sortOrder;
 
         String redirectUrl = req.getContextPath() + "/admin/lessons?action=showUpdateForm&moduleId=" + moduleId + "&lessonId=" + lessonId;
 
-        // Basic validation
-        if (lessonName == null || lessonName.trim().isEmpty() || sortOrderStr == null || sortOrderStr.trim().isEmpty() ||
-            contentType == null || contentType.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
+        if (lessonName == null || lessonName.trim().isEmpty() || sortOrderStr == null || sortOrderStr.trim().isEmpty()) {
             resp.sendRedirect(redirectUrl + "&message=update_lesson_failed");
             return;
         }
@@ -197,60 +210,88 @@ public class LessonController extends HttpServlet {
             return;
         }
 
-        // Check for duplicate lesson name within the module (excluding itself)
         LessonDTO existingLesson = lessonService.findByNameAndModuleId(lessonName, moduleId);
         if (existingLesson != null && !existingLesson.getLessonId().equals(lessonId)) {
             resp.sendRedirect(redirectUrl + "&message=duplicate_lesson");
             return;
         }
 
-        // Update Lesson DTO
         LessonDTO lessonDTO = new LessonDTO();
         lessonDTO.setLessonId(lessonId);
         lessonDTO.setLessonName(lessonName);
         lessonDTO.setModuleId(moduleId);
         lessonDTO.setSortOrder(sortOrder);
-        lessonDTO.setContentType(contentType);
 
-        // Update LessonContent DTO
-        LessonContentDTO lessonContentDTO = new LessonContentDTO();
-        lessonContentDTO.setLessonId(lessonId);
-        lessonContentDTO.setContentType(contentType);
-        lessonContentDTO.setContentData(contentData);
-
-        // Perform update operations
-        lessonService.updateLessonWithContent(lessonDTO, lessonContentDTO);
+        lessonService.update(lessonDTO);
 
         resp.sendRedirect(req.getContextPath() + "/admin/lessons?action=listByModule&moduleId=" + moduleId + "&message=update_lesson_success");
     }
 
-    private void updateLessonContent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void addLessonContent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int lessonId = Integer.parseInt(req.getParameter("lessonId"));
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
         String contentType = req.getParameter("contentType");
+        String contentName = req.getParameter("contentName"); // Get contentName
         String contentData = req.getParameter("contentData");
 
         String redirectUrl = req.getContextPath() + "/admin/lessons?action=viewContent&lessonId=" + lessonId + "&moduleId=" + moduleId;
 
-        if (contentType == null || contentType.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
-            resp.sendRedirect(redirectUrl + "&message=update_content_failed");
+        if (contentType == null || contentType.trim().isEmpty() || contentName == null || contentName.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
+            resp.sendRedirect(redirectUrl + "&message=add_content_failed");
             return;
         }
 
         LessonContentDTO lessonContentDTO = new LessonContentDTO();
         lessonContentDTO.setLessonId(lessonId);
         lessonContentDTO.setContentType(contentType);
+        lessonContentDTO.setContentName(contentName); // Set contentName
         lessonContentDTO.setContentData(contentData);
 
-        lessonContentService.update(lessonContentDTO); // Assuming update method exists in LessonContentService
+        lessonContentService.save(lessonContentDTO);
+
+        resp.sendRedirect(redirectUrl + "&message=add_content_success");
+    }
+
+    private void updateLessonContent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int contentId = Integer.parseInt(req.getParameter("contentId"));
+        int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+        int moduleId = Integer.parseInt(req.getParameter("moduleId"));
+        String contentType = req.getParameter("contentType");
+        String contentName = req.getParameter("contentName"); // Get contentName
+        String contentData = req.getParameter("contentData");
+
+        String redirectUrl = req.getContextPath() + "/admin/lessons?action=viewContent&lessonId=" + lessonId + "&moduleId=" + moduleId;
+
+        if (contentType == null || contentType.trim().isEmpty() || contentName == null || contentName.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
+            resp.sendRedirect(redirectUrl + "&message=update_content_failed");
+            return;
+        }
+
+        LessonContentDTO lessonContentDTO = new LessonContentDTO();
+        lessonContentDTO.setContentId(contentId);
+        lessonContentDTO.setLessonId(lessonId);
+        lessonContentDTO.setContentType(contentType);
+        lessonContentDTO.setContentName(contentName); // Set contentName
+        lessonContentDTO.setContentData(contentData);
+
+        lessonContentService.update(lessonContentDTO);
 
         resp.sendRedirect(redirectUrl + "&message=update_content_success");
     }
 
+    private void deleteLessonContent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int contentId = Integer.parseInt(req.getParameter("contentId"));
+        int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+        int moduleId = Integer.parseInt(req.getParameter("moduleId"));
+
+        lessonContentService.delete(contentId);
+
+        resp.sendRedirect(req.getContextPath() + "/admin/lessons?action=viewContent&lessonId=" + lessonId + "&moduleId=" + moduleId + "&message=delete_content_success");
+    }
 
     private void deleteLesson(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int lessonId = Integer.parseInt(req.getParameter("lessonId"));
-        int moduleId = Integer.parseInt(req.getParameter("moduleId")); // Need this for redirect
+        int moduleId = Integer.parseInt(req.getParameter("moduleId"));
 
         lessonService.delete(lessonId);
         resp.sendRedirect(req.getContextPath() + "/admin/lessons?action=listByModule&moduleId=" + moduleId + "&message=delete_lesson_success");

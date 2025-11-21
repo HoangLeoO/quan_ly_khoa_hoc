@@ -13,8 +13,7 @@
             top: 1rem;
             right: 1rem;
             z-index: 1055;
-        }
-    </style>
+        }</style>
 </head>
 <body>
 <!-- Navigation -->
@@ -34,7 +33,7 @@
 
 <!-- Main Content -->
 <section class="py-5 mt-5">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow">
@@ -42,7 +41,8 @@
 
                         <!-- Back Button -->
                         <div class="mb-4">
-                            <a href="/admin/courses?action=view&id=${module.courseId}" class="btn btn-outline-secondary">
+                            <a href="/admin/courses?action=view&id=${module.courseId}"
+                               class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>Quay lại chi tiết khóa học
                             </a>
                         </div>
@@ -62,26 +62,20 @@
                                             <div>
                                                 <span class="badge bg-secondary me-2">${lesson.sortOrder}</span>
                                                 <span class="fw-bold">${lesson.lessonName}</span>
-                                                <c:if test="${not empty lesson.contentType}">
-                                                    <span class="badge bg-info ms-2">
-                                                        <c:choose>
-                                                            <c:when test="${lesson.contentType eq 'video'}">Video</c:when>
-                                                            <c:when test="${lesson.contentType eq 'text'}">Bài đọc</c:when>
-                                                            <c:when test="${lesson.contentType eq 'quiz'}">Quiz</c:when>
-                                                            <c:otherwise>Khác</c:otherwise>
-                                                        </c:choose>
-                                                    </span>
-                                                </c:if>
                                             </div>
                                             <div>
-                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm  btn-outline-primary">
+                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}"
+                                                   class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-eye"></i> Xem nội dung
                                                 </a>
-                                                <a href="/admin/lessons?action=showUpdateForm&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
+                                                <a href="/admin/lessons?action=showUpdateForm&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}"
+                                                   class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-outline-danger delete-lesson-btn"
-                                                        data-bs-toggle="modal" data-bs-target="#confirmDeleteLessonModal"
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger delete-lesson-btn"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#confirmDeleteLessonModal"
                                                         data-lesson-id="${lesson.lessonId}"
                                                         data-lesson-name="${lesson.lessonName}">
                                                     <i class="bi bi-trash"></i>
@@ -100,7 +94,8 @@
 
                         <!-- Add Lesson Button -->
                         <div class="text-center mt-4">
-                            <button id="addLessonBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lessonFormModal">
+                            <button id="addLessonBtn" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#lessonFormModal">
                                 <i class="bi bi-plus-circle me-2"></i>Thêm Bài học mới
                             </button>
                         </div>
@@ -121,9 +116,8 @@
     <div id="lesson-data-to-edit"
          data-lesson-id="<c:out value='${lessonToEdit.lessonId}'/>"
          data-lesson-name="<c:out value='${lessonToEdit.lessonName}'/>"
-         data-sort-order="<c:out value='${lessonToEdit.sortOrder}'/>"
-         data-content-type="<c:out value='${lessonToEdit.contentType}'/>"
-         data-content-data="<c:out value='${lessonContentToEdit.contentData}'/>">
+         data-sort-order="<c:out value='${lessonToEdit.sortOrder}'/>">
+            <%-- Removed data-content-type and data-content-data --%>
     </div>
 </c:if>
 
@@ -156,37 +150,13 @@
         const modalTitle = document.getElementById('lessonFormModalLabel');
         const submitButton = lessonFormModalEl.querySelector('button[type="submit"]');
         const cancelResetButton = document.getElementById('cancel-reset-btn');
-        const contentTypeSelect = document.getElementById('contentType');
-        const contentDataField = document.getElementById('contentDataField');
+        // const contentTypeSelect = document.getElementById('contentType'); // Removed
+        // const contentDataField = document.getElementById('contentDataField'); // Removed
         const urlParams = new URLSearchParams(window.location.search);
 
-        function updateContentDataField(selectedType, currentData = '') {
-            let html = '';
-            if (selectedType === 'text') {
-                html = `
-                    <label for="contentData" class="form-label">Nội dung Bài đọc</label>
-                    <textarea class="form-control" id="contentData" name="contentData" rows="5" required>${currentData}</textarea>
-                    <div class="invalid-feedback">Vui lòng nhập nội dung bài đọc.</div>
-                `;
-            } else if (selectedType === 'video') {
-                html = `
-                    <label for="contentData" class="form-label">ID Video YouTube</label>
-                    <input type="text" class="form-control" id="contentData" name="contentData" placeholder="Ví dụ: dQw4w9WgXcQ" value="${currentData}" required/>
-                    <div class="invalid-feedback">Vui lòng nhập ID video YouTube.</div>
-                `;
-            } else if (selectedType === 'quiz') {
-                html = `
-                    <label for="contentData" class="form-label">ID Quiz</label>
-                    <input type="text" class="form-control" id="contentData" name="contentData" placeholder="Ví dụ: quiz_123" value="${currentData}" required/>
-                    <div class="invalid-feedback">Vui lòng nhập ID Quiz.</div>
-                `;
-            }
-            contentDataField.innerHTML = html;
-        }
+        // Removed updateContentDataField function
 
-        contentTypeSelect.addEventListener('change', function () {
-            updateContentDataField(this.value);
-        });
+        // Removed contentTypeSelect event listener
 
         function switchToCreateMode() {
             form.action = '/admin/lessons?action=add';
@@ -197,11 +167,11 @@
             cancelResetButton.textContent = 'Làm mới';
             document.getElementById('lessonId').value = '';
             document.getElementById('sortOrder').value = 0;
-            contentTypeSelect.value = '';
-            updateContentDataField('');
+            // contentTypeSelect.value = ''; // Removed
+            // updateContentDataField(''); // Removed
         }
 
-        function switchToUpdateMode(lesson, lessonContent) {
+        function switchToUpdateMode(lesson) { // Simplified to only take lesson
             form.action = '/admin/lessons?action=update';
             form.classList.remove('was-validated');
             modalTitle.textContent = 'Cập nhật Bài học';
@@ -210,8 +180,8 @@
             document.getElementById('lessonId').value = lesson.lessonId;
             document.getElementById('lessonName').value = lesson.lessonName;
             document.getElementById('sortOrder').value = lesson.sortOrder;
-            contentTypeSelect.value = lesson.contentType;
-            updateContentDataField(lesson.contentType, lessonContent.contentData);
+            // contentTypeSelect.value = lesson.contentType; // Removed
+            // updateContentDataField(lesson.contentType, lessonContent.contentData); // Removed
         }
 
         // --- Handle Add Lesson Modal ---
@@ -228,13 +198,11 @@
             const lessonToEdit = {
                 lessonId: lessonDataElement.dataset.lessonId,
                 lessonName: lessonDataElement.dataset.lessonName,
-                sortOrder: lessonDataElement.dataset.sortOrder,
-                contentType: lessonDataElement.dataset.contentType
+                sortOrder: lessonDataElement.dataset.sortOrder
+                // Removed contentType and contentData
             };
-            const lessonContentToEdit = {
-                contentData: lessonDataElement.dataset.contentData
-            };
-            switchToUpdateMode(lessonToEdit, lessonContentToEdit);
+            // const lessonContentToEdit = { contentData: lessonDataElement.dataset.contentData }; // Removed
+            switchToUpdateMode(lessonToEdit); // Simplified
             lessonFormModal.show();
         }
 
@@ -250,8 +218,8 @@
                     form.reset();
                     form.classList.remove('was-validated');
                     document.getElementById('sortOrder').value = 0;
-                    contentTypeSelect.value = '';
-                    updateContentDataField('');
+                    // contentTypeSelect.value = ''; // Removed
+                    // updateContentDataField(''); // Removed
                 }
             });
         }
@@ -294,14 +262,38 @@
             toastLiveExample.classList.remove('bg-success', 'bg-danger', 'text-white');
 
             switch (message) {
-                case 'add_lesson_success': toastMessage = 'Đã thêm bài học mới thành công!'; isSuccess = true; break;
-                case 'update_lesson_success': toastMessage = 'Đã cập nhật bài học thành công!'; isSuccess = true; break;
-                case 'delete_lesson_success': toastMessage = 'Đã xóa bài học thành công.'; isSuccess = true; break;
-                case 'add_lesson_failed': toastMessage = 'Thêm bài học thất bại. Vui lòng điền đầy đủ thông tin.'; isError = true; break;
-                case 'update_lesson_failed': toastMessage = 'Cập nhật bài học thất bại. Vui lòng điền đầy đủ thông tin.'; isError = true; break;
-                case 'duplicate_lesson': toastMessage = 'Tên bài học đã tồn tại trong module này.'; isError = true; break;
-                case 'invalid_sort_order': toastMessage = 'Thứ tự sắp xếp phải là một số hợp lệ.'; isError = true; break;
-                case 'negative_sort_order': toastMessage = 'Thứ tự sắp xếp không được là số âm.'; isError = true; break;
+                case 'add_lesson_success':
+                    toastMessage = 'Đã thêm bài học mới thành công!';
+                    isSuccess = true;
+                    break;
+                case 'update_lesson_success':
+                    toastMessage = 'Đã cập nhật bài học thành công!';
+                    isSuccess = true;
+                    break;
+                case 'delete_lesson_success':
+                    toastMessage = 'Đã xóa bài học thành công.';
+                    isSuccess = true;
+                    break;
+                case 'add_lesson_failed':
+                    toastMessage = 'Thêm bài học thất bại. Vui lòng điền đầy đủ thông tin.';
+                    isError = true;
+                    break;
+                case 'update_lesson_failed':
+                    toastMessage = 'Cập nhật bài học thất bại. Vui lòng điền đầy đủ thông tin.';
+                    isError = true;
+                    break;
+                case 'duplicate_lesson':
+                    toastMessage = 'Tên bài học đã tồn tại trong module này.';
+                    isError = true;
+                    break;
+                case 'invalid_sort_order':
+                    toastMessage = 'Thứ tự sắp xếp phải là một số hợp lệ.';
+                    isError = true;
+                    break;
+                case 'negative_sort_order':
+                    toastMessage = 'Thứ tự sắp xếp không được là số âm.';
+                    isError = true;
+                    break;
             }
 
             if (toastMessage) {
@@ -319,7 +311,7 @@
                 }
                 const toast = new bootstrap.Toast(toastLiveExample);
                 toast.show();
-                
+
                 const cleanUrl = new URL(window.location);
                 cleanUrl.searchParams.delete('message');
                 cleanUrl.searchParams.delete('mode');

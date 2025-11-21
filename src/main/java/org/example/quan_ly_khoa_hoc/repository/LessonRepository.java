@@ -15,10 +15,10 @@ public class LessonRepository implements ILessonRepository {
     @Override
     public List<LessonDTO> findLessonsByModuleId(int moduleId) {
         List<LessonDTO> list = new ArrayList<>();
-        String sql = "SELECT l.lesson_id, l.lesson_name, l.module_id, l.sort_order, lc.content_type " +
-                     "FROM lessons l " +
-                     "LEFT JOIN lesson_contents lc ON l.lesson_id = lc.lesson_id " +
-                     "WHERE l.module_id = ? ORDER BY l.sort_order";
+        // Modified SQL to only select from 'lessons' table and order by sort_order
+        String sql = "SELECT lesson_id, lesson_name, module_id, sort_order " +
+                     "FROM lessons " +
+                     "WHERE module_id = ? ORDER BY sort_order";
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, moduleId);
@@ -28,8 +28,8 @@ public class LessonRepository implements ILessonRepository {
                     rs.getInt("lesson_id"),
                     rs.getString("lesson_name"),
                     rs.getInt("module_id"),
-                    rs.getInt("sort_order"),
-                    rs.getString("content_type") // Get content_type
+                    rs.getInt("sort_order")
+                    // No content_type here, as per your request for the list view
                 ));
             }
         } catch (SQLException e) {
@@ -40,6 +40,7 @@ public class LessonRepository implements ILessonRepository {
 
     @Override
     public LessonDTO findById(int lessonId) {
+        // This method still needs content_type for the detail view, so it keeps the JOIN
         String sql = "SELECT l.lesson_id, l.lesson_name, l.module_id, l.sort_order, lc.content_type " +
                      "FROM lessons l " +
                      "LEFT JOIN lesson_contents lc ON l.lesson_id = lc.lesson_id " +
