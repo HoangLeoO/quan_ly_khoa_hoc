@@ -96,6 +96,66 @@
         </c:otherwise>
     </c:choose>
 </div>
-<%-- Cần thêm MODAL XÁC NHẬN XÓA vào đây (giống list view) --%>
+
+<%-- ------------------------------------------------------------------------------------------ --%>
+<%-- MODAL XÁC NHẬN XÓA NHẬT KÝ --%>
+<%-- ------------------------------------------------------------------------------------------ --%>
+<div class="modal fade" id="confirmDeleteLogModal" tabindex="-1" aria-labelledby="confirmDeleteLogModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="confirmDeleteLogModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Xác nhận Xóa Nhật Ký</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa nhật ký học sinh ${studentName} không?</p>
+
+                <%-- Form ẩn dùng để SUBMIT yêu cầu DELETE --%>
+                <form id="deleteLogForm" method="POST" action="${pageContext.request.contextPath}/student-log">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="logId" id="modalLogIdInput" value="">
+                    <input type="hidden" name="studentId" value="${studentId}">
+                </form>
+
+                <p class="text-danger small">Hành động này không thể hoàn tác.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">
+                    <i class="bi bi-trash me-1"></i> Đồng ý Xóa
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<%-- SCRIPT XỬ LÝ MODAL XÁC NHẬN XÓA --%>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteLogModal = document.getElementById('confirmDeleteLogModal');
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        const deleteLogForm = document.getElementById('deleteLogForm');
+        const modalLogIdInput = document.getElementById('modalLogIdInput');
+
+        if (deleteLogModal) {
+            // Lắng nghe sự kiện modal sắp hiển thị
+            deleteLogModal.addEventListener('show.bs.modal', function (event) {
+                // Lấy logId từ nút kích hoạt modal (Nút 'Xóa')
+                const button = event.relatedTarget;
+                const logId = button.getAttribute('data-log-id');
+
+                // Cập nhật giá trị logId vào input ẩn trong form
+                modalLogIdInput.value = logId;
+            });
+
+            // Lắng nghe sự kiện click cho nút "Đồng ý Xóa" trong modal
+            confirmDeleteButton.addEventListener('click', function() {
+                // Submit form
+                deleteLogForm.submit();
+            });
+        }
+    });
+</script>
 </body>
 </html>

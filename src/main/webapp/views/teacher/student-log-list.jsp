@@ -86,9 +86,9 @@
             </h5>
             <div class="log-actions">
                 <%-- Nút Chi tiết --%>
-              <a href="${pageContext.request.contextPath}/student-log?action=detail&logId=${log.logId}&studentId=${studentId}" class="btn btn-sm btn-outline-info me-1">
-                <i class="bi bi-eye"></i> Chi tiết
-              </a>
+<%--              <a href="${pageContext.request.contextPath}/student-log?action=detail&logId=${log.logId}&studentId=${studentId}" class="btn btn-sm btn-outline-info me-1">--%>
+<%--                <i class="bi bi-eye"></i> Chi tiết--%>
+<%--              </a>--%>
 
                 <%-- Nút Chỉnh sửa (Chỉ Staff là tác giả mới được sửa) --%>
               <c:if test="${log.authorStaffId == currentStaffId}">
@@ -151,7 +151,7 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Bạn có chắc chắn muốn xóa nhật ký học sinh **#<span id="logIdPlaceholder"></span>** không?</p>
+        <p>Bạn có chắc chắn muốn xóa nhật ký học sinh ${studentName} không?</p>
         <p class="text-danger small">Hành động này không thể hoàn tác.</p>
       </div>
       <div class="modal-footer">
@@ -166,6 +166,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <%-- SCRIPT XỬ LÝ MODAL XÁC NHẬN XÓA (Đồng bộ) --%>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<%-- SCRIPT XỬ LÝ MODAL XÁC NHẬN XÓA (Đồng bộ) --%>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const deleteLogModal = document.getElementById('confirmDeleteLogModal');
@@ -173,13 +175,18 @@
     deleteLogModal.addEventListener('show.bs.modal', function (event) {
       const button = event.relatedTarget;
       const logId = button.getAttribute('data-log-id');
-      const logIdPlaceholder = deleteLogModal.querySelector('#logIdPlaceholder');
-      logIdPlaceholder.textContent = logId;
+
+      // ⭐ ĐÃ XÓA 3 dòng code lỗi:
+      // const logIdPlaceholder = deleteLogModal.querySelector('#logIdPlaceholder');
+      // logIdPlaceholder.textContent = logId;
 
       const confirmDeleteButton = deleteLogModal.querySelector('#confirmDeleteButton');
+      // Xóa sự kiện onclick cũ để tránh submit nhiều lần
       confirmDeleteButton.onclick = null;
 
+      // Thiết lập sự kiện mới: tìm form tương ứng và submit nó
       confirmDeleteButton.onclick = function() {
+        // Form cần submit có ID là 'deleteForm-' + logId
         const formToSubmit = document.getElementById('deleteForm-' + logId);
         if (formToSubmit) {
           formToSubmit.submit();

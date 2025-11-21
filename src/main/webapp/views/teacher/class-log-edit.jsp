@@ -58,8 +58,8 @@
 
     <c:if test="${not empty classLog}">
         <h1>
-            <i class="bi bi-pencil-square me-2"></i> Chỉnh sửa Nhật ký #${classLog.logId}
-            <small class="text-muted">Lớp: ${className} (#${classLog.classId})</small>
+            <i class="bi bi-pencil-square me-2"></i> Chỉnh sửa Nhật ký
+            <small class="text-muted">Lớp: ${className} </small>
         </h1>
 
         <%-- Hiển thị thông báo lỗi (nếu có lỗi khi submit lại form) --%>
@@ -80,7 +80,7 @@
                 <div class="col-md-6 detail-group">
                     <label class="form-label text-primary"><i class="bi bi-person me-1"></i> Người Viết:</label>
                         <%-- Giả định DTO có hàm getAuthorStaffName() --%>
-                    <p class="form-control-plaintext"><strong>${classLog.authorStaffName}</strong> (#${classLog.authorStaffId})</p>
+                    <p class="form-control-plaintext"><strong>${classLog.authorStaffName}</strong></p>
                 </div>
                 <div class="col-md-6 detail-group">
                     <label class="form-label text-primary"><i class="bi bi-calendar-check me-1"></i> Thời gian Ghi nhận:</label>

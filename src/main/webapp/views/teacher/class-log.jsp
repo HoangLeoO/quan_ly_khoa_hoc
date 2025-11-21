@@ -75,7 +75,7 @@
                 <div class="card shadow-sm mb-4 log-card">
                     <div class="log-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 text-primary">
-                            <i class="bi bi-journal-text me-2"></i> Nhật ký #${log.logId}
+                            <i class="bi bi-journal-text me-2"></i> Nhật ký
                         </h5>
                         <div class="log-actions">
                                 <%-- Nút Chỉnh sửa --%>
@@ -138,7 +138,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Bạn có chắc chắn muốn xóa nhật ký lớp học **#<span id="logIdPlaceholder"></span>** không?</p>
+                <p>Bạn có chắc chắn muốn xóa nhật ký lớp học ${className} không?</p>
                 <p class="text-danger small">Hành động này không thể hoàn tác.</p>
             </div>
             <div class="modal-footer">
