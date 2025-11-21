@@ -8,49 +8,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<form action="#" method="get" class="row g-3">
+<form action="/acedemic-affairs" method="get" class="row g-3">
 
-    <!-- Tên lớp -->
     <div class="col-md-3">
         <label>Tên lớp:</label>
-        <input name="keyword" class="form-control" placeholder="Nhập tên lớp...">
+        <input name="keyword" value="${param.keyword}" class="form-control" placeholder="Nhập tên lớp...">
     </div>
 
-    <!-- Giáo viên -->
     <div class="col-md-3">
         <label>Giáo viên:</label>
         <select name="teacherId" class="form-control">
             <option value="">-- Tất cả --</option>
             <c:forEach var="t" items="${teacherList}">
-                <option value="${t.id}">${t.name}</option>
+                <option value="${t.staffId}"
+                    ${param.teacherId == t.staffId ? "selected" : ""}>
+                        ${t.fullName}
+                </option>
             </c:forEach>
         </select>
     </div>
 
-    <!-- Khóa học -->
     <div class="col-md-3">
         <label>Khóa học:</label>
         <select name="courseId" class="form-control">
             <option value="">-- Tất cả --</option>
             <c:forEach var="c" items="${courseList}">
-                <option value="${c.id}">${c.name}</option>
+                <option value="${c.courseId}"
+                    ${param.courseId == c.courseId ? "selected" : ""}>
+                        ${c.courseName}
+                </option>
             </c:forEach>
         </select>
     </div>
 
-    <!-- Trạng thái -->
     <div class="col-md-3">
         <label>Trạng thái:</label>
         <select name="status" class="form-control">
             <option value="">-- Tất cả --</option>
-            <option value="ACTIVE">Đang học</option>
-            <option value="UPCOMING">Sắp mở</option>
-            <option value="FINISHED">Đã kết thúc</option>
+            <option value="studying"   ${param.status == 'studying' ? "selected" : ""}>Đang học</option>
+            <option value="completed"  ${param.status == 'completed' ? "selected" : ""}>Đã hoàn thành</option>
+            <option value="dropped"    ${param.status == 'dropped' ? "selected" : ""}>Đã hủy</option>
         </select>
     </div>
 
-    <!-- Nút tìm -->
-    <div class="col-md-12">
-        <button class="btn btn-primary mt-2">Tìm kiếm</button>
+    <div class="col-md-12 mt-2">
+        <button class="btn btn-primary">Tìm kiếm</button>
+        <a href="/acedemic-affairs" class="btn btn-secondary">Đặt lại</a>
     </div>
 </form>

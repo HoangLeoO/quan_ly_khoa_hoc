@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.service;
 
+import org.example.quan_ly_khoa_hoc.dto.TeacherInfoDTO;
 import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.Staff;
 import org.example.quan_ly_khoa_hoc.repository.StaffRepository;
@@ -8,6 +9,7 @@ import org.example.quan_ly_khoa_hoc.service.serviceInterface.IStaffService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class StaffService implements IStaffService {
     private static IStaffRepository staffRepository = new StaffRepository();
@@ -20,5 +22,10 @@ public class StaffService implements IStaffService {
     @Override
     public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         return staffRepository.updateStaffInTransaction(connection,userDTO);
+    }
+
+    @Override
+    public List<TeacherInfoDTO> findAllTeachers() {
+        return staffRepository.findAllTeachers();
     }
 }

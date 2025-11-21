@@ -85,4 +85,9 @@ public class TeacherRepository implements ITeacherRepository {
     public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         return false;
     }
+
+    @Override
+    public List<TeacherInfoDTO> findAllTeachers() {
+        return List.of();
+    }
 }

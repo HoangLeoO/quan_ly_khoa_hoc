@@ -27,6 +27,7 @@ public class ScheduleRepository implements IScheduleRepository {
                          sch.room                   AS room,
                          l.lesson_name              AS lesson_name,
                          l.lesson_id                AS lesson_id,
+                         m.module_id                AS module_id,
                          m.module_name              AS module_name,
                         \s
                          s.staff_id                 AS teacher_id,

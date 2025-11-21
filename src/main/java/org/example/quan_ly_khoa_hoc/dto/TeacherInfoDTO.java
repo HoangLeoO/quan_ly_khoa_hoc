@@ -11,6 +11,7 @@ public class TeacherInfoDTO {
     private LocalDate dob;
     private String position;
     private String address;
+    private String roleName;
 
     public TeacherInfoDTO() {
     }
@@ -23,6 +24,11 @@ public class TeacherInfoDTO {
         this.dob = dob;
         this.position = position;
         this.address = address;
+    }
+    public TeacherInfoDTO(int staffId, String fullName, String roleName) {
+        this.staffId = staffId;
+        this.fullName = fullName;
+        this.roleName = roleName;
     }
 
     // Getters and Setters hiện có (Giữ nguyên)

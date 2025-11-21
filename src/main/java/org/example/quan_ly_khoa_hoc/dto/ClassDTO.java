@@ -5,7 +5,9 @@ import java.time.LocalDate;
 public class ClassDTO {
     private int classId;
     private String className;
+    private int courseId;
     private String courseName;
+    private int teacherId;
     private String teacherName; // teacher_id có thể là NULL
     private int countStudent;
     private LocalDate startDate;
@@ -15,10 +17,12 @@ public class ClassDTO {
     public ClassDTO() {
     }
 
-    public ClassDTO(int classId, String className, String courseName, String teacherName, int countStudent, LocalDate startDate, LocalDate endDate, String status) {
+    public ClassDTO(int classId, String className, int courseId, String courseName, int teacherId, String teacherName, int countStudent, LocalDate startDate, LocalDate endDate, String status) {
         this.classId = classId;
         this.className = className;
+        this.courseId = courseId;
         this.courseName = courseName;
+        this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.countStudent = countStudent;
         this.startDate = startDate;
@@ -88,5 +92,21 @@ public class ClassDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 }

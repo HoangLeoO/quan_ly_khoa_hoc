@@ -1,13 +1,18 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.TeacherInfoDTO;
 import org.example.quan_ly_khoa_hoc.dto.UserDTO;
+import org.example.quan_ly_khoa_hoc.entity.Course;
 import org.example.quan_ly_khoa_hoc.entity.Staff;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IStaffRepository;
+import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StaffRepository implements IStaffRepository {
     @Override
@@ -57,5 +62,32 @@ public class StaffRepository implements IStaffRepository {
             System.out.println("✓ Updated Staff with uID: " + userDTO.getUserId());
             return true;
         }
+    }
+    private final String SELECT_ALL_TEACHERS_SQL =
+            "SELECT \n" +
+                    "    s.staff_id,\n" +
+                    "    s.full_name,\n" +
+                    "    r.role_name \n" +
+                    "FROM staff s\n" +
+                    "INNER JOIN users u ON s.user_id = u.user_id\n" +
+                    "INNER JOIN roles r ON u.role_id = r.role_id\n" +
+                    "WHERE r.role_name = 'Teacher'\n" +
+                    "ORDER BY s.full_name;";
+    @Override
+    public List<TeacherInfoDTO> findAllTeachers() {
+        List<TeacherInfoDTO> teacherInfoDTOList = new ArrayList<>();
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement ps = connection.prepareStatement(SELECT_ALL_TEACHERS_SQL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int staffId = rs.getInt("staff_id");
+                String fullName = rs.getString("full_name");
+                String roleName = rs.getString("role_name");
+                teacherInfoDTOList.add(new TeacherInfoDTO(staffId, fullName, roleName));
+            }
+        } catch (SQLException e) {
+            System.out.println("lỗi lấy dữ liệu");
+        }
+        return teacherInfoDTOList;
     }
 }
