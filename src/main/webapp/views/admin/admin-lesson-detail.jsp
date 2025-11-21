@@ -309,7 +309,7 @@
                 }
                 const toast = new bootstrap.Toast(toastLiveExample);
                 toast.show();
-                
+
                 const cleanUrl = new URL(window.location);
                 cleanUrl.searchParams.delete('message');
                 window.history.replaceState({}, '', cleanUrl.pathname + cleanUrl.search);

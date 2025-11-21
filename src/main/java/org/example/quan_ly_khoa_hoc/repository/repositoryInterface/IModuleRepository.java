@@ -7,7 +7,7 @@ import java.util.List;
 public interface IModuleRepository {
     List<ModuleDTO> findModulesByCourseId(int courseId);
 
-    List<ModuleDTO> findModulesDTOByStudentId(int studentId);
+    List<ModuleDTO> findModulesDTOByStudentId(int studentId,int Course_id);
 
     ModuleDTO findById(int moduleId);
 

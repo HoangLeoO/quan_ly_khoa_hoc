@@ -15,8 +15,8 @@ public class ModuleService implements IModuleService {
     }
 
     @Override
-    public List<ModuleDTO> findModulesDTOByStudentId(int studentId) {
-        return moduleRepository.findModulesDTOByStudentId(studentId);
+    public List<ModuleDTO> findModulesDTOByStudentId(int studentId, int course_id) {
+        return moduleRepository.findModulesDTOByStudentId(studentId,course_id);
     }
 
     @Override

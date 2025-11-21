@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.quan_ly_khoa_hoc.dto.ClassInfoDTO;
-import org.example.quan_ly_khoa_hoc.dto.LessonDTO;
-import org.example.quan_ly_khoa_hoc.dto.ModuleDTO;
-import org.example.quan_ly_khoa_hoc.dto.StudentProfileDTO;
+import org.example.quan_ly_khoa_hoc.dto.*;
 import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.entity.Module;
 import org.example.quan_ly_khoa_hoc.entity.Student;
@@ -21,6 +18,7 @@ import org.example.quan_ly_khoa_hoc.util.PasswordUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +31,9 @@ public class StudentController extends HttpServlet {
     private IModuleService moduleService = new ModuleService();
     private ILessonService lessonService = new LessonService();
     private ILessonProgressService lessonProgressService = new LessonProgressService();
+    private IClassService classService = new ClassService();
+    private ILessonContentService lessonContentService = new LessonContentService();
+    private IGradeService gradeService = new GradeService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -57,7 +58,7 @@ public class StudentController extends HttpServlet {
                 showDetailModule(req, resp);
                 break;
             case "lesson-content":
-                req.getRequestDispatcher("/views/student/lesson_demo.jsp").forward(req, resp);
+                showDetailLesson(req, resp);
                 break;
             case "update-profile":
                 showUpdate(req, resp);
@@ -65,25 +66,15 @@ public class StudentController extends HttpServlet {
             case "change-password":
                 showChangePasswordForm(req, resp);
                 break;
+            case "grade-view":
+                showViewGrade(req, resp);
+                break;
+            case "view-lesson-content-detail":
+                showDetailLessonContent(req, resp);
+                break;
             default:
                 showHome(req, resp); // fallback
                 break;
-        }
-    }
-
-    private void showUpdate(HttpServletRequest req, HttpServletResponse resp) {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            User u = (User) session.getAttribute("currentUser");
-            String email = u.getEmail();
-            req.setAttribute("student", studentService.getStudentProfileByEmail(email));
-        }
-        try {
-            req.getRequestDispatcher("/views/student/edit-profile-student.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -107,7 +98,7 @@ public class StudentController extends HttpServlet {
                 resp.sendRedirect(req.getHeader("Referer"));
                 break;
             case "update-profile":
-                saveUpdateProfile(req,resp);
+                saveUpdateProfile(req, resp);
                 break;
             case "change-password":
                 try {
@@ -119,18 +110,15 @@ public class StudentController extends HttpServlet {
         }
     }
 
-    private void showDetailModule(HttpServletRequest req, HttpServletResponse resp) {
-        int moduleId = Integer.parseInt(req.getParameter("module-id"));
-
+    private void showUpdate(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
         if (session != null) {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
-            List<LessonDTO> Lesson = lessonService.getAllByModuleIdAndStudentId(moduleId, studentService.getStudentIdByEmail(email));
-            req.setAttribute("lessons", Lesson);
+            req.setAttribute("student", studentService.getStudentProfileByEmail(email));
         }
         try {
-            req.getRequestDispatcher("/views/student/detail-module-student.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/student/edit-profile-student.jsp").forward(req, resp);
         } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -138,13 +126,119 @@ public class StudentController extends HttpServlet {
         }
     }
 
-    private void showDetailClass(HttpServletRequest req, HttpServletResponse resp) {
+    private void showDetailModule(HttpServletRequest req, HttpServletResponse resp) {
+        String moduleIdStr = req.getParameter("module-id");
+        String progressStr = req.getParameter("progress");
+        String moduleName = req.getParameter("module-name");
+        String courseName = req.getParameter("course-name");
+
+        int moduleId = -1;
+        Float progress = 0f;
+
+        if (moduleIdStr != null && !moduleIdStr.isEmpty()) {
+            try {
+                moduleId = Integer.parseInt(moduleIdStr);
+            } catch (NumberFormatException e) {
+                System.err.println("Lỗi NumberFormatException cho module-id: " + moduleIdStr);
+            }
+        }
+        if (progressStr != null && !progressStr.isEmpty()) {
+            try {
+                progress = Float.parseFloat(progressStr);
+            } catch (NumberFormatException e) {
+                System.err.println("Lỗi NumberFormatException cho progress: " + progressStr);
+            }
+        }
+        if (moduleId == -1) {
+            try {
+                resp.sendRedirect(req.getContextPath() + "/students?action=home");
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException("Lỗi chuyển hướng về trang chủ", e);
+            }
+        }
+
+
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            User u = (User) session.getAttribute("currentUser");
+            if (u != null) {
+                String email = u.getEmail();
+
+                // Chỉ gọi service khi moduleId hợp lệ
+                List<LessonDTO> lesson = lessonService.getAllByModuleIdAndStudentId(
+                        moduleId,
+                        studentService.getStudentIdByEmail(email)
+                );
+                req.setAttribute("lessons", lesson);
+            }
+            req.setAttribute("moduleId", moduleId);
+            req.setAttribute("moduleName", moduleName);
+            req.setAttribute("courseName", courseName);
+            req.setAttribute("overallLessonProgress", progress); // Sử dụng giá trị đã kiểm tra
+
+        }
+
+        // Chuyển tiếp tới JSP
+        try {
+            req.getRequestDispatcher("/views/student/detail-module-student.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException("Lỗi chuyển tiếp trang JSP", e);
+        }
+    }
+
+    private void showDetailLesson(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
         if (session != null) {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
-            List<ModuleDTO> module = moduleService.findModulesDTOByStudentId(studentService.getStudentIdByEmail(email));
+            int studentId = studentService.getStudentIdByEmail(email);
+            int lessonId = Integer.parseInt(req.getParameter("lesson-id"));
+            int moduleId = Integer.parseInt(req.getParameter("module-id"));
+            List<LessonContentRowDTO> lessonContentNames = lessonContentService.getLessonContentById(studentId, lessonId, moduleId);
+            req.setAttribute("lesson", lessonContentNames);
+            req.setAttribute("module-name", req.getParameter("module-name"));
+            req.setAttribute("moduleId", moduleId);
+        }
+        try {
+            req.getRequestDispatcher("/views/student/detail-lesson.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showDetailLessonContent(HttpServletRequest req, HttpServletResponse resp) {
+        int lessonContentId = Integer.parseInt(req.getParameter("contentId"));
+        int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+        int moduleId = Integer.parseInt(req.getParameter("module-id"));
+        List<LessonContentDTO> contentDTO = lessonContentService.findByContentId(lessonContentId);
+        for (int i = 0 ; i < contentDTO.size() ; i++){
+            System.out.println(contentDTO.get(i).getContentName());
+            System.out.println(contentDTO.get(i).getContentData());
+        }
+        req.setAttribute("lessonContents", contentDTO);
+        req.setAttribute("lessonId", lessonId);
+        req.setAttribute("moduleId", moduleId);
+        try {
+            req.getRequestDispatcher("/views/student/list-lesson-content.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void showDetailClass(HttpServletRequest req, HttpServletResponse resp) {
+        int course_id = Integer.parseInt(req.getParameter("course-id"));
+        HttpSession session = req.getSession(false);
+        ClassDTO classDTO = classService.findByClassID(Integer.parseInt(req.getParameter("class-id")));
+        if (session != null) {
+            User u = (User) session.getAttribute("currentUser");
+            String email = u.getEmail();
+            List<ModuleDTO> module = moduleService.findModulesDTOByStudentId(studentService.getStudentIdByEmail(email), course_id);
             req.setAttribute("moduleList", module);
+            req.setAttribute("courseName", classDTO.getCourseName());
+            req.setAttribute("className", classDTO.getClassName());
+            req.setAttribute("instructorName", classDTO.getTeacherName());
         }
         try {
             req.getRequestDispatcher("/views/student/detail-class-student.jsp").forward(req, resp);
@@ -164,7 +258,7 @@ public class StudentController extends HttpServlet {
             DateTimeFormatter formatterVN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDateVN = student.getDob().format(formatterVN);
             req.setAttribute("student", studentService.getStudentProfileByEmail(email));
-            req.setAttribute("formattedDateVN",formattedDateVN);
+            req.setAttribute("formattedDateVN", formattedDateVN);
         }
         try {
             req.getRequestDispatcher("/views/student/profile-student.jsp").forward(req, resp);
@@ -181,8 +275,11 @@ public class StudentController extends HttpServlet {
             User u = (User) session.getAttribute("currentUser");
             String email = u.getEmail();
             List<ClassInfoDTO> classInfoDTOS = studentService.getStudentClassesInfoById(studentService.getStudentIdByEmail(email));
+            StudentProfileDTO studentProfileDTO = studentService.getStudentProfileByEmail(email);
             System.out.println(classInfoDTOS.size());
+            req.setAttribute("studentName", studentProfileDTO.getFullName());
             req.setAttribute("classInfo", classInfoDTOS);
+
         }
         try {
             req.getRequestDispatcher("/views/student/home-student.jsp").forward(req, resp);
@@ -202,6 +299,7 @@ public class StudentController extends HttpServlet {
             throw new RuntimeException("Lỗi IO khi hiển thị trang đổi mật khẩu", e);
         }
     }
+
     private void saveUpdateProfile(HttpServletRequest req, HttpServletResponse resp) {
         Student student = new Student();
         student.setStudentId(studentService.getStudentIdByEmail(req.getParameter("email")));
@@ -216,7 +314,6 @@ public class StudentController extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-
 
     private void handleChangePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -234,7 +331,6 @@ public class StudentController extends HttpServlet {
         boolean hasError = false;
 
         String currentHashedPassword = studentService.getHashedPasswordByEmail(userEmail);
-
 
 
         if (!PasswordUtil.checkPassword(currentPassword, currentHashedPassword)) {
@@ -278,6 +374,23 @@ public class StudentController extends HttpServlet {
         }
     }
 
+    private void showViewGrade(HttpServletRequest req, HttpServletResponse resp) {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            User u = (User) session.getAttribute("currentUser");
+            String email = u.getEmail();
+            int studentId = studentService.getStudentIdByEmail(email);
+            List<GradeDetailDTO> gradeDetailDTOS = gradeService.findStudentGradesByCourseAndStudentId(studentId, Integer.parseInt(req.getParameter("course-id")));
+            req.setAttribute("gradeDetails", gradeDetailDTOS);
+        }
+        try {
+            req.getRequestDispatcher("views/grade/grade-view-student.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
 

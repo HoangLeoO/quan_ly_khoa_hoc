@@ -61,6 +61,24 @@ public class StaffRepository implements IStaffRepository {
     }
 
     @Override
+    public String getStaffNameById(int id_staff) {
+        String sql = "select * from staff where staff.staff_id = ?";
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_staff);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String name = resultSet.getString("full_name");
+                return name;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
     public int getTotalStaffCount() {
         String sql = "SELECT COUNT(*) FROM staff";
         try (Connection conn = DatabaseUtil.getConnectDB();

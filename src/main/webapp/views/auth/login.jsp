@@ -31,10 +31,10 @@
 <body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
 
 <div>
-    <p><span>admin@codegym.vn</span></p>
-    <p><span>teacher1@codegym.vn</span></p>
-    <p><span>nguyen.van.a@gmail.com</span></p>
-    <p><span>coordinator@codegym.vn</span></p>
+    <p><span>admin@codegym.com</span></p>
+    <p><span>teacher2@codegym.com</span></p>
+    <p><span>student11@codegym.com</span></p>
+    <p><span>academic1@codegym.com</span></p>
 </div>
 
 <!-- Login Card Container -->

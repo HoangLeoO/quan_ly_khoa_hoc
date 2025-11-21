@@ -41,26 +41,35 @@
                             </p>
                         </div>
 
-                        <form action="students" method="post">
+                        <form action="students" method="post" class="needs-validation" novalidate>
                             <input type="hidden" name="action" value="update-profile">
 
                             <div class="mb-5">
                                 <h4 class="mb-4 border-bottom pb-2">Thông tin cá nhân</h4>
 
                                 <div class="row form-group-row align-items-center">
-                                    <label for="fullName" class="col-sm-4 col-form-label fw-bold">Họ và tên:</label>
+                                    <label for="fullName" class="col-sm-4 col-form-label fw-bold">
+                                        Họ và tên: <span class="text-danger">*</span>
+                                    </label>
                                     <div class="col-sm-8">
                                         <input type="text"
                                                class="form-control"
                                                id="fullName"
                                                name="fullName"
                                                value="${student.getFullName()}"
-                                               required>
+                                               required
+                                               minlength="3"
+                                               maxlength="100">
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập Họ và tên (3-100 ký tự).
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="row form-group-row align-items-center">
-                                    <label class="col-sm-4 col-form-label fw-bold">Email:</label>
+                                    <label class="col-sm-4 col-form-label fw-bold">
+                                        Email: <span class="text-danger">*</span>
+                                    </label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static text-muted">${student.getEmail()}</p>
                                         <input type="hidden" name="email" value="${student.getEmail()}">
@@ -74,7 +83,12 @@
                                                class="form-control"
                                                id="phone"
                                                name="phone"
-                                               value="${student.getPhone()}">
+                                               value="${student.getPhone()}"
+                                               pattern="[0-9]{10,11}"
+                                               title="Số điện thoại phải có 10 hoặc 11 chữ số.">
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập đúng định dạng Số điện thoại (10 hoặc 11 chữ số).
+                                        </div>
                                     </div>
                                 </div>
 
@@ -86,6 +100,9 @@
                                                id="dob"
                                                name="dob"
                                                value="${student.getDob()}">
+                                        <div class="invalid-feedback">
+                                            Ngày sinh không được là ngày trong tương lai.
+                                        </div>
                                     </div>
                                 </div>
 
@@ -120,8 +137,30 @@
 
 <c:import url="../common/footer.jsp"/>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // JavaScript để thiết lập ngày tối đa cho trường Ngày sinh là ngày hiện tại
+    document.addEventListener('DOMContentLoaded', function () {
+        const dobInput = document.getElementById('dob');
+        if (dobInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dobInput.setAttribute('max', today);
+        }
+
+        // Kích hoạt Bootstrap validation
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    });
+</script>
 
 </body>
 </html>

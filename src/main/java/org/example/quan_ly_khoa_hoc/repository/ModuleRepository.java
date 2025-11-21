@@ -39,26 +39,41 @@ public class ModuleRepository implements IModuleRepository {
     }
 
     @Override
-    public List<ModuleDTO> findModulesDTOByStudentId(int studentId) {
+    public List<ModuleDTO> findModulesDTOByStudentId(int studentId,int course_id) {
         List<ModuleDTO> list = new ArrayList<>();
-        String sql = "SELECT m.module_id, m.module_name, " +
-                "COALESCE(SUM(CASE WHEN lp.is_completed = 1 THEN 1 ELSE 0 END), 0) AS completed_lessons, " +
-                "COUNT(l.lesson_id) AS total_lessons, " +
-                "(COALESCE(SUM(CASE WHEN lp.is_completed = 1 THEN 1 ELSE 0 END), 0) * 100.0 / NULLIF(COUNT(l.lesson_id), 0)) AS progress_percentage " +
-                "FROM modules m JOIN lessons l ON m.module_id = l.module_id " +
-                "LEFT JOIN lesson_progress lp ON l.lesson_id = lp.lesson_id AND lp.student_id = ? " +
-                "GROUP BY m.module_id, m.module_name ORDER BY m.sort_order";
+        // Chú ý: Cột progress_percentage trong SQL trả về kiểu DECIMAL/FLOAT, phù hợp với Float trong Java
+        String sql = "SELECT\n" +
+                "    m.module_id,\n" +
+                "    m.module_name,\n" +
+                "    COALESCE(SUM(CASE WHEN lp.is_completed = 1 THEN 1 ELSE 0 END), 0) AS completed_lessons,\n" +
+                "    COUNT(l.lesson_id) AS total_lessons,\n" +
+                "    (COALESCE(SUM(CASE WHEN lp.is_completed = 1 THEN 1 ELSE 0 END), 0) * 100.0 / NULLIF(COUNT(l.lesson_id), 0)) AS progress_percentage\n" +
+                "FROM\n" +
+                "    modules m\n" +
+                "    JOIN lessons l ON m.module_id = l.module_id\n" +
+                "    LEFT JOIN lesson_progress lp ON l.lesson_id = lp.lesson_id AND lp.student_id = ?\n" +
+                "WHERE\n" +
+                "    m.course_id = ?\n" +
+                "GROUP BY\n" +
+                "    m.module_id, m.module_name\n" +
+                "ORDER BY\n" +
+                "    m.module_id;";
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, studentId);
+            ps.setInt(2,course_id);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 ModuleDTO dto = new ModuleDTO();
+
                 dto.setModuleId(rs.getInt("module_id"));
                 dto.setModuleName(rs.getString("module_name"));
                 dto.setCompleted_lessons(rs.getInt("completed_lessons"));
                 dto.setTotal_lessons(rs.getInt("total_lessons"));
                 dto.setProgressPercentage(rs.getFloat("progress_percentage"));
+
                 list.add(dto);
             }
         } catch (SQLException e) {
@@ -66,6 +81,7 @@ public class ModuleRepository implements IModuleRepository {
         }
         return list;
     }
+
 
     @Override
     public ModuleDTO findById(int moduleId) {
