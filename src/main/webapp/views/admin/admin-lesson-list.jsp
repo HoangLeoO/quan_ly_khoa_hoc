@@ -7,14 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Danh sách Bài học - ${module.moduleName}</title>
     <c:import url="../common/header.jsp"/>
-    <style>
-        .toast-container {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1055;
-        }
-    </style>
 </head>
 <body>
 <!-- Navigation -->
@@ -62,19 +54,9 @@
                                             <div>
                                                 <span class="badge bg-secondary me-2">${lesson.sortOrder}</span>
                                                 <span class="fw-bold">${lesson.lessonName}</span>
-                                                <c:if test="${not empty lesson.contentType}">
-                                                    <span class="badge bg-info ms-2">
-                                                        <c:choose>
-                                                            <c:when test="${lesson.contentType eq 'video'}">Video</c:when>
-                                                            <c:when test="${lesson.contentType eq 'text'}">Bài đọc</c:when>
-                                                            <c:when test="${lesson.contentType eq 'quiz'}">Quiz</c:when>
-                                                            <c:otherwise>Khác</c:otherwise>
-                                                        </c:choose>
-                                                    </span>
-                                                </c:if>
                                             </div>
                                             <div>
-                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm  btn-outline-primary">
+                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-eye"></i> Xem nội dung
                                                 </a>
                                                 <a href="/admin/lessons?action=showUpdateForm&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
@@ -121,9 +103,8 @@
     <div id="lesson-data-to-edit"
          data-lesson-id="<c:out value='${lessonToEdit.lessonId}'/>"
          data-lesson-name="<c:out value='${lessonToEdit.lessonName}'/>"
-         data-sort-order="<c:out value='${lessonToEdit.sortOrder}'/>"
-         data-content-type="<c:out value='${lessonToEdit.contentType}'/>"
-         data-content-data="<c:out value='${lessonContentToEdit.contentData}'/>">
+         data-sort-order="<c:out value='${lessonToEdit.sortOrder}'/>">
+        <%-- Removed data-content-type and data-content-data --%>
     </div>
 </c:if>
 
@@ -156,37 +137,13 @@
         const modalTitle = document.getElementById('lessonFormModalLabel');
         const submitButton = lessonFormModalEl.querySelector('button[type="submit"]');
         const cancelResetButton = document.getElementById('cancel-reset-btn');
-        const contentTypeSelect = document.getElementById('contentType');
-        const contentDataField = document.getElementById('contentDataField');
+        // const contentTypeSelect = document.getElementById('contentType'); // Removed
+        // const contentDataField = document.getElementById('contentDataField'); // Removed
         const urlParams = new URLSearchParams(window.location.search);
 
-        function updateContentDataField(selectedType, currentData = '') {
-            let html = '';
-            if (selectedType === 'text') {
-                html = `
-                    <label for="contentData" class="form-label">Nội dung Bài đọc</label>
-                    <textarea class="form-control" id="contentData" name="contentData" rows="5" required>${currentData}</textarea>
-                    <div class="invalid-feedback">Vui lòng nhập nội dung bài đọc.</div>
-                `;
-            } else if (selectedType === 'video') {
-                html = `
-                    <label for="contentData" class="form-label">ID Video YouTube</label>
-                    <input type="text" class="form-control" id="contentData" name="contentData" placeholder="Ví dụ: dQw4w9WgXcQ" value="${currentData}" required/>
-                    <div class="invalid-feedback">Vui lòng nhập ID video YouTube.</div>
-                `;
-            } else if (selectedType === 'quiz') {
-                html = `
-                    <label for="contentData" class="form-label">ID Quiz</label>
-                    <input type="text" class="form-control" id="contentData" name="contentData" placeholder="Ví dụ: quiz_123" value="${currentData}" required/>
-                    <div class="invalid-feedback">Vui lòng nhập ID Quiz.</div>
-                `;
-            }
-            contentDataField.innerHTML = html;
-        }
+        // Removed updateContentDataField function
 
-        contentTypeSelect.addEventListener('change', function () {
-            updateContentDataField(this.value);
-        });
+        // Removed contentTypeSelect event listener
 
         function switchToCreateMode() {
             form.action = '/admin/lessons?action=add';
@@ -197,11 +154,11 @@
             cancelResetButton.textContent = 'Làm mới';
             document.getElementById('lessonId').value = '';
             document.getElementById('sortOrder').value = 0;
-            contentTypeSelect.value = '';
-            updateContentDataField('');
+            // contentTypeSelect.value = ''; // Removed
+            // updateContentDataField(''); // Removed
         }
 
-        function switchToUpdateMode(lesson, lessonContent) {
+        function switchToUpdateMode(lesson) { // Simplified to only take lesson
             form.action = '/admin/lessons?action=update';
             form.classList.remove('was-validated');
             modalTitle.textContent = 'Cập nhật Bài học';
@@ -210,8 +167,8 @@
             document.getElementById('lessonId').value = lesson.lessonId;
             document.getElementById('lessonName').value = lesson.lessonName;
             document.getElementById('sortOrder').value = lesson.sortOrder;
-            contentTypeSelect.value = lesson.contentType;
-            updateContentDataField(lesson.contentType, lessonContent.contentData);
+            // contentTypeSelect.value = lesson.contentType; // Removed
+            // updateContentDataField(lesson.contentType, lessonContent.contentData); // Removed
         }
 
         // --- Handle Add Lesson Modal ---
@@ -228,13 +185,11 @@
             const lessonToEdit = {
                 lessonId: lessonDataElement.dataset.lessonId,
                 lessonName: lessonDataElement.dataset.lessonName,
-                sortOrder: lessonDataElement.dataset.sortOrder,
-                contentType: lessonDataElement.dataset.contentType
+                sortOrder: lessonDataElement.dataset.sortOrder
+                // Removed contentType and contentData
             };
-            const lessonContentToEdit = {
-                contentData: lessonDataElement.dataset.contentData
-            };
-            switchToUpdateMode(lessonToEdit, lessonContentToEdit);
+            // const lessonContentToEdit = { contentData: lessonDataElement.dataset.contentData }; // Removed
+            switchToUpdateMode(lessonToEdit); // Simplified
             lessonFormModal.show();
         }
 
@@ -250,8 +205,8 @@
                     form.reset();
                     form.classList.remove('was-validated');
                     document.getElementById('sortOrder').value = 0;
-                    contentTypeSelect.value = '';
-                    updateContentDataField('');
+                    // contentTypeSelect.value = ''; // Removed
+                    // updateContentDataField(''); // Removed
                 }
             });
         }

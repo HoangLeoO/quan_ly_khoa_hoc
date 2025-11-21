@@ -67,51 +67,71 @@
                             <h2 class="card-title">${lesson.lessonName}</h2>
                         </div>
 
-                        <c:choose>
-                            <c:when test="${not empty lessonContent}">
-                                <!-- Video Player -->
-                                <c:if test="${lessonContent.contentType eq 'video' and not empty lessonContent.contentData}">
-                                    <div class="video-container mb-4 rounded">
-                                        <iframe src="https://www.youtube.com/embed/${lessonContent.contentData}"
-                                                title="YouTube video player" frameborder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen></iframe>
-                                    </div>
-                                </c:if>
-
-                                <!-- Content Text -->
-                                <c:if test="${lessonContent.contentType eq 'text' and not empty lessonContent.contentData}">
-                                    <div class="mt-4">
-                                        <h4 class="mb-3">Nội dung bài học</h4>
-                                        <div style="line-height: 1.8;">
-                                            ${lessonContent.contentData}
+                        <h4 class="mb-3">Danh sách Nội dung</h4>
+                        <div class="list-group mb-4">
+                            <c:choose>
+                                <c:when test="${not empty lessonContents}">
+                                    <c:forEach var="content" items="${lessonContents}" varStatus="status">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="badge bg-secondary me-2">${status.count}</span>
+                                                <span class="fw-bold">
+                                                    <c:choose>
+                                                        <c:when test="${content.contentType eq 'video'}"><i class="bi bi-play-circle me-1 text-danger"></i>Video</c:when>
+                                                        <c:when test="${content.contentType eq 'text'}"><i class="bi bi-file-text me-1 text-primary"></i>Bài đọc</c:when>
+                                                        <c:when test="${content.contentType eq 'quiz'}"><i class="bi bi-question-circle me-1 text-success"></i>Quiz</c:when>
+                                                        <c:otherwise><i class="bi bi-info-circle me-1"></i>Nội dung</c:otherwise>
+                                                    </c:choose>
+                                                </span>
+                                                <small class="text-muted ms-2">
+                                                    <c:choose>
+                                                        <c:when test="${content.contentType eq 'video'}">${content.contentData}</c:when>
+                                                        <c:when test="${content.contentType eq 'text'}">${content.contentData.length() > 50 ? content.contentData.substring(0, 50).concat('...') : content.contentData}</c:when>
+                                                        <c:when test="${content.contentType eq 'quiz'}">${content.contentData}</c:when>
+                                                    </c:choose>
+                                                </small>
+                                            </div>
+                                            <div>
+                                                <a href="/admin/lessons?action=viewSingleContent&contentId=${content.contentId}&lessonId=${lesson.lessonId}&moduleId=${moduleId}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-eye"></i> Xem
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-primary edit-content-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#lessonContentFormModal"
+                                                        data-content-id="${content.contentId}"
+                                                        data-lesson-id="${lesson.lessonId}"
+                                                        data-module-id="${moduleId}"
+                                                        data-content-type="${content.contentType}"
+                                                        data-content-data="${content.contentData}">
+                                                    <i class="bi bi-pencil"></i> Sửa
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger delete-content-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#confirmDeleteContentModal"
+                                                        data-content-id="${content.contentId}"
+                                                        data-content-type="${content.contentType}"
+                                                        data-content-data="${content.contentData}"
+                                                        data-lesson-id="${lesson.lessonId}"
+                                                        data-module-id="${moduleId}">
+                                                    <i class="bi bi-trash"></i> Xóa
+                                                </button>
+                                            </div>
                                         </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="alert alert-warning text-center" role="alert">
+                                        Chưa có nội dung nào cho bài học này.
                                     </div>
-                                </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
 
-                                <!-- Quiz (Placeholder) -->
-                                <c:if test="${lessonContent.contentType eq 'quiz'}">
-                                    <div class="alert alert-info text-center mt-4" role="alert">
-                                        Nội dung bài học là một bài Quiz. (Chức năng Quiz chưa được triển khai)
-                                    </div>
-                                </c:if>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="alert alert-warning text-center" role="alert">
-                                    Chưa có nội dung cho bài học này.
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <!-- Edit Content Button -->
-                        <div class="text-center mt-5">
-                            <button id="editLessonContentBtn" class="btn btn-primary"
+                        <!-- Add Content Button -->
+                        <div class="text-center mt-4">
+                            <button id="addLessonContentBtn" class="btn btn-primary"
                                     data-bs-toggle="modal" data-bs-target="#lessonContentFormModal"
                                     data-lesson-id="${lesson.lessonId}"
-                                    data-module-id="${moduleId}"
-                                    data-content-type="${lessonContent.contentType}"
-                                    data-content-data="${lessonContent.contentData}">
-                                <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa nội dung
+                                    data-module-id="${moduleId}">
+                                <i class="bi bi-plus-circle me-2"></i>Thêm Nội dung mới
                             </button>
                         </div>
 
@@ -124,6 +144,7 @@
 
 <!-- Modals -->
 <c:import url="admin-lesson-content-form.jsp"/>
+<c:import url="admin-lesson-content-confirm-delete.jsp"/>
 
 <!-- Footer -->
 <c:import url="../common/footer.jsp"/>
@@ -151,8 +172,12 @@
 
         const lessonContentFormModal = new bootstrap.Modal(lessonContentFormModalEl);
         const form = document.getElementById('lessonContentForm');
+        const modalTitle = document.getElementById('lessonContentFormModalLabel');
+        const submitButton = lessonContentFormModalEl.querySelector('button[type="submit"]');
         const contentTypeSelect = document.getElementById('contentTypeContent');
         const contentDataField = document.getElementById('contentDataFieldContent');
+        const lessonIdContentInput = document.getElementById('lessonIdContent');
+        const moduleIdContentInput = document.getElementById('moduleIdContent');
         const urlParams = new URLSearchParams(window.location.search);
 
         function updateContentDataField(selectedType, currentData = '') {
@@ -183,21 +208,66 @@
             updateContentDataField(this.value);
         });
 
-        // --- Handle Edit Lesson Content Modal ---
+        // --- Handle Add/Edit Content Modal ---
         lessonContentFormModalEl.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget; // Button that triggered the modal
-            if (button && button.id === 'editLessonContentBtn') {
-                const lessonId = button.dataset.lessonId;
-                const moduleId = button.dataset.moduleId;
+            const lessonId = button.dataset.lessonId;
+            const moduleId = button.dataset.moduleId;
+            
+            lessonIdContentInput.value = lessonId;
+            moduleIdContentInput.value = moduleId;
+
+            if (button.id === 'addLessonContentBtn') {
+                form.action = '/admin/lessons?action=addContent'; // New action for adding content
+                form.reset();
+                form.classList.remove('was-validated');
+                modalTitle.textContent = 'Thêm Nội dung mới';
+                submitButton.innerHTML = '<i class="bi bi-plus-circle me-2"></i>Thêm Nội dung';
+                contentTypeSelect.value = '';
+                updateContentDataField('');
+            } else if (button.classList.contains('edit-content-btn')) {
+                form.action = '/admin/lessons?action=updateContent';
+                form.classList.remove('was-validated');
+                modalTitle.textContent = 'Cập nhật Nội dung';
+                submitButton.innerHTML = '<i class="bi bi-check-circle me-2"></i>Cập nhật Nội dung';
+                
+                const contentId = button.dataset.contentId;
                 const contentType = button.dataset.contentType;
                 const contentData = button.dataset.contentData;
 
-                document.getElementById('lessonIdContent').value = lessonId;
-                document.getElementById('moduleIdContent').value = moduleId;
+                // Set hidden contentId for update
+                let hiddenContentIdInput = document.getElementById('contentId');
+                if (!hiddenContentIdInput) {
+                    hiddenContentIdInput = document.createElement('input');
+                    hiddenContentIdInput.type = 'hidden';
+                    hiddenContentIdInput.name = 'contentId';
+                    hiddenContentIdInput.id = 'contentId';
+                    form.appendChild(hiddenContentIdInput);
+                }
+                hiddenContentIdInput.value = contentId;
+
                 contentTypeSelect.value = contentType;
                 updateContentDataField(contentType, contentData);
             }
         });
+
+        // --- Handle Delete Content Modal ---
+        const confirmDeleteContentModalEl = document.getElementById('confirmDeleteContentModal');
+        if (confirmDeleteContentModalEl) {
+            const deleteContentIdInput = document.getElementById('deleteContentId');
+            const contentDataToDelete = document.getElementById('contentDataToDelete');
+            const deleteContentLessonIdInput = document.getElementById('deleteContentLessonId');
+            const deleteContentModuleIdInput = document.getElementById('deleteContentModuleId');
+
+            document.querySelectorAll('.delete-content-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    deleteContentIdInput.value = this.dataset.contentId;
+                    contentDataToDelete.textContent = this.dataset.contentData.length > 50 ? this.dataset.contentData.substring(0, 50).concat('...') : this.dataset.contentData;
+                    deleteContentLessonIdInput.value = this.dataset.lessonId;
+                    deleteContentModuleIdInput.value = this.dataset.moduleId;
+                });
+            });
+        }
 
         // --- Toast Logic ---
         const message = urlParams.get('message');
@@ -213,6 +283,10 @@
             switch (message) {
                 case 'update_content_success': toastMessage = 'Đã cập nhật nội dung bài học thành công!'; isSuccess = true; break;
                 case 'update_content_failed': toastMessage = 'Cập nhật nội dung bài học thất bại. Vui lòng điền đầy đủ thông tin.'; isError = true; break;
+                case 'add_content_success': toastMessage = 'Đã thêm nội dung bài học thành công!'; isSuccess = true; break;
+                case 'add_content_failed': toastMessage = 'Thêm nội dung bài học thất bại. Vui lòng điền đầy đủ thông tin.'; isError = true; break;
+                case 'delete_content_success': toastMessage = 'Đã xóa nội dung bài học thành công!'; isSuccess = true; break;
+                case 'delete_content_failed': toastMessage = 'Xóa nội dung bài học thất bại.'; isError = true; break;
             }
 
             if (toastMessage) {
