@@ -135,7 +135,7 @@
 
                                             <%-- ITEM BÀI HỌC --%>
                                         <div class="d-flex align-items-center p-3 border shadow-sm lesson-list-item
-                                            ${lesson.getStatus() ? 'lesson-completed' : ''}">
+                                            ${lesson.isCompleted() ? 'lesson-completed' : ''}">
 
                                             <div style="width: 40px;" class="text-center fw-bold me-3">
                                                     <%-- STT --%>
@@ -144,9 +144,9 @@
 
                                                 <%-- TÊN BÀI HỌC VÀ LINK --%>
                                             <div class="flex-grow-1">
-                                                <a href="students?action=lesson-content"
+                                                <a href="students?action=lesson-content&module-id=${moduleId}&lesson-id=${lesson.getLessonId()}&module-name=${currentModuleName}"
                                                    class="fw-bold text-decoration-none
-                                                          ${lesson.getStatus() ? 'text-success' : 'text-dark'}">
+                                                          ${lesson.isCompleted() ? 'text-success' : 'text-dark'}">
                                                         ${lesson.getLessonName()}
                                                 </a>
                                             </div>
@@ -158,9 +158,9 @@
                                                 <input type="hidden" name="lessonId" value="${lesson.getLessonId()}">
 
                                                 <label class="form-check-label me-3 small fw-semibold
-                                                              ${lesson.getStatus() ? 'text-success' : 'text-muted'}"
+                                                              ${lesson.isCompleted() ? 'text-success' : 'text-muted'}"
                                                        for="status-check-${lesson.getLessonId()}">
-                                                        ${lesson.getStatus() ? 'Đã hoàn thành' : 'Chưa hoàn thành'}
+                                                        ${lesson.isCompleted() ? 'Đã hoàn thành' : 'Chưa hoàn thành'}
                                                 </label>
 
                                                 <input type="checkbox"
@@ -169,7 +169,7 @@
                                                        class="form-check-input"
                                                        style="cursor:pointer; width:1.5em; height:1.5em;"
                                                        value="true"
-                                                       <c:if test="${lesson.getStatus()}">checked</c:if>
+                                                       <c:if test="${lesson.isCompleted()}">checked</c:if>
                                                        onchange="this.form.submit()">
                                             </div>
 

@@ -16,6 +16,7 @@ public class LessonContentRowDTO {
     private int contentId;
     private String contentType;
     private String contentData;
+    private String contentName;
 
     // 4. Trường từ bảng lesson_progress (lp)
     private boolean studentLessonCompleted; // Alias là is_completed
@@ -26,10 +27,7 @@ public class LessonContentRowDTO {
     public LessonContentRowDTO() {
     }
 
-    // Constructor Đầy đủ Tham số
-    public LessonContentRowDTO(int lessonId, String lessonName, int moduleId, String moduleName,
-                               int contentId, String contentType, String contentData,
-                               boolean studentLessonCompleted, Timestamp completedAt) {
+    public LessonContentRowDTO(int lessonId, String lessonName, int moduleId, String moduleName, int contentId, String contentType, String contentData, String contentName, boolean studentLessonCompleted, Timestamp completedAt) {
         this.lessonId = lessonId;
         this.lessonName = lessonName;
         this.moduleId = moduleId;
@@ -37,98 +35,88 @@ public class LessonContentRowDTO {
         this.contentId = contentId;
         this.contentType = contentType;
         this.contentData = contentData;
+        this.contentName = contentName;
         this.studentLessonCompleted = studentLessonCompleted;
         this.completedAt = completedAt;
     }
 
-    // Getters
-
     public int getLessonId() {
         return lessonId;
+    }
+
+    public void setLessonId(int lessonId) {
+        this.lessonId = lessonId;
     }
 
     public String getLessonName() {
         return lessonName;
     }
 
-    public int getModuleId() {
-        return moduleId;
-    }
-
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    public int getContentId() {
-        return contentId;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public String getContentData() {
-        return contentData;
-    }
-
-    public boolean isStudentLessonCompleted() {
-        return studentLessonCompleted;
-    }
-
-    public Timestamp getCompletedAt() {
-        return completedAt;
-    }
-
-
-    // Setters
-
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
-    }
-
     public void setLessonName(String lessonName) {
         this.lessonName = lessonName;
+    }
+
+    public int getModuleId() {
+        return moduleId;
     }
 
     public void setModuleId(int moduleId) {
         this.moduleId = moduleId;
     }
 
+    public String getModuleName() {
+        return moduleName;
+    }
+
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
+    }
+
+    public int getContentId() {
+        return contentId;
     }
 
     public void setContentId(int contentId) {
         this.contentId = contentId;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getContentData() {
+        return contentData;
     }
 
     public void setContentData(String contentData) {
         this.contentData = contentData;
     }
 
+    public String getContentName() {
+        return contentName;
+    }
+
+    public void setContentName(String contentName) {
+        this.contentName = contentName;
+    }
+
+    public boolean isStudentLessonCompleted() {
+        return studentLessonCompleted;
+    }
+
     public void setStudentLessonCompleted(boolean studentLessonCompleted) {
         this.studentLessonCompleted = studentLessonCompleted;
     }
 
-    public void setCompletedAt(Timestamp completedAt) {
-        this.completedAt = completedAt;
+    public Timestamp getCompletedAt() {
+        return completedAt;
     }
 
-    // Tùy chọn: toString()
-    @Override
-    public String toString() {
-        return "LessonContentRowDTO{" +
-                "lessonId=" + lessonId +
-                ", lessonName='" + lessonName + '\'' +
-                ", moduleId=" + moduleId +
-                ", moduleName='" + moduleName + '\'' +
-                ", contentId=" + contentId +
-                ", contentType='" + contentType + '\'' +
-                ", studentLessonCompleted=" + studentLessonCompleted +
-                '}';
+    public void setCompletedAt(Timestamp completedAt) {
+        this.completedAt = completedAt;
     }
 }

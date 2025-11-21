@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IModuleService {
     List<ModuleDTO> findModulesByCourseId(int courseId);
-    List<ModuleDTO> findModulesDTOByStudentId(int studentId);
+    List<ModuleDTO> findModulesDTOByStudentId(int studentId,int courseId);
     ModuleDTO findById(int moduleId);
     ModuleDTO findByNameAndCourseId(String moduleName, int courseId);
     void save(ModuleDTO moduleDTO);

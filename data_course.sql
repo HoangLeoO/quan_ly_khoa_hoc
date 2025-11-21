@@ -194,142 +194,141 @@ INSERT INTO lessons (module_id, lesson_name, sort_order) VALUES
 -- ----------------------
 -- Lesson Contents
 -- lesson_id 1 -> 45
+INSERT INTO lesson_contents (lesson_id, content_type, content_name, content_data) VALUES
+                                                                                      (1, 'text', 'Bài đọc: Giới thiệu Lesson 1', 'Nội dung text cho Lesson 1'),
+                                                                                      (1, 'video', 'Video: Hướng dẫn Lesson 1', 'Video hướng dẫn cho Lesson 1'),
 
-INSERT INTO lesson_contents (lesson_id, content_type, content_data) VALUES
-                                                                        (1, 'text', 'Nội dung text cho Lesson 1'),
-                                                                        (1, 'video', 'Video hướng dẫn cho Lesson 1'),
+                                                                                      (2, 'text', 'Bài đọc: Khái niệm cơ bản Lesson 2', 'Nội dung text cho Lesson 2'),
+                                                                                      (2, 'video', 'Video: Thảo luận Lesson 2', 'Video hướng dẫn cho Lesson 2'),
 
-                                                                        (2, 'text', 'Nội dung text cho Lesson 2'),
-                                                                        (2, 'video', 'Video hướng dẫn cho Lesson 2'),
+                                                                                      (3, 'text', 'Bài đọc: Các bước thực hiện Lesson 3', 'Nội dung text cho Lesson 3'),
+                                                                                      (3, 'video', 'Video: Ví dụ Lesson 3', 'Video hướng dẫn cho Lesson 3'),
 
-                                                                        (3, 'text', 'Nội dung text cho Lesson 3'),
-                                                                        (3, 'video', 'Video hướng dẫn cho Lesson 3'),
+                                                                                      (4, 'text', 'Bài đọc: Tổng quan Lesson 4', 'Nội dung text cho Lesson 4'),
+                                                                                      (4, 'video', 'Video: Giới thiệu Lesson 4', 'Video hướng dẫn cho Lesson 4'),
 
-                                                                        (4, 'text', 'Nội dung text cho Lesson 4'),
-                                                                        (4, 'video', 'Video hướng dẫn cho Lesson 4'),
+                                                                                      (5, 'text', 'Bài đọc: Chi tiết Lesson 5', 'Nội dung text cho Lesson 5'),
+                                                                                      (5, 'video', 'Video: Bài giảng Lesson 5', 'Video hướng dẫn cho Lesson 5'),
 
-                                                                        (5, 'text', 'Nội dung text cho Lesson 5'),
-                                                                        (5, 'video', 'Video hướng dẫn cho Lesson 5'),
+                                                                                      (6, 'text', 'Bài đọc: Tóm tắt Lesson 6', 'Nội dung text cho Lesson 6'),
+                                                                                      (6, 'video', 'Video: Giải thích Lesson 6', 'Video hướng dẫn cho Lesson 6'),
 
-                                                                        (6, 'text', 'Nội dung text cho Lesson 6'),
-                                                                        (6, 'video', 'Video hướng dẫn cho Lesson 6'),
+                                                                                      (7, 'text', 'Bài đọc: Lý thuyết Lesson 7', 'Nội dung text cho Lesson 7'),
+                                                                                      (7, 'video', 'Video: Phân tích Lesson 7', 'Video hướng dẫn cho Lesson 7'),
 
-                                                                        (7, 'text', 'Nội dung text cho Lesson 7'),
-                                                                        (7, 'video', 'Video hướng dẫn cho Lesson 7'),
+                                                                                      (8, 'text', 'Bài đọc: Bài tập Lesson 8', 'Nội dung text cho Lesson 8'),
+                                                                                      (8, 'video', 'Video: Thực hành Lesson 8', 'Video hướng dẫn cho Lesson 8'),
 
-                                                                        (8, 'text', 'Nội dung text cho Lesson 8'),
-                                                                        (8, 'video', 'Video hướng dẫn cho Lesson 8'),
+                                                                                      (9, 'text', 'Bài đọc: Kiến thức nâng cao Lesson 9', 'Nội dung text cho Lesson 9'),
+                                                                                      (9, 'video', 'Video: Chuyên sâu Lesson 9', 'Video hướng dẫn cho Lesson 9'),
 
-                                                                        (9, 'text', 'Nội dung text cho Lesson 9'),
-                                                                        (9, 'video', 'Video hướng dẫn cho Lesson 9'),
+                                                                                      (10, 'text', 'Bài đọc: Ôn tập Lesson 10', 'Nội dung text cho Lesson 10'),
+                                                                                      (10, 'video', 'Video: Review Lesson 10', 'Video hướng dẫn cho Lesson 10'),
 
-                                                                        (10, 'text', 'Nội dung text cho Lesson 10'),
-                                                                        (10, 'video', 'Video hướng dẫn cho Lesson 10'),
+                                                                                      (11, 'text', 'Bài đọc: Giới thiệu Lesson 11', 'Nội dung text cho Lesson 11'),
+                                                                                      (11, 'video', 'Video: Hướng dẫn Lesson 11', 'Video hướng dẫn cho Lesson 11'),
 
-                                                                        (11, 'text', 'Nội dung text cho Lesson 11'),
-                                                                        (11, 'video', 'Video hướng dẫn cho Lesson 11'),
+                                                                                      (12, 'text', 'Bài đọc: Khái niệm cơ bản Lesson 12', 'Nội dung text cho Lesson 12'),
+                                                                                      (12, 'video', 'Video: Thảo luận Lesson 12', 'Video hướng dẫn cho Lesson 12'),
 
-                                                                        (12, 'text', 'Nội dung text cho Lesson 12'),
-                                                                        (12, 'video', 'Video hướng dẫn cho Lesson 12'),
+                                                                                      (13, 'text', 'Bài đọc: Các bước thực hiện Lesson 13', 'Nội dung text cho Lesson 13'),
+                                                                                      (13, 'video', 'Video: Ví dụ Lesson 13', 'Video hướng dẫn cho Lesson 13'),
 
-                                                                        (13, 'text', 'Nội dung text cho Lesson 13'),
-                                                                        (13, 'video', 'Video hướng dẫn cho Lesson 13'),
+                                                                                      (14, 'text', 'Bài đọc: Tổng quan Lesson 14', 'Nội dung text cho Lesson 14'),
+                                                                                      (14, 'video', 'Video: Giới thiệu Lesson 14', 'Video hướng dẫn cho Lesson 14'),
 
-                                                                        (14, 'text', 'Nội dung text cho Lesson 14'),
-                                                                        (14, 'video', 'Video hướng dẫn cho Lesson 14'),
+                                                                                      (15, 'text', 'Bài đọc: Chi tiết Lesson 15', 'Nội dung text cho Lesson 15'),
+                                                                                      (15, 'video', 'Video: Bài giảng Lesson 15', 'Video hướng dẫn cho Lesson 15'),
 
-                                                                        (15, 'text', 'Nội dung text cho Lesson 15'),
-                                                                        (15, 'video', 'Video hướng dẫn cho Lesson 15'),
+                                                                                      (16, 'text', 'Bài đọc: Tóm tắt Lesson 16', 'Nội dung text cho Lesson 16'),
+                                                                                      (16, 'video', 'Video: Giải thích Lesson 16', 'Video hướng dẫn cho Lesson 16'),
 
-                                                                        (16, 'text', 'Nội dung text cho Lesson 16'),
-                                                                        (16, 'video', 'Video hướng dẫn cho Lesson 16'),
+                                                                                      (17, 'text', 'Bài đọc: Lý thuyết Lesson 17', 'Nội dung text cho Lesson 17'),
+                                                                                      (17, 'video', 'Video: Phân tích Lesson 17', 'Video hướng dẫn cho Lesson 17'),
 
-                                                                        (17, 'text', 'Nội dung text cho Lesson 17'),
-                                                                        (17, 'video', 'Video hướng dẫn cho Lesson 17'),
+                                                                                      (18, 'text', 'Bài đọc: Bài tập Lesson 18', 'Nội dung text cho Lesson 18'),
+                                                                                      (18, 'video', 'Video: Thực hành Lesson 18', 'Video hướng dẫn cho Lesson 18'),
 
-                                                                        (18, 'text', 'Nội dung text cho Lesson 18'),
-                                                                        (18, 'video', 'Video hướng dẫn cho Lesson 18'),
+                                                                                      (19, 'text', 'Bài đọc: Kiến thức nâng cao Lesson 19', 'Nội dung text cho Lesson 19'),
+                                                                                      (19, 'video', 'Video: Chuyên sâu Lesson 19', 'Video hướng dẫn cho Lesson 19'),
 
-                                                                        (19, 'text', 'Nội dung text cho Lesson 19'),
-                                                                        (19, 'video', 'Video hướng dẫn cho Lesson 19'),
+                                                                                      (20, 'text', 'Bài đọc: Ôn tập Lesson 20', 'Nội dung text cho Lesson 20'),
+                                                                                      (20, 'video', 'Video: Review Lesson 20', 'Video hướng dẫn cho Lesson 20'),
 
-                                                                        (20, 'text', 'Nội dung text cho Lesson 20'),
-                                                                        (20, 'video', 'Video hướng dẫn cho Lesson 20'),
+                                                                                      (21, 'text', 'Bài đọc: Giới thiệu Lesson 21', 'Nội dung text cho Lesson 21'),
+                                                                                      (21, 'video', 'Video: Hướng dẫn Lesson 21', 'Video hướng dẫn cho Lesson 21'),
 
-                                                                        (21, 'text', 'Nội dung text cho Lesson 21'),
-                                                                        (21, 'video', 'Video hướng dẫn cho Lesson 21'),
+                                                                                      (22, 'text', 'Bài đọc: Khái niệm cơ bản Lesson 22', 'Nội dung text cho Lesson 22'),
+                                                                                      (22, 'video', 'Video: Thảo luận Lesson 22', 'Video hướng dẫn cho Lesson 22'),
 
-                                                                        (22, 'text', 'Nội dung text cho Lesson 22'),
-                                                                        (22, 'video', 'Video hướng dẫn cho Lesson 22'),
+                                                                                      (23, 'text', 'Bài đọc: Các bước thực hiện Lesson 23', 'Nội dung text cho Lesson 23'),
+                                                                                      (23, 'video', 'Video: Ví dụ Lesson 23', 'Video hướng dẫn cho Lesson 23'),
 
-                                                                        (23, 'text', 'Nội dung text cho Lesson 23'),
-                                                                        (23, 'video', 'Video hướng dẫn cho Lesson 23'),
+                                                                                      (24, 'text', 'Bài đọc: Tổng quan Lesson 24', 'Nội dung text cho Lesson 24'),
+                                                                                      (24, 'video', 'Video: Giới thiệu Lesson 24', 'Video hướng dẫn cho Lesson 24'),
 
-                                                                        (24, 'text', 'Nội dung text cho Lesson 24'),
-                                                                        (24, 'video', 'Video hướng dẫn cho Lesson 24'),
+                                                                                      (25, 'text', 'Bài đọc: Chi tiết Lesson 25', 'Nội dung text cho Lesson 25'),
+                                                                                      (25, 'video', 'Video: Bài giảng Lesson 25', 'Video hướng dẫn cho Lesson 25'),
 
-                                                                        (25, 'text', 'Nội dung text cho Lesson 25'),
-                                                                        (25, 'video', 'Video hướng dẫn cho Lesson 25'),
+                                                                                      (26, 'text', 'Bài đọc: Tóm tắt Lesson 26', 'Nội dung text cho Lesson 26'),
+                                                                                      (26, 'video', 'Video: Giải thích Lesson 26', 'Video hướng dẫn cho Lesson 26'),
 
-                                                                        (26, 'text', 'Nội dung text cho Lesson 26'),
-                                                                        (26, 'video', 'Video hướng dẫn cho Lesson 26'),
+                                                                                      (27, 'text', 'Bài đọc: Lý thuyết Lesson 27', 'Nội dung text cho Lesson 27'),
+                                                                                      (27, 'video', 'Video: Phân tích Lesson 27', 'Video hướng dẫn cho Lesson 27'),
 
-                                                                        (27, 'text', 'Nội dung text cho Lesson 27'),
-                                                                        (27, 'video', 'Video hướng dẫn cho Lesson 27'),
+                                                                                      (28, 'text', 'Bài đọc: Bài tập Lesson 28', 'Nội dung text cho Lesson 28'),
+                                                                                      (28, 'video', 'Video: Thực hành Lesson 28', 'Video hướng dẫn cho Lesson 28'),
 
-                                                                        (28, 'text', 'Nội dung text cho Lesson 28'),
-                                                                        (28, 'video', 'Video hướng dẫn cho Lesson 28'),
+                                                                                      (29, 'text', 'Bài đọc: Kiến thức nâng cao Lesson 29', 'Nội dung text cho Lesson 29'),
+                                                                                      (29, 'video', 'Video: Chuyên sâu Lesson 29', 'Video hướng dẫn cho Lesson 29'),
 
-                                                                        (29, 'text', 'Nội dung text cho Lesson 29'),
-                                                                        (29, 'video', 'Video hướng dẫn cho Lesson 29'),
+                                                                                      (30, 'text', 'Bài đọc: Ôn tập Lesson 30', 'Nội dung text cho Lesson 30'),
+                                                                                      (30, 'video', 'Video: Review Lesson 30', 'Video hướng dẫn cho Lesson 30'),
 
-                                                                        (30, 'text', 'Nội dung text cho Lesson 30'),
-                                                                        (30, 'video', 'Video hướng dẫn cho Lesson 30'),
+                                                                                      (31, 'text', 'Bài đọc: Giới thiệu Lesson 31', 'Nội dung text cho Lesson 31'),
+                                                                                      (31, 'video', 'Video: Hướng dẫn Lesson 31', 'Video hướng dẫn cho Lesson 31'),
 
-                                                                        (31, 'text', 'Nội dung text cho Lesson 31'),
-                                                                        (31, 'video', 'Video hướng dẫn cho Lesson 31'),
+                                                                                      (32, 'text', 'Bài đọc: Khái niệm cơ bản Lesson 32', 'Nội dung text cho Lesson 32'),
+                                                                                      (32, 'video', 'Video: Thảo luận Lesson 32', 'Video hướng dẫn cho Lesson 32'),
 
-                                                                        (32, 'text', 'Nội dung text cho Lesson 32'),
-                                                                        (32, 'video', 'Video hướng dẫn cho Lesson 32'),
+                                                                                      (33, 'text', 'Bài đọc: Các bước thực hiện Lesson 33', 'Nội dung text cho Lesson 33'),
+                                                                                      (33, 'video', 'Video: Ví dụ Lesson 33', 'Video hướng dẫn cho Lesson 33'),
 
-                                                                        (33, 'text', 'Nội dung text cho Lesson 33'),
-                                                                        (33, 'video', 'Video hướng dẫn cho Lesson 33'),
+                                                                                      (34, 'text', 'Bài đọc: Tổng quan Lesson 34', 'Nội dung text cho Lesson 34'),
+                                                                                      (34, 'video', 'Video: Giới thiệu Lesson 34', 'Video hướng dẫn cho Lesson 34'),
 
-                                                                        (34, 'text', 'Nội dung text cho Lesson 34'),
-                                                                        (34, 'video', 'Video hướng dẫn cho Lesson 34'),
+                                                                                      (35, 'text', 'Bài đọc: Chi tiết Lesson 35', 'Nội dung text cho Lesson 35'),
+                                                                                      (35, 'video', 'Video: Bài giảng Lesson 35', 'Video hướng dẫn cho Lesson 35'),
 
-                                                                        (35, 'text', 'Nội dung text cho Lesson 35'),
-                                                                        (35, 'video', 'Video hướng dẫn cho Lesson 35'),
+                                                                                      (36, 'text', 'Bài đọc: Tóm tắt Lesson 36', 'Nội dung text cho Lesson 36'),
+                                                                                      (36, 'video', 'Video: Giải thích Lesson 36', 'Video hướng dẫn cho Lesson 36'),
 
-                                                                        (36, 'text', 'Nội dung text cho Lesson 36'),
-                                                                        (36, 'video', 'Video hướng dẫn cho Lesson 36'),
+                                                                                      (37, 'text', 'Bài đọc: Lý thuyết Lesson 37', 'Nội dung text cho Lesson 37'),
+                                                                                      (37, 'video', 'Video: Phân tích Lesson 37', 'Video hướng dẫn cho Lesson 37'),
 
-                                                                        (37, 'text', 'Nội dung text cho Lesson 37'),
-                                                                        (37, 'video', 'Video hướng dẫn cho Lesson 37'),
+                                                                                      (38, 'text', 'Bài đọc: Bài tập Lesson 38', 'Nội dung text cho Lesson 38'),
+                                                                                      (38, 'video', 'Video: Thực hành Lesson 38', 'Video hướng dẫn cho Lesson 38'),
 
-                                                                        (38, 'text', 'Nội dung text cho Lesson 38'),
-                                                                        (38, 'video', 'Video hướng dẫn cho Lesson 38'),
+                                                                                      (39, 'text', 'Bài đọc: Kiến thức nâng cao Lesson 39', 'Nội dung text cho Lesson 39'),
+                                                                                      (39, 'video', 'Video: Chuyên sâu Lesson 39', 'Video hướng dẫn cho Lesson 39'),
 
-                                                                        (39, 'text', 'Nội dung text cho Lesson 39'),
-                                                                        (39, 'video', 'Video hướng dẫn cho Lesson 39'),
+                                                                                      (40, 'text', 'Bài đọc: Ôn tập Lesson 40', 'Nội dung text cho Lesson 40'),
+                                                                                      (40, 'video', 'Video: Review Lesson 40', 'Video hướng dẫn cho Lesson 40'),
 
-                                                                        (40, 'text', 'Nội dung text cho Lesson 40'),
-                                                                        (40, 'video', 'Video hướng dẫn cho Lesson 40'),
+                                                                                      (41, 'text', 'Bài đọc: Giới thiệu Lesson 41', 'Nội dung text cho Lesson 41'),
+                                                                                      (41, 'video', 'Video: Hướng dẫn Lesson 41', 'Video hướng dẫn cho Lesson 41'),
 
-                                                                        (41, 'text', 'Nội dung text cho Lesson 41'),
-                                                                        (41, 'video', 'Video hướng dẫn cho Lesson 41'),
+                                                                                      (42, 'text', 'Bài đọc: Khái niệm cơ bản Lesson 42', 'Nội dung text cho Lesson 42'),
+                                                                                      (42, 'video', 'Video: Thảo luận Lesson 42', 'Video hướng dẫn cho Lesson 42'),
 
-                                                                        (42, 'text', 'Nội dung text cho Lesson 42'),
-                                                                        (42, 'video', 'Video hướng dẫn cho Lesson 42'),
+                                                                                      (43, 'text', 'Bài đọc: Các bước thực hiện Lesson 43', 'Nội dung text cho Lesson 43'),
+                                                                                      (43, 'video', 'Video: Ví dụ Lesson 43', 'Video hướng dẫn cho Lesson 43'),
 
-                                                                        (43, 'text', 'Nội dung text cho Lesson 43'),
-                                                                        (43, 'video', 'Video hướng dẫn cho Lesson 43'),
+                                                                                      (44, 'text', 'Bài đọc: Tổng quan Lesson 44', 'Nội dung text cho Lesson 44'),
+                                                                                      (44, 'video', 'Video: Giới thiệu Lesson 44', 'Video hướng dẫn cho Lesson 44'),
 
-                                                                        (44, 'text', 'Nội dung text cho Lesson 44'),
-                                                                        (44, 'video', 'Video hướng dẫn cho Lesson 44'),
-
-                                                                        (45, 'text', 'Nội dung text cho Lesson 45'),
-                                                                        (45, 'video', 'Video hướng dẫn cho Lesson 45');
+                                                                                      (45, 'text', 'Bài đọc: Chi tiết Lesson 45', 'Nội dung text cho Lesson 45'),
+                                                                                      (45, 'video', 'Video: Bài giảng Lesson 45', 'Video hướng dẫn cho Lesson 45');
 
 -- Giả sử 4 teacher có staff_id = 1,2,3,4
 -- 3 courses có course_id = 1,2,3
@@ -528,8 +527,8 @@ INSERT INTO enrolments (student_id, class_id, status) VALUES
 -- Class 3 (15 lessons, start_date 2025-01-05 → end_date 2025-12-20)
 -- Chia 15 lesson ra 12 tháng → một số tháng có 2 lesson
 INSERT INTO schedules (class_id, lesson_id, time_start, time_end, room) VALUES
-                                                                            (3, 7,  '2025-01-10 08:00:00', '2025-01-10 09:00:00', 'Room A'),
-                                                                            (3, 8,  '2025-01-25 08:00:00', '2025-01-25 09:00:00', 'Room A'),
+                                                                            (3, 7,  '2025-11-21 08:00:00', '2025-11-21 09:00:00', 'Room A'),
+                                                                            (3, 8,  '2025-11-22 08:00:00', '2025-11-22 09:00:00', 'Room A'),
                                                                             (3, 9,  '2025-02-10 08:00:00', '2025-02-10 09:00:00', 'Room A'),
                                                                             (3, 10, '2025-03-10 08:00:00', '2025-03-10 09:00:00', 'Room A'),
                                                                             (3, 11, '2025-04-10 08:00:00', '2025-04-10 09:00:00', 'Room A'),
@@ -546,8 +545,8 @@ INSERT INTO schedules (class_id, lesson_id, time_start, time_end, room) VALUES
 
 -- Class 4 (15 lessons, start_date 2025-01-10 → end_date 2025-12-22)
 INSERT INTO schedules (class_id, lesson_id, time_start, time_end, room) VALUES
-                                                                            (4, 1,  '2025-01-15 08:00:00', '2025-01-15 09:00:00', 'Room B'),
-                                                                            (4, 2,  '2025-02-05 08:00:00', '2025-02-05 09:00:00', 'Room B'),
+                                                                            (4, 1,  '2025-11-21 08:00:00', '2025-11-21 09:00:00', 'Room B'),
+                                                                            (4, 2,  '2025-11-22 08:00:00', '2025-11-22 09:00:00', 'Room B'),
                                                                             (4, 3,  '2025-03-05 08:00:00', '2025-03-05 09:00:00', 'Room B'),
                                                                             (4, 4,  '2025-04-05 08:00:00', '2025-04-05 09:00:00', 'Room B'),
                                                                             (4, 5,  '2025-05-05 08:00:00', '2025-05-05 09:00:00', 'Room B'),

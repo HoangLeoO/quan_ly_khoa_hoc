@@ -1,5 +1,6 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
+import org.example.quan_ly_khoa_hoc.dto.LessonContentDTO;
 import org.example.quan_ly_khoa_hoc.dto.LessonContentRowDTO;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ILessonContentRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
@@ -7,6 +8,7 @@ import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class LessonContentRepository implements ILessonContentRepository {
 
         String sql = "SELECT\n" +
                 "    l.lesson_id, l.lesson_name, m.module_id, m.module_name,\n" +
-                "    lc.content_id, lc.content_type, lc.content_data,\n" +
+                "    lc.content_id, lc.content_type, lc.content_data,lc.content_name,\n" +
                 "    COALESCE(lp.is_completed, 0) AS student_lesson_completed,\n" +
                 "    lp.completed_at\n" +
                 "FROM\n" +
@@ -48,7 +50,7 @@ public class LessonContentRepository implements ILessonContentRepository {
                     dto.setModuleName(rs.getString("module_name"));
                     dto.setContentId(rs.getInt("content_id"));
                     dto.setContentType(rs.getString("content_type"));
-                    dto.setContentData(rs.getString("content_data"));
+                    dto.setContentName(rs.getString("content_data"));   dto.setContentData(rs.getString("content_name"));
                     dto.setStudentLessonCompleted(rs.getBoolean("student_lesson_completed"));
                     dto.setCompletedAt(rs.getTimestamp("completed_at"));
 
@@ -61,16 +63,7 @@ public class LessonContentRepository implements ILessonContentRepository {
         }
         return list;
     }
-import org.example.quan_ly_khoa_hoc.dto.LessonContentDTO;
-import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.ILessonContentRepository;
-import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class LessonContentRepository implements ILessonContentRepository {
     @Override
     public LessonContentDTO findByLessonId(int lessonId) {
         String sql = "SELECT content_id, lesson_id, content_type, content_data FROM lesson_contents WHERE lesson_id = ?";

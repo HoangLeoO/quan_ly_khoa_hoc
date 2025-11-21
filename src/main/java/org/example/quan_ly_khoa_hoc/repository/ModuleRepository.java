@@ -82,6 +82,7 @@ public class ModuleRepository implements IModuleRepository {
         return list;
     }
 
+
     @Override
     public ModuleDTO findById(int moduleId) {
         String sql = "SELECT module_id, module_name, course_id, sort_order FROM modules WHERE module_id = ?";

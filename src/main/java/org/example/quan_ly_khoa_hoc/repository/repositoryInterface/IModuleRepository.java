@@ -8,7 +8,6 @@ public interface IModuleRepository {
     List<ModuleDTO> findModulesByCourseId(int courseId);
 
     List<ModuleDTO> findModulesDTOByStudentId(int studentId,int Course_id);
-    List<ModuleDTO> findModulesDTOByStudentId(int studentId);
 
     ModuleDTO findById(int moduleId);
 
