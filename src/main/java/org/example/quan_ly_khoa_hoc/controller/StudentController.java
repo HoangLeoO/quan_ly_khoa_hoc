@@ -72,6 +72,9 @@ public class StudentController extends HttpServlet {
             case "view-lesson-content-detail":
                 showDetailLessonContent(req, resp);
                 break;
+            case "viewSingleContent":
+                viewSingleContent(req, resp);
+                break;
             default:
                 showHome(req, resp); // fallback
                 break;
@@ -219,6 +222,8 @@ public class StudentController extends HttpServlet {
         req.setAttribute("lessonContents", contentDTO);
         req.setAttribute("lessonId", lessonId);
         req.setAttribute("moduleId", moduleId);
+        req.setAttribute("contentId",lessonContentId);
+
         try {
             req.getRequestDispatcher("/views/student/list-lesson-content.jsp").forward(req, resp);
         } catch (Exception e) {
@@ -226,7 +231,21 @@ public class StudentController extends HttpServlet {
         }
     }
 
+    private void viewSingleContent(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int contentId = Integer.parseInt(req.getParameter("contentId"));
+        int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+        int moduleId = Integer.parseInt(req.getParameter("moduleId"));
 
+        LessonDTO lesson = lessonService.findById(lessonId);
+        LessonContentDTO singleContent = lessonContentService.findById(contentId);
+
+        req.setAttribute("lesson", lesson);
+        req.setAttribute("singleContent", singleContent);
+        req.setAttribute("moduleId", moduleId);
+//        req.setAttribute("lessonId", lessonId);
+
+        req.getRequestDispatcher("/views/student/student-single-lesson-content-detail.jsp").forward(req, resp);
+    }
     private void showDetailClass(HttpServletRequest req, HttpServletResponse resp) {
         int course_id = Integer.parseInt(req.getParameter("course-id"));
         HttpSession session = req.getSession(false);

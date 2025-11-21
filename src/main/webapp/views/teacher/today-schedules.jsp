@@ -95,7 +95,7 @@
 <%-- ------------------------------------------------------------------------------------------ --%>
 
 <div aria-live="polite" aria-atomic="true" class="bg-body-tertiary position-relative">
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div class="toast-container position-fixed top-0 end-0 p-3">
 
     <div id="statusToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">

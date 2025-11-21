@@ -54,7 +54,7 @@
                                     <c:forEach var="content" items="${lessonContents}" varStatus="status">
 
                                         <%-- Link đến trang chi tiết nội dung (viewSingleContent) --%>
-                                        <a href="${pageContext.request.contextPath}/students?action=viewSingleContent&contentId=${content.getContentId()}&lessonId=${lesson.getLessonId()}&moduleId=${moduleId}"
+                                        <a href="${pageContext.request.contextPath}/students?action=viewSingleContent&contentId=${content.getContentId()}&lessonId=${lessonId}&moduleId=${moduleId}"
                                            class="list-group-item list-group-item-action">
 
                                             <div class="content-item-link">
