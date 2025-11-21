@@ -74,7 +74,7 @@
                                                 </c:if>
                                             </div>
                                             <div>
-                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-info text-white">
+                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm  btn-outline-primary">
                                                     <i class="bi bi-eye"></i> Xem nội dung
                                                 </a>
                                                 <a href="/admin/lessons?action=showUpdateForm&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">

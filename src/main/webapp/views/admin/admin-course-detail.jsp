@@ -66,7 +66,7 @@
                                                 <small class="text-muted ms-2">(${module.total_lessons} bài học)</small>
                                             </div>
                                             <div>
-                                                <a href="/admin/lessons?action=listByModule&moduleId=${module.moduleId}" class="btn btn-smbtn-outline-primary">
+                                                <a href="/admin/lessons?action=listByModule&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-eye"></i> Chi tiết
                                                 </a>
                                                 <a href="/admin/courses?action=showModuleUpdateForm&id=${course.courseId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
