@@ -124,7 +124,30 @@
 
 
 <c:import url="../common/footer.jsp"/>
+<div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSaveModalLabel">Xác nhận Sửa thông tin</h5>
+                <%-- SỬ DỤNG CLASS CỦA BOOTSTRAP 5 --%>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn thay đổi không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
 
+                <%-- NÚT GỬI DỮ LIỆU THỰC SỰ: Dùng JavaScript để submit form có ID 'attendanceForm' --%>
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="document.getElementById('attendanceForm').submit();">
+                    Đồng ý LƯU
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

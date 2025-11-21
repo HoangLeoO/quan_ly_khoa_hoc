@@ -18,7 +18,7 @@
         /* CUSTOM CSS THÊM: Đảm bảo các nút nhỏ và gọn hơn */
         .attendance-btn-group label.btn {
             padding: 0.25rem 0.5rem; /* Giảm padding cho nút */
-            font-size: 0.8rem;      /* Thu nhỏ font */
+            font-size: 0.8rem; /* Thu nhỏ font */
             line-height: 1.5;
             border-radius: 0.2rem; /* Giữ bo góc nhỏ */
         }
@@ -88,9 +88,9 @@
                             <c:forEach var="st" items="${studentList}" varStatus="loop">
 
                                 <%-- Lấy dữ liệu cũ từ DB --%>
-                                <c:set var="oldAtt" value="${oldAttendanceMap[st.studentId]}" />
-                                <c:set var="status" value="${not empty oldAtt ? oldAtt.status : 'present'}" />
-                                <c:set var="noteValue" value="${not empty oldAtt ? oldAtt.note : ''}" />
+                                <c:set var="oldAtt" value="${oldAttendanceMap[st.studentId]}"/>
+                                <c:set var="status" value="${not empty oldAtt ? oldAtt.status : 'present'}"/>
+                                <c:set var="noteValue" value="${not empty oldAtt ? oldAtt.note : ''}"/>
 
                                 <tr>
                                     <td class="text-center">${loop.count}</td>
@@ -102,28 +102,39 @@
                                         <div class="d-flex justify-content-center gap-1 attendance-btn-group">
 
                                                 <%-- Có mặt (present) --%>
-                                            <input type="radio" class="btn-check" name="status_${st.studentId}" id="p_${st.studentId}" value="present"
+                                            <input type="radio" class="btn-check" name="status_${st.studentId}"
+                                                   id="p_${st.studentId}" value="present"
                                                    <c:if test="${status eq 'present'}">checked</c:if>>
-                                            <label class="btn btn-outline-secondary" for="p_${st.studentId}">Có mặt</label>
+                                            <label class="btn btn-outline-secondary" for="p_${st.studentId}">Có
+                                                mặt</label>
 
                                                 <%-- Muộn (late) --%>
-                                            <input type="radio" class="btn-check" name="status_${st.studentId}" id="l_${st.studentId}" value="late"
+                                            <input type="radio" class="btn-check" name="status_${st.studentId}"
+                                                   id="l_${st.studentId}" value="late"
                                                    <c:if test="${status eq 'late'}">checked</c:if>>
-                                            <label class="btn btn-outline-secondary" for="l_${st.studentId}">Muộn</label>
+                                            <label class="btn btn-outline-secondary"
+                                                   for="l_${st.studentId}">Muộn</label>
 
-                                                <%-- Vắng (absent) --%>
-                                            <input type="radio" class="btn-check" name="status_${st.studentId}" id="a_${st.studentId}" value="absent"
-                                                   <c:if test="${status eq 'absent'}">checked</c:if>>
-                                            <label class="btn btn-outline-secondary" for="a_${st.studentId}">Vắng</label>
 
                                                 <%-- Phép (excused) --%>
-                                            <input type="radio" class="btn-check" name="status_${st.studentId}" id="e_${st.studentId}" value="excused"
+                                            <input type="radio" class="btn-check" name="status_${st.studentId}"
+                                                   id="e_${st.studentId}" value="excused"
                                                    <c:if test="${status eq 'excused'}">checked</c:if>>
-                                            <label class="btn btn-outline-secondary" for="e_${st.studentId}">Phép</label>
+                                            <label class="btn btn-outline-secondary"
+                                                   for="e_${st.studentId}">Phép</label>
+                                                <%-- Vắng (absent) --%>
+                                            <input type="radio" class="btn-check" name="status_${st.studentId}"
+                                                   id="a_${st.studentId}" value="absent"
+                                                   <c:if test="${status eq 'absent'}">checked</c:if>>
+                                            <label class="btn btn-outline-secondary"
+                                                   for="a_${st.studentId}">Vắng</label>
+
+
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm" name="note_${st.studentId}" value="${noteValue}">
+                                        <input type="text" class="form-control form-control-sm"
+                                               name="note_${st.studentId}" value="${noteValue}">
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -132,7 +143,8 @@
                     </div>
 
                     <div class="text-end mt-3">
-                        <a href="${pageContext.request.contextPath}/attendance" class="btn btn-secondary me-2">Quay lại danh sách</a>
+                        <a href="${pageContext.request.contextPath}/attendance" class="btn btn-secondary me-2">Quay lại
+                            danh sách</a>
                             <%-- THAY NÚT SUBMIT BẰNG NÚT MỞ MODAL --%>
                         <button type="button"
                                 class="btn btn-primary px-5"

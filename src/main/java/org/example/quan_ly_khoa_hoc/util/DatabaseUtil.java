@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseUtil {
     private static final String URL = "jdbc:mysql://localhost:3306/codegym";
     private static final String USER = "root";
-    private static final String PASS = "912001";
+    private static final String PASS = "0703586224";
 
     // Phương thức kết nối database
     public static Connection getConnectDB() {

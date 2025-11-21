@@ -91,4 +91,9 @@ public class TeacherRepository implements ITeacherRepository {
         return "";
     }
 
+
+    @Override
+    public int getTotalStaffCount() {
+        return 0;
+    }
 }

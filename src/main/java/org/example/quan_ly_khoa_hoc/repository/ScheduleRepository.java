@@ -12,32 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleRepository implements IScheduleRepository {
-     private final String SELECT_BASE =
-             """
-                     SELECT
-                         sch.schedule_id,
-                         sch.class_id,
-                         c.class_name,
-                        \s
-                         DATE(sch.time_start)       AS study_date,
-                         DAYNAME(sch.time_start)    AS weekday,
-                         TIME(sch.time_start)       AS time_start,
-                         TIME(sch.time_end)         AS time_end,
-                        \s
-                         sch.room                   AS room,
-                         l.lesson_name              AS lesson_name,
-                         l.lesson_id                AS lesson_id,
-                         m.module_name              AS module_name,
-                        \s
-                         s.staff_id                 AS teacher_id,
-                         s.full_name                AS teacher_name
-                     
-                     FROM schedules sch
-                     INNER JOIN classes c ON sch.class_id = c.class_id
-                     LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id
-                     LEFT JOIN modules m ON l.module_id = m.module_id
-                     LEFT JOIN staff s   ON c.teacher_id = s.staff_id
-                     """;
+    private final String SELECT_BASE =
+            """
+                    SELECT
+                        sch.schedule_id,
+                        sch.class_id,
+                        c.class_name,
+                       \s
+                        DATE(sch.time_start)       AS study_date,
+                        DAYNAME(sch.time_start)    AS weekday,
+                        TIME(sch.time_start)       AS time_start,
+                        TIME(sch.time_end)         AS time_end,
+                       \s
+                        sch.room                   AS room,
+                        l.lesson_name              AS lesson_name,
+                        l.lesson_id                AS lesson_id,
+                        m.module_name              AS module_name,
+                       \s
+                        s.staff_id                 AS teacher_id,
+                        s.full_name                AS teacher_name
+                    
+                    FROM schedules sch
+                    INNER JOIN classes c ON sch.class_id = c.class_id
+                    LEFT JOIN lessons l ON sch.lesson_id = l.lesson_id
+                    LEFT JOIN modules m ON l.module_id = m.module_id
+                    LEFT JOIN staff s   ON c.teacher_id = s.staff_id
+                    """;
 
 
     @Override
@@ -186,4 +186,3 @@ public class ScheduleRepository implements IScheduleRepository {
     }
 
 }
-

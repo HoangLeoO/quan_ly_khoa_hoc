@@ -58,12 +58,6 @@
                                                 <td>${status.count}</td>
                                                 <td>${classes.getClassName()}</td>
                                                 <td>${classes.getCourseName()}</td>
-<%--                                                <td>--%>
-<%--                                                    <fmt:formatDate value="${classes.startDate}" pattern="dd/MM/yyyy" />--%>
-<%--                                                </td>--%>
-<%--                                                <td>--%>
-<%--                                                    <fmt:formatDate value="${classes.endDate}" pattern="dd/MM/yyyy" />--%>
-<%--                                                </td>--%>
                                                 <td>${classes.getStartDayFormatted()}</td>
                                                 <td>${classes.getEndDayFormatted()}</td>
                                                 <td class="d-flex border-0 text-nowrap">
