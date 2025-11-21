@@ -8,4 +8,18 @@ public interface ICourseService {
     List<CourseDTO> getAllCourse();
 
     CourseDTO addCourse(CourseDTO courseDTO);
+
+    boolean deleteCourse (Integer courseId);
+
+    List<CourseDTO> search(String keyword);
+
+    List<CourseDTO> findPaginated(int page, int pageSize);
+
+    int getTotalCourseCount();
+
+    CourseDTO findByName(String courseName);
+
+    CourseDTO findById(int courseId);
+
+    void update(CourseDTO course);
 }

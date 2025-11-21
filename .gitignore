@@ -7,9 +7,12 @@ build/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
-.idea/jarRepositories.xml
+data_source_mapping.xml
+.idea/data_source_mapping.xml
+.idea/dataSources.local.xml
 .idea/compiler.xml
 .idea/libraries/
+src/main/java/org/example/quan_ly_khoa_hoc/util/DatabaseUtil.java
 *.iws
 *.iml
 *.ipr

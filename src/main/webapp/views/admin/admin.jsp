@@ -23,10 +23,9 @@
 <!-- Toast Container -->
 <c:import url="admin-toast-container.jsp"></c:import>
 
-
 <!-- Admin Section -->
-<section class="py-5 mt-5">
-    <div class="container" style="margin-top: 50px">
+<section class="">
+    <div class="container" >
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow">
@@ -35,10 +34,8 @@
                             <i
                                     class="bi bi-person-gear text-black"
                                     style="font-size: 4rem"></i>
-                            <h3 class="mt-3">Quản lý người dùng</h3>
-                            <p class="text-muted">
-                                Tạo tài khoản mới cho người dùng với các vai trò khác nhau
-                            </p>
+                            <h3 class="mt-1">Quản lý người dùng</h3>
+
                         </div>
 
 
@@ -113,43 +110,58 @@
     })();
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Toast logic to show messages from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const message = urlParams.get('message');
         if (message) {
             const toastLiveExample = document.getElementById('liveToast');
             const toastBody = toastLiveExample.querySelector('.toast-body');
             const toastHeaderIcon = toastLiveExample.querySelector('.toast-header i');
+            const closeButton = toastLiveExample.querySelector('.btn-close');
+
             let toastMessage = '';
-            let toastIconClass = 'bi-check-circle-fill text-success'; // Default success
+            let isSuccess = false;
+            let isError = false;
+
+            // Reset toast classes before applying new ones
+            toastLiveExample.classList.remove('bg-success', 'bg-danger', 'text-white');
+            closeButton.classList.remove('btn-close-white');
 
             switch (message) {
                 case 'add_success':
                     toastMessage = 'Đã thêm người dùng mới thành công!';
+                    isSuccess = true;
                     break;
                 case 'update_success':
                     toastMessage = 'Đã cập nhật thông tin người dùng thành công!';
+                    isSuccess = true;
                     break;
                 case 'delete_success':
                     toastMessage = 'Đã xóa người dùng thành công.';
-                    toastIconClass = 'bi-trash-fill text-danger';
+                    isSuccess = true; // Or you can have a different color for deletion
                     break;
                 case 'user_not_found':
-                    toastMessage = 'Lỗi: Không tìm thấy người dùng.';
-                    toastIconClass = 'bi-exclamation-triangle-fill text-danger';
-                    break;
                 case 'invalid_id':
-                    toastMessage = 'Lỗi: ID người dùng không hợp lệ.';
-                    toastIconClass = 'bi-exclamation-triangle-fill text-danger';
+                    toastMessage = 'Lỗi: ID người dùng không hợp lệ hoặc không tìm thấy.';
+                    isError = true;
                     break;
             }
 
             if (toastMessage) {
                 toastBody.textContent = toastMessage;
-                toastHeaderIcon.className = 'me-2 ' + toastIconClass;
+
+                if (isSuccess) {
+                    toastLiveExample.classList.add('bg-success', 'text-white');
+                    toastHeaderIcon.className = 'me-2 bi bi-check-circle-fill';
+                    closeButton.classList.add('btn-close-white');
+                } else if (isError) {
+                    toastLiveExample.classList.add('bg-danger', 'text-white');
+                    toastHeaderIcon.className = 'me-2 bi bi-exclamation-triangle-fill';
+                    closeButton.classList.add('btn-close-white');
+                }
+
                 const toast = new bootstrap.Toast(toastLiveExample);
                 toast.show();
-                // Clean the URL to remove the message parameter
+                // Clean the URL to remove the message parameter after showing the toast
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         }
@@ -160,8 +172,14 @@
             confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
                 var deleteUrl = button.getAttribute('data-delete-url');
+                var userName = button.getAttribute('data-user-name');
                 var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+                var itemNameToDelete = document.getElementById('itemNameToDelete');
+
                 confirmDeleteButton.setAttribute('href', deleteUrl);
+                if (itemNameToDelete) {
+                    itemNameToDelete.textContent = userName;
+                }
             });
         }
 
@@ -196,7 +214,7 @@
 
         // Show modal automatically if the page was loaded in "update" mode
         <c:if test="${not empty mode and mode eq 'update'}">
-            userFormModal.show();
+        userFormModal.show();
         </c:if>
 
         // Event listener for when the modal is about to be shown
@@ -210,7 +228,7 @@
 
         // Event listener for edit buttons. This triggers a full page reload
         // to get the user data from the server.
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             var editButton = event.target.closest('a[href*="action=update"]');
             if (editButton) {
                 event.preventDefault(); // Prevent default link behavior

@@ -8,10 +8,25 @@ public class CourseDTO {
     private String description;
     private LocalDate createdAt;
 
+    private Integer countModule;
+
     public CourseDTO() {
     }
 
     public CourseDTO(String courseName, String description) {
+        this.courseName = courseName;
+        this.description = description;
+    }
+
+    public CourseDTO(Integer courseId, String courseName, String description,Integer countModule) {
+       this.countModule = countModule;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.description = description;
+    }
+
+    public CourseDTO(Integer courseId, String courseName, String description) {
+        this.courseId = courseId;
         this.courseName = courseName;
         this.description = description;
     }
@@ -27,6 +42,14 @@ public class CourseDTO {
         this.courseName = courseName;
         this.description = description;
         this.createdAt = createdAt;
+    }
+
+    public Integer getCountModule() {
+        return countModule;
+    }
+
+    public void setCountModule(Integer countModule) {
+        this.countModule = countModule;
     }
 
     public Integer getCourseId() {

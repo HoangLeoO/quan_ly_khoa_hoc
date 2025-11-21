@@ -10,7 +10,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Bạn có chắc chắn muốn xóa <strong class="text-danger" id="itemNameToDelete"></strong> <strong class="text-danger">? Hành động này không thể hoàn tác.</strong>
+                Bạn có chắc chắn muốn xóa khóa học <strong class="text-danger" id="itemNameToDelete"></strong> <strong class="text-danger">?Hành động này không thể hoàn tác.</strong>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>

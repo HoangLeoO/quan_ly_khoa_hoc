@@ -20,4 +20,39 @@ public class CourseService implements ICourseService {
     public CourseDTO addCourse(CourseDTO courseDTO) {
         return courseRepository.addCourse(courseDTO);
     }
+
+    @Override
+    public boolean deleteCourse(Integer courseId) {
+        return courseRepository.deleteCourse(courseId);
+    }
+
+    @Override
+    public List<CourseDTO> search(String keyword) {
+        return courseRepository.search(keyword);
+    }
+
+    @Override
+    public List<CourseDTO> findPaginated(int page, int pageSize) {
+        return courseRepository.findPaginated(page, pageSize);
+    }
+
+    @Override
+    public int getTotalCourseCount() {
+        return courseRepository.getTotalCourseCount();
+    }
+
+    @Override
+    public CourseDTO findByName(String courseName) {
+        return courseRepository.findByName(courseName);
+    }
+
+    @Override
+    public CourseDTO findById(int courseId) {
+        return courseRepository.findById(courseId);
+    }
+
+    @Override
+    public void update(CourseDTO course) {
+        courseRepository.update(course);
+    }
 }
