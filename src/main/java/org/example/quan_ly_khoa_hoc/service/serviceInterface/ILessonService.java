@@ -11,7 +11,8 @@ public interface ILessonService {
     List<LessonDTO> getAllByModuleIdAndStudentId(int moduleId,int studentId);
     LessonDTO save(LessonDTO lessonDTO); // Returns DTO with generated ID
     LessonDTO findByNameAndModuleId(String lessonName, int moduleId);
-    void saveLessonWithContent(LessonDTO lessonDTO, LessonContentDTO lessonContentDTO);
-    void updateLessonWithContent(LessonDTO lessonDTO, LessonContentDTO lessonContentDTO); // Add this
+    // void saveLessonWithContent(LessonDTO lessonDTO, LessonContentDTO lessonContentDTO); // Removed
+    void update(LessonDTO lessonDTO); // Added
+    // void updateLessonWithContent(LessonDTO lessonDTO, LessonContentDTO lessonContentDTO); // Removed
     void delete(int lessonId);
 }

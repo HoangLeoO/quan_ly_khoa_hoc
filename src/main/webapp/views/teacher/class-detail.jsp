@@ -64,14 +64,19 @@
                                                 <td>${student.getLateCount()}</td>
                                                 <td>${student.getAbsentCount()}</td>
                                                 <td>${student.getExcusedCount()}</td>
-                                                <td><a href="/attendance?action=takeNew&classId=${classId}" class="btn btn-primary">
-                                                    <i class="bi bi-calendar-check"></i>Chi tiết
-                                                </a></td>
+                                                <td>
+<%--                                                        &lt;%&ndash; NÚT XEM LỊCH SỬ NHẬT KÝ &ndash;%&gt;--%>
+<%--                                                    <a href="${pageContext.request.contextPath}/student-log?studentId=${student.studentId}" class="btn btn-info me-2">--%>
+<%--                                                        <i class="bi bi-eye"></i> Ghi nhật kí--%>
+<%--                                                    </a>--%>
+
+                                                        <%-- NÚT GHI NHẬT KÝ MỚI --%>
+                                                    <a href="${pageContext.request.contextPath}/student-log?studentId=${student.studentId}" class="btn btn-success">
+                                                        <i class="bi bi-plus-circle"></i> Ghi Nhật ký
+                                                    </a>
+                                                </td>
                                             </tr>
-
-
                                         </c:forEach>
-
                                         </tbody>
                                     </table>
                                 </div>

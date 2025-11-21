@@ -39,24 +39,12 @@ public class LessonService implements ILessonService {
         return lessonRepository.findByNameAndModuleId(lessonName, moduleId);
     }
 
-    @Override
-    public void saveLessonWithContent(LessonDTO lessonDTO, LessonContentDTO lessonContentDTO) {
-        // Save the lesson first to get the generated lessonId
-        LessonDTO savedLesson = lessonRepository.save(lessonDTO);
-        if (savedLesson != null && savedLesson.getLessonId() != null) {
-            // Set the generated lessonId to the content DTO
-            lessonContentDTO.setLessonId(savedLesson.getLessonId());
-            lessonContentRepository.save(lessonContentDTO);
-        } else {
-            // Handle error if lesson saving failed
-            throw new RuntimeException("Failed to save lesson, content not saved.");
-        }
-    }
+    // Removed saveLessonWithContent
+    // Removed updateLessonWithContent
 
     @Override
-    public void updateLessonWithContent(LessonDTO lessonDTO, LessonContentDTO lessonContentDTO) {
-        lessonRepository.update(lessonDTO); // Update lesson details
-        lessonContentRepository.update(lessonContentDTO); // Update lesson content
+    public void update(LessonDTO lessonDTO) {
+        lessonRepository.update(lessonDTO);
     }
 
     @Override
