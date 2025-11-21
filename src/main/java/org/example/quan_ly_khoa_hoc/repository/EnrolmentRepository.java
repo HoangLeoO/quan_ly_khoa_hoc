@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.repository;
 
 import org.example.quan_ly_khoa_hoc.dto.MonthlyStatsDTO;
+import org.example.quan_ly_khoa_hoc.entity.Enrolment;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IEnrolmentRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
 
@@ -64,5 +65,37 @@ public class EnrolmentRepository implements IEnrolmentRepository {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public boolean add(Enrolment enrol) {
+        String sql = "INSERT INTO enrolment(student_id, class_id, enrol_date, status) VALUES (?, ?, ?, ?)";
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, enrol.getStudentId());
+            ps.setInt(2, enrol.getClassId());
+            ps.setTimestamp(3, enrol.getEnrolDate());
+            ps.setString(4, enrol.getStatus());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean delete(int classId, int studentId) {
+        String sql = "DELETE FROM enrolment WHERE class_id = ? AND student_id = ?";
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, classId);
+            ps.setInt(2, studentId);
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

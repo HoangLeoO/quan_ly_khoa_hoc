@@ -6,6 +6,7 @@ import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.repository.ClassRepository;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IClassRepository;
 import org.example.quan_ly_khoa_hoc.service.serviceInterface.IClassService;
+import org.example.quan_ly_khoa_hoc.entity.Class;
 
 import java.util.List;
 
@@ -29,5 +30,25 @@ public class ClassService implements IClassService {
     @Override
     public ClassDTO findByClassID(int classId) {
         return classRepository.findByClassID(classId);
+    }
+
+    @Override
+    public List<ClassDTO> search(String keyword, Integer teacherId, Integer courseId, String status) {
+        return classRepository.search(keyword, teacherId, courseId, status);
+    }
+
+    @Override
+    public boolean add(Class classObj) {
+        return classRepository.add(classObj);
+    }
+
+    @Override
+    public boolean updateById(int classId, Class classObj) {
+        return classRepository.updateById(classId, classObj);
+    }
+
+    @Override
+    public boolean deleteById(int classId) {
+        return classRepository.deleteById(classId);
     }
 }

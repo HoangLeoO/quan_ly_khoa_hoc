@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Student {
     private Integer studentId;
@@ -77,4 +78,5 @@ public class Student {
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
+
 }

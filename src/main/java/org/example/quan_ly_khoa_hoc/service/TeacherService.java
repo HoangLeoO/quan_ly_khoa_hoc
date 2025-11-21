@@ -10,6 +10,7 @@ import org.example.quan_ly_khoa_hoc.service.serviceInterface.ITeacherService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TeacherService implements ITeacherService {
 
@@ -22,6 +23,12 @@ public class TeacherService implements ITeacherService {
     public boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException {
         return false;
     }
+
+    @Override
+    public List<TeacherInfoDTO> findAllTeachers() {
+        return List.of();
+    }
+
     private ITeacherRepository teacherRepository= new TeacherRepository();
     @Override
     public TeacherInfoDTO findStaffByEmail(String email) {

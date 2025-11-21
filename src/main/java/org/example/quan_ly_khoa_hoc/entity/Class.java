@@ -9,15 +9,18 @@ public class Class { // Hoặc Class (TrainingClass)
     private Integer teacherId; // teacher_id có thể là NULL
     private LocalDate startDate;
     private LocalDate endDate;
+    private String status;
 
     public Class() {}
 
-    public Class(String className, int courseId, Integer teacherId, LocalDate startDate, LocalDate endDate) {
+    public Class(int classId, String className, int courseId, Integer teacherId, LocalDate startDate, LocalDate endDate, String status) {
+        this.classId = classId;
         this.className = className;
         this.courseId = courseId;
         this.teacherId = teacherId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.status = status;
     }
 
     // Getters and Setters
@@ -67,5 +70,13 @@ public class Class { // Hoặc Class (TrainingClass)
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

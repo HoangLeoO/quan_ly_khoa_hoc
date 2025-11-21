@@ -1,6 +1,7 @@
 package org.example.quan_ly_khoa_hoc.dto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class StudentProfileDTO {
     private String fullName;
@@ -58,5 +59,13 @@ public class StudentProfileDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDobFormatted() {
+        if (dob != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            return dob.format(formatter);
+        }
+        return "";
     }
 }

@@ -5,6 +5,7 @@ import org.example.quan_ly_khoa_hoc.dto.StudentDetailDTO;
 import org.example.quan_ly_khoa_hoc.dto.TeacherClassDTO;
 import org.example.quan_ly_khoa_hoc.repository.repositoryInterface.IClassRepository;
 import org.example.quan_ly_khoa_hoc.util.DatabaseUtil;
+import org.example.quan_ly_khoa_hoc.entity.Class;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,19 +17,12 @@ import java.util.List;
 
 public class ClassRepository implements IClassRepository {
     private final String SELECT_ALL_STUDYING = "SELECT c.class_id,c.class_name,c.course_id,co.course_name,c.start_date,c.end_date,c.status FROM classes c JOIN courses co ON c.course_id = co.course_id WHERE c.teacher_id = ? and status='studying';";
-    private final String SELECT_ALL = "SELECT \n" +
-            "    c.class_id,\n" +
-            "    c.class_name AS class_name,\n" +
-            "co.course_name AS course_name,\n" +
-            "s.full_name AS teacher_name,\n" +
-            "COUNT(e.student_id) AS student_count,\n" +
-            "c.start_date AS start_date,\n" +
-            "c.end_date AS end_date,\n" +
-            "c.status AS status\n" +
+    private final String SELECT_ALL = "SELECT c.class_id, c.class_name AS class_name, co.course_id, co.course_name AS course_name, s.staff_id, s.full_name AS teacher_name, COUNT(e.student_id) AS student_count, c.start_date AS start_date, c.end_date AS end_date, c.status AS status \n" +
             "FROM classes c\n" +
             "LEFT JOIN courses co ON c.course_id = co.course_id\n" +
             "LEFT JOIN staff s ON c.teacher_id = s.staff_id\n" +
             "LEFT JOIN enrolments e ON c.class_id = e.class_id\n" +
+            "where  c.status = 'completed' or c.status = 'studying'\n" +
             "GROUP BY c.class_id, c.class_name, co.course_name, s.full_name, c.start_date, c.end_date, c.status\n" +
             "ORDER BY c.class_id;";
     private final String SELECT_LATEST_MODULE_ORDER =
@@ -169,13 +163,15 @@ public class ClassRepository implements IClassRepository {
             while (resultSet.next()) {
                 int classId = resultSet.getInt("class_id");
                 String className = resultSet.getString("class_name");
+                int courseId = resultSet.getInt("course_id");
                 String courseName = resultSet.getString("course_name");
+                int teacherId = resultSet.getInt("staff_id");
                 String teacherName = resultSet.getString("teacher_name");
                 int countStudent = resultSet.getInt("student_count");
                 LocalDate startDate = resultSet.getDate("start_date").toLocalDate();
                 LocalDate endDate = resultSet.getDate("end_date").toLocalDate();
                 String status = resultSet.getString("status");
-                classDTOList.add(new ClassDTO(classId, className, courseName, teacherName, countStudent, startDate, endDate, status));
+                classDTOList.add(new ClassDTO(classId, className, courseId, courseName, teacherId, teacherName, countStudent, startDate, endDate, status));
             }
         } catch (SQLException e) {
             System.out.println("lỗi lấy dữ liệu");
@@ -207,5 +203,148 @@ public class ClassRepository implements IClassRepository {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public List<ClassDTO> search(String keyword, Integer teacherId, Integer courseId, String status) {
+        List<ClassDTO> classDTOList = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT " +
+                        " c.class_id, " +
+                        " c.class_name AS class_name, " +
+                        " co.course_id, " +
+                        " co.course_name AS course_name, " +
+                        " s.staff_id, " +
+                        " s.full_name AS teacher_name, " +
+                        " COUNT(e.student_id) AS student_count, " +
+                        " c.start_date AS start_date, " +
+                        " c.end_date AS end_date, " +
+                        " c.status AS status " +
+                        "FROM classes c " +
+                        "LEFT JOIN courses co ON c.course_id = co.course_id " +
+                        "LEFT JOIN staff s ON c.teacher_id = s.staff_id " +
+                        "LEFT JOIN enrolments e ON c.class_id = e.class_id " +
+                        "WHERE 1=1 "
+        );
+
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND c.class_name LIKE ? ");
+        }
+
+        if (teacherId != null && teacherId > 0) {   // FIXED: teacherId > 0
+            sql.append(" AND c.teacher_id = ? ");
+        }
+
+        if (courseId != null && courseId > 0) {     // FIXED: courseId > 0
+            sql.append(" AND c.course_id = ? ");
+        }
+
+        if (status != null && !status.trim().isEmpty()) {  // FIXED: status rỗng ko lọc
+            sql.append(" AND c.status = ? ");
+        }
+
+        sql.append(
+                " GROUP BY c.class_id, c.class_name, co.course_id, co.course_name, " +
+                        " s.staff_id, s.full_name, c.start_date, c.end_date, c.status " +
+                        " ORDER BY c.class_id "
+        );
+
+
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            int index = 1;
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+            }
+
+            if (teacherId != null && teacherId > 0) {
+                ps.setInt(index++, teacherId);
+            }
+
+            if (courseId != null && courseId > 0) {
+                ps.setInt(index++, courseId);
+            }
+
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(index++, status);
+            }
+
+            ResultSet resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                int classId = resultSet.getInt("class_id");
+                String className = resultSet.getString("class_name");
+                int _courseId = resultSet.getInt("course_id");
+                String courseName = resultSet.getString("course_name");
+                int _teacherId = resultSet.getInt("staff_id");
+                String teacherName = resultSet.getString("teacher_name");
+                int countStudent = resultSet.getInt("student_count");
+                LocalDate startDate = resultSet.getDate("start_date").toLocalDate();
+                LocalDate endDate = resultSet.getDate("end_date").toLocalDate();
+                String _status = resultSet.getString("status");
+                classDTOList.add(new ClassDTO(classId, className, _courseId, courseName, _teacherId, teacherName, countStudent, startDate, endDate, _status));
+            }
+        } catch (SQLException e) {
+            System.out.println("lỗi lấy dữ liệu");
+        }
+
+        return classDTOList;
+    }
+
+    private final String INSERT_CLASS_SQL = "INSERT INTO classes (class_name, course_id, teacher_id, start_date, end_date, status) VALUES (?, ?, ?, ?, ?, ?);";
+    private final String UPDATE_CLASS_SQL = "UPDATE classes SET class_name = ?, course_id = ?, teacher_id = ?, start_date = ?, end_date = ?, status = ? WHERE class_id = ?;";
+    private final String DELETE_CLASS_SQL = "DELETE FROM classes WHERE class_id = ?;";
+
+    @Override
+    public boolean add(Class classObj) {
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CLASS_SQL);
+            preparedStatement.setString(1, classObj.getClassName());
+            preparedStatement.setInt(2, classObj.getCourseId());
+            preparedStatement.setInt(3, classObj.getTeacherId());
+            preparedStatement.setDate(4, java.sql.Date.valueOf(classObj.getStartDate()));
+            preparedStatement.setDate(5, java.sql.Date.valueOf(classObj.getEndDate()));
+            preparedStatement.setString(6, classObj.getStatus());
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi thêm lớp học: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateById(int classId, Class classObj) {
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLASS_SQL);
+            preparedStatement.setString(1, classObj.getClassName());
+            preparedStatement.setInt(2, classObj.getCourseId());
+            preparedStatement.setInt(3, classObj.getTeacherId());
+            preparedStatement.setDate(4, java.sql.Date.valueOf(classObj.getStartDate()));
+            preparedStatement.setDate(5, java.sql.Date.valueOf(classObj.getEndDate()));
+            preparedStatement.setString(6, classObj.getStatus());
+            preparedStatement.setInt(7, classId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi cập nhật lớp học: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteById(int classId) {
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLASS_SQL);
+            preparedStatement.setInt(1, classId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi xóa lớp học: " + e.getMessage());
+        }
+        return false;
     }
 }

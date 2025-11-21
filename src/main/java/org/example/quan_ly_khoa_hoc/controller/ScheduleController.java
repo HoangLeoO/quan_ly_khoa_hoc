@@ -6,8 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
+import org.example.quan_ly_khoa_hoc.entity.Lesson;
 import org.example.quan_ly_khoa_hoc.entity.Schedule;
+import org.example.quan_ly_khoa_hoc.service.LessonService;
 import org.example.quan_ly_khoa_hoc.service.ScheduleService;
+import org.example.quan_ly_khoa_hoc.service.serviceInterface.ILessonService;
 import org.example.quan_ly_khoa_hoc.service.serviceInterface.IScheduleService;
 
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.util.List;
 @WebServlet(name = "ScheduleController", value = "/schedule")
 public class ScheduleController extends HttpServlet {
     private final IScheduleService scheduleService = new ScheduleService();
+    private final ILessonService lessonService =new LessonService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
@@ -107,6 +111,7 @@ public class ScheduleController extends HttpServlet {
 
     // === SHOW ADD FORM ===
     private void showAddForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.getRequestDispatcher("/views/schedules/schedule-form.jsp").forward(req, resp);
     }
 
