@@ -5,7 +5,6 @@ import org.example.quan_ly_khoa_hoc.dto.ScheduleDTO;
 import org.example.quan_ly_khoa_hoc.entity.Attendance;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime; // CẦN THIẾT
 import java.util.List;
 
 public interface IAttendanceRepository {
@@ -15,9 +14,4 @@ public interface IAttendanceRepository {
     int countAttendanceByScheduleId(int scheduleId);
     List<Attendance> findByScheduleId(int scheduleId);
     List<ScheduleDTO> findSchedulesForToday(int teacherStaffId);
-
-    // PHƯƠNG THỨC MỚI: TẠO SCHEDULE VÀ LẤY ID
-    int createScheduleAndGetId(int classId, Integer lessonId, LocalDateTime timeStart, LocalDateTime timeEnd, String room);
-    boolean hasScheduleForClassOnDate(int classId, LocalDateTime date);
-    ScheduleDTO findTodayScheduleByClassId(int classId);
 }
