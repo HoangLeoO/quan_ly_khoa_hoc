@@ -10,7 +10,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Bạn có chắc chắn muốn xóa nội dung <strong id="contentDataToDelete"></strong>? <strong class="text-danger">Hành động này không thể hoàn tác.</strong>
+                Bạn có chắc chắn muốn xóa nội dung <strong id="contentNameToDelete"></strong>? <strong class="text-danger">Hành động này không thể hoàn tác.</strong>
             </div>
             <div class="modal-footer">
                 <form id="deleteContentForm" method="post" action="/admin/lessons?action=deleteContent">
@@ -20,6 +20,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-danger">Xóa</button>
                 </form>
+            </div>
             </div>
         </div>
     </div>

@@ -34,4 +34,5 @@ public class LessonContentService implements ILessonContentService {
     public void delete(int contentId) {
         lessonContentRepository.delete(contentId);
     }
+    // No changes needed here, as contentName is part of LessonContentDTO
 }

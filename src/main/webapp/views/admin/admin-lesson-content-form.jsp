@@ -12,6 +12,13 @@
                     <input type="hidden" id="moduleIdContent" name="moduleId" value="${moduleId}"/>
                     
                     <div class="mb-3">
+                        <label for="contentNameContent" class="form-label d-flex align-items-center">Tên Nội dung<span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="contentNameContent" name="contentName" required/>
+                        <div class="invalid-feedback">Vui lòng nhập tên nội dung.</div>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="contentTypeContent" class="form-label d-flex align-items-center">Loại nội dung<span
                                 class="text-danger">*</span></label>
                         <select class="form-select" id="contentTypeContent" name="contentType" required>

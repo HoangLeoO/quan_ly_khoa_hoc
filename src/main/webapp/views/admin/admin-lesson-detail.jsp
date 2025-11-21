@@ -75,21 +75,22 @@
                                         <div class="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span class="badge bg-secondary me-2">${status.count}</span>
-                                                <span class="fw-bold">
+
+                                                <span class="badge ms-2
                                                     <c:choose>
-                                                        <c:when test="${content.contentType eq 'video'}"><i class="bi bi-play-circle me-1 text-danger"></i>Video</c:when>
-                                                        <c:when test="${content.contentType eq 'text'}"><i class="bi bi-file-text me-1 text-primary"></i>Bài đọc</c:when>
-                                                        <c:when test="${content.contentType eq 'quiz'}"><i class="bi bi-question-circle me-1 text-success"></i>Quiz</c:when>
-                                                        <c:otherwise><i class="bi bi-info-circle me-1"></i>Nội dung</c:otherwise>
+                                                        <c:when test="${content.contentType eq 'video'}">bg-danger</c:when>
+                                                        <c:when test="${content.contentType eq 'text'}">bg-primary</c:when>
+                                                        <c:when test="${content.contentType eq 'quiz'}">bg-success</c:when>
+                                                        <c:otherwise>bg-info</c:otherwise>
+                                                    </c:choose>" style="width: 80px">
+                                                    <c:choose>
+                                                        <c:when test="${content.contentType eq 'video'}"><i class="bi bi-play-circle me-1"></i>Video</c:when>
+                                                        <c:when test="${content.contentType eq 'text'}"><i class="bi bi-file-text me-1"></i>Bài đọc</c:when>
+                                                        <c:when test="${content.contentType eq 'quiz'}"><i class="bi bi-question-circle me-1"></i>Quiz</c:when>
+                                                        <c:otherwise>Nội dung</c:otherwise>
                                                     </c:choose>
                                                 </span>
-                                                <small class="text-muted ms-2">
-                                                    <c:choose>
-                                                        <c:when test="${content.contentType eq 'video'}">${content.contentData}</c:when>
-                                                        <c:when test="${content.contentType eq 'text'}">${content.contentData.length() > 50 ? content.contentData.substring(0, 50).concat('...') : content.contentData}</c:when>
-                                                        <c:when test="${content.contentType eq 'quiz'}">${content.contentData}</c:when>
-                                                    </c:choose>
-                                                </small>
+                                                <span class="fw-bold">${content.contentName}</span>
                                             </div>
                                             <div>
                                                 <a href="/admin/lessons?action=viewSingleContent&contentId=${content.contentId}&lessonId=${lesson.lessonId}&moduleId=${moduleId}" class="btn btn-sm btn-outline-primary">
@@ -101,14 +102,14 @@
                                                         data-lesson-id="${lesson.lessonId}"
                                                         data-module-id="${moduleId}"
                                                         data-content-type="${content.contentType}"
+                                                        data-content-name="${content.contentName}"
                                                         data-content-data="${content.contentData}">
                                                     <i class="bi bi-pencil"></i> Sửa
                                                 </button>
                                                 <button class="btn btn-sm btn-outline-danger delete-content-btn"
                                                         data-bs-toggle="modal" data-bs-target="#confirmDeleteContentModal"
                                                         data-content-id="${content.contentId}"
-                                                        data-content-type="${content.contentType}"
-                                                        data-content-data="${content.contentData}"
+                                                        data-content-name="${content.contentName}"
                                                         data-lesson-id="${lesson.lessonId}"
                                                         data-module-id="${moduleId}">
                                                     <i class="bi bi-trash"></i> Xóa
@@ -174,6 +175,7 @@
         const form = document.getElementById('lessonContentForm');
         const modalTitle = document.getElementById('lessonContentFormModalLabel');
         const submitButton = lessonContentFormModalEl.querySelector('button[type="submit"]');
+        const contentNameInput = document.getElementById('contentNameContent'); // Get contentName input
         const contentTypeSelect = document.getElementById('contentTypeContent');
         const contentDataField = document.getElementById('contentDataFieldContent');
         const lessonIdContentInput = document.getElementById('lessonIdContent');
@@ -223,6 +225,7 @@
                 form.classList.remove('was-validated');
                 modalTitle.textContent = 'Thêm Nội dung mới';
                 submitButton.innerHTML = '<i class="bi bi-plus-circle me-2"></i>Thêm Nội dung';
+                contentNameInput.value = ''; // Clear contentName
                 contentTypeSelect.value = '';
                 updateContentDataField('');
             } else if (button.classList.contains('edit-content-btn')) {
@@ -233,6 +236,7 @@
                 
                 const contentId = button.dataset.contentId;
                 const contentType = button.dataset.contentType;
+                const contentName = button.dataset.contentName; // Get contentName
                 const contentData = button.dataset.contentData;
 
                 // Set hidden contentId for update
@@ -246,6 +250,7 @@
                 }
                 hiddenContentIdInput.value = contentId;
 
+                contentNameInput.value = contentName; // Set contentName
                 contentTypeSelect.value = contentType;
                 updateContentDataField(contentType, contentData);
             }
@@ -255,14 +260,14 @@
         const confirmDeleteContentModalEl = document.getElementById('confirmDeleteContentModal');
         if (confirmDeleteContentModalEl) {
             const deleteContentIdInput = document.getElementById('deleteContentId');
-            const contentDataToDelete = document.getElementById('contentDataToDelete');
+            const contentNameToDelete = document.getElementById('contentNameToDelete'); // Use contentNameToDelete
             const deleteContentLessonIdInput = document.getElementById('deleteContentLessonId');
             const deleteContentModuleIdInput = document.getElementById('deleteContentModuleId');
 
             document.querySelectorAll('.delete-content-btn').forEach(button => {
                 button.addEventListener('click', function () {
                     deleteContentIdInput.value = this.dataset.contentId;
-                    contentDataToDelete.textContent = this.dataset.contentData.length > 50 ? this.dataset.contentData.substring(0, 50).concat('...') : this.dataset.contentData;
+                    contentNameToDelete.textContent = this.dataset.contentName; // Use contentName
                     deleteContentLessonIdInput.value = this.dataset.lessonId;
                     deleteContentModuleIdInput.value = this.dataset.moduleId;
                 });

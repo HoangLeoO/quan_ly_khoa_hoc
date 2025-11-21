@@ -231,11 +231,12 @@ public class LessonController extends HttpServlet {
         int lessonId = Integer.parseInt(req.getParameter("lessonId"));
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
         String contentType = req.getParameter("contentType");
+        String contentName = req.getParameter("contentName"); // Get contentName
         String contentData = req.getParameter("contentData");
 
         String redirectUrl = req.getContextPath() + "/admin/lessons?action=viewContent&lessonId=" + lessonId + "&moduleId=" + moduleId;
 
-        if (contentType == null || contentType.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
+        if (contentType == null || contentType.trim().isEmpty() || contentName == null || contentName.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
             resp.sendRedirect(redirectUrl + "&message=add_content_failed");
             return;
         }
@@ -243,6 +244,7 @@ public class LessonController extends HttpServlet {
         LessonContentDTO lessonContentDTO = new LessonContentDTO();
         lessonContentDTO.setLessonId(lessonId);
         lessonContentDTO.setContentType(contentType);
+        lessonContentDTO.setContentName(contentName); // Set contentName
         lessonContentDTO.setContentData(contentData);
 
         lessonContentService.save(lessonContentDTO);
@@ -255,11 +257,12 @@ public class LessonController extends HttpServlet {
         int lessonId = Integer.parseInt(req.getParameter("lessonId"));
         int moduleId = Integer.parseInt(req.getParameter("moduleId"));
         String contentType = req.getParameter("contentType");
+        String contentName = req.getParameter("contentName"); // Get contentName
         String contentData = req.getParameter("contentData");
 
         String redirectUrl = req.getContextPath() + "/admin/lessons?action=viewContent&lessonId=" + lessonId + "&moduleId=" + moduleId;
 
-        if (contentType == null || contentType.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
+        if (contentType == null || contentType.trim().isEmpty() || contentName == null || contentName.trim().isEmpty() || contentData == null || contentData.trim().isEmpty()) {
             resp.sendRedirect(redirectUrl + "&message=update_content_failed");
             return;
         }
@@ -268,6 +271,7 @@ public class LessonController extends HttpServlet {
         lessonContentDTO.setContentId(contentId);
         lessonContentDTO.setLessonId(lessonId);
         lessonContentDTO.setContentType(contentType);
+        lessonContentDTO.setContentName(contentName); // Set contentName
         lessonContentDTO.setContentData(contentData);
 
         lessonContentService.update(lessonContentDTO);

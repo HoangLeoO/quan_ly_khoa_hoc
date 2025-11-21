@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Danh sách Bài học - ${module.moduleName}</title>
     <c:import url="../common/header.jsp"/>
+    <style>
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1055;
+        }</style>
 </head>
 <body>
 <!-- Navigation -->
@@ -26,7 +33,7 @@
 
 <!-- Main Content -->
 <section class="py-5 mt-5">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow">
@@ -34,7 +41,8 @@
 
                         <!-- Back Button -->
                         <div class="mb-4">
-                            <a href="/admin/courses?action=view&id=${module.courseId}" class="btn btn-outline-secondary">
+                            <a href="/admin/courses?action=view&id=${module.courseId}"
+                               class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>Quay lại chi tiết khóa học
                             </a>
                         </div>
@@ -56,14 +64,18 @@
                                                 <span class="fw-bold">${lesson.lessonName}</span>
                                             </div>
                                             <div>
-                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
+                                                <a href="/admin/lessons?action=viewContent&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}"
+                                                   class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-eye"></i> Xem nội dung
                                                 </a>
-                                                <a href="/admin/lessons?action=showUpdateForm&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
+                                                <a href="/admin/lessons?action=showUpdateForm&lessonId=${lesson.lessonId}&moduleId=${module.moduleId}"
+                                                   class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-outline-danger delete-lesson-btn"
-                                                        data-bs-toggle="modal" data-bs-target="#confirmDeleteLessonModal"
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger delete-lesson-btn"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#confirmDeleteLessonModal"
                                                         data-lesson-id="${lesson.lessonId}"
                                                         data-lesson-name="${lesson.lessonName}">
                                                     <i class="bi bi-trash"></i>
@@ -82,7 +94,8 @@
 
                         <!-- Add Lesson Button -->
                         <div class="text-center mt-4">
-                            <button id="addLessonBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lessonFormModal">
+                            <button id="addLessonBtn" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#lessonFormModal">
                                 <i class="bi bi-plus-circle me-2"></i>Thêm Bài học mới
                             </button>
                         </div>
@@ -104,7 +117,7 @@
          data-lesson-id="<c:out value='${lessonToEdit.lessonId}'/>"
          data-lesson-name="<c:out value='${lessonToEdit.lessonName}'/>"
          data-sort-order="<c:out value='${lessonToEdit.sortOrder}'/>">
-        <%-- Removed data-content-type and data-content-data --%>
+            <%-- Removed data-content-type and data-content-data --%>
     </div>
 </c:if>
 
@@ -249,14 +262,38 @@
             toastLiveExample.classList.remove('bg-success', 'bg-danger', 'text-white');
 
             switch (message) {
-                case 'add_lesson_success': toastMessage = 'Đã thêm bài học mới thành công!'; isSuccess = true; break;
-                case 'update_lesson_success': toastMessage = 'Đã cập nhật bài học thành công!'; isSuccess = true; break;
-                case 'delete_lesson_success': toastMessage = 'Đã xóa bài học thành công.'; isSuccess = true; break;
-                case 'add_lesson_failed': toastMessage = 'Thêm bài học thất bại. Vui lòng điền đầy đủ thông tin.'; isError = true; break;
-                case 'update_lesson_failed': toastMessage = 'Cập nhật bài học thất bại. Vui lòng điền đầy đủ thông tin.'; isError = true; break;
-                case 'duplicate_lesson': toastMessage = 'Tên bài học đã tồn tại trong module này.'; isError = true; break;
-                case 'invalid_sort_order': toastMessage = 'Thứ tự sắp xếp phải là một số hợp lệ.'; isError = true; break;
-                case 'negative_sort_order': toastMessage = 'Thứ tự sắp xếp không được là số âm.'; isError = true; break;
+                case 'add_lesson_success':
+                    toastMessage = 'Đã thêm bài học mới thành công!';
+                    isSuccess = true;
+                    break;
+                case 'update_lesson_success':
+                    toastMessage = 'Đã cập nhật bài học thành công!';
+                    isSuccess = true;
+                    break;
+                case 'delete_lesson_success':
+                    toastMessage = 'Đã xóa bài học thành công.';
+                    isSuccess = true;
+                    break;
+                case 'add_lesson_failed':
+                    toastMessage = 'Thêm bài học thất bại. Vui lòng điền đầy đủ thông tin.';
+                    isError = true;
+                    break;
+                case 'update_lesson_failed':
+                    toastMessage = 'Cập nhật bài học thất bại. Vui lòng điền đầy đủ thông tin.';
+                    isError = true;
+                    break;
+                case 'duplicate_lesson':
+                    toastMessage = 'Tên bài học đã tồn tại trong module này.';
+                    isError = true;
+                    break;
+                case 'invalid_sort_order':
+                    toastMessage = 'Thứ tự sắp xếp phải là một số hợp lệ.';
+                    isError = true;
+                    break;
+                case 'negative_sort_order':
+                    toastMessage = 'Thứ tự sắp xếp không được là số âm.';
+                    isError = true;
+                    break;
             }
 
             if (toastMessage) {
@@ -274,7 +311,7 @@
                 }
                 const toast = new bootstrap.Toast(toastLiveExample);
                 toast.show();
-                
+
                 const cleanUrl = new URL(window.location);
                 cleanUrl.searchParams.delete('message');
                 cleanUrl.searchParams.delete('mode');

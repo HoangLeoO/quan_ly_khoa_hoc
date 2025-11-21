@@ -49,11 +49,12 @@
                             <h2 class="card-title">${lesson.lessonName}</h2>
                             <h4 class="text-muted">
                                 <c:choose>
-                                    <c:when test="${singleContent.contentType eq 'video'}">Video</c:when>
-                                    <c:when test="${singleContent.contentType eq 'text'}">Bài đọc</c:when>
-                                    <c:when test="${singleContent.contentType eq 'quiz'}">Quiz</c:when>
-                                    <c:otherwise>Nội dung</c:otherwise>
+                                    <c:when test="${singleContent.contentType eq 'video'}"><i class="bi bi-play-circle me-2 text-danger"></i>Video</c:when>
+                                    <c:when test="${singleContent.contentType eq 'text'}"><i class="bi bi-file-text me-2 text-primary"></i>Bài đọc</c:when>
+                                    <c:when test="${singleContent.contentType eq 'quiz'}"><i class="bi bi-question-circle me-2 text-success"></i>Quiz</c:when>
+                                    <c:otherwise><i class="bi bi-info-circle me-2"></i>Nội dung</c:otherwise>
                                 </c:choose>
+                                : ${singleContent.contentName} <%-- Display contentName --%>
                             </h4>
                         </div>
 
