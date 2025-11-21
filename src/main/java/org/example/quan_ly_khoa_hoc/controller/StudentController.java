@@ -32,6 +32,7 @@ public class StudentController extends HttpServlet {
     private ILessonProgressService lessonProgressService = new LessonProgressService();
     private IClassService classService = new ClassService();
     private ILessonContentService lessonContentService = new LessonContentService();
+    private IGradeService gradeService = new GradeService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -63,6 +64,9 @@ public class StudentController extends HttpServlet {
                 break;
             case "change-password":
                 showChangePasswordForm(req, resp);
+                break;
+            case "grade-view":
+                showViewGrade(req, resp);
                 break;
             default:
                 showHome(req, resp); // fallback
@@ -267,7 +271,6 @@ public class StudentController extends HttpServlet {
         }
     }
 
-
     private void handleChangePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("currentUser") == null) {
@@ -327,6 +330,23 @@ public class StudentController extends HttpServlet {
         }
     }
 
+    private void showViewGrade(HttpServletRequest req, HttpServletResponse resp){
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            User u = (User) session.getAttribute("currentUser");
+            String email = u.getEmail();
+            int studentId = studentService.getStudentIdByEmail(email);
+            List<GradeDetailDTO> gradeDetailDTOS = gradeService.findStudentGradesByCourseAndStudentId(studentId,Integer.parseInt(req.getParameter("course-id")));
+            req.setAttribute("gradeDetails",gradeDetailDTOS);
+        }
+        try {
+            req.getRequestDispatcher("views/grade/grade-view-student.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
 

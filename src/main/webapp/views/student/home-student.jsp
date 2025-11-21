@@ -144,55 +144,60 @@
                             <%-- KHU VỰC CHỨA DANH SÁCH CLASS CARD VÀ HỖ TRỢ SCROLL NGANG --%>
                             <div class="card-class-list">
                                 <%-- Dùng flexbox để tạo hàng ngang, nowrap để không xuống dòng --%>
-                                <div class="card-row-scrollable">
-                                    <c:forEach items="${classInfo}" var="c" varStatus="stt">
-                                        <%-- Bắt đầu Card cho mỗi lớp học --%>
-                                        <div class="card-col-fixed">
-                                            <div class="card h-100 card-modern">
-                                                <div class="card-body d-flex flex-column p-3">
+                                    <div class="card-row-scrollable">
+                                        <c:forEach items="${classInfo}" var="c" varStatus="stt">
+                                            <%-- Bắt đầu Card cho mỗi lớp học --%>
+                                            <div class="card-col-fixed">
+                                                <div class="card h-100 card-modern">
+                                                    <div class="card-body d-flex flex-column p-3">
 
-                                                        <%-- 1. Tên Khóa học & Lớp học --%>
-                                                        <%-- ĐÃ THÊM class card-title-single-line VÀO ĐÂY --%>
-                                                    <h5 class="card-title text-dark fw-bold card-title-single-line">${c.getClassName()}</h5>
-                                                    <h6 class="card-subtitle mb-3 text-muted small">
-                                                        Khóa học: <span class="fw-semibold">${c.getCourseName()}</span>
-                                                    </h6>
+                                                            <%-- 1. Tên Khóa học & Lớp học --%>
+                                                        <h5 class="card-title text-dark fw-bold card-title-single-line">${c.getClassName()}</h5>
+                                                        <h6 class="card-subtitle mb-3 text-muted small">
+                                                            Khóa học: <span class="fw-semibold">${c.getCourseName()}</span>
+                                                        </h6>
 
-                                                        <%-- 2. Trạng thái lớp học (Badge) --%>
-                                                    <div class="mb-3">
-                                                        <span class="text-uppercase small fw-bold me-2 text-dark">Trạng thái:</span>
-                                                        <c:choose>
-                                                            <c:when test="${c.getStatus() == 'studying'}">
-                                                                <span class="badge rounded-pill bg-success-subtle text-success">Đang học</span>
-                                                            </c:when>
-                                                            <c:when test="${c.getStatus() == 'completed'}">
-                                                                <span class="badge rounded-pill bg-secondary-subtle text-secondary">Đã hoàn thành</span>
-                                                            </c:when>
-                                                            <c:when test="${c.getStatus() == 'dropped'}">
-                                                                <span class="badge rounded-pill bg-danger-subtle text-danger">Đã hủy</span>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <span class="badge rounded-pill bg-info-subtle text-info">Không rõ</span>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                            <%-- 2. Trạng thái lớp học (Badge) --%>
+                                                        <div class="mb-3">
+                                                            <span class="text-uppercase small fw-bold me-2 text-dark">Trạng thái:</span>
+                                                            <c:choose>
+                                                                <c:when test="${c.getStatus() == 'studying'}">
+                                                                    <span class="badge rounded-pill bg-success-subtle text-success">Đang học</span>
+                                                                </c:when>
+                                                                <c:when test="${c.getStatus() == 'completed'}">
+                                                                    <span class="badge rounded-pill bg-secondary-subtle text-secondary">Đã hoàn thành</span>
+                                                                </c:when>
+                                                                <c:when test="${c.getStatus() == 'dropped'}">
+                                                                    <span class="badge rounded-pill bg-danger-subtle text-danger">Đã hủy</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span class="badge rounded-pill bg-info-subtle text-info">Không rõ</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </div>
+
+                                                            <%-- 3. Nút Thao tác (Đẩy xuống dưới cùng của card) --%>
+                                                        <div class="mt-auto pt-2">
+                                                                <%-- NÚT MỚI: XEM ĐIỂM MODULE --%>
+                                                            <a href="students?action=grade-view&class-id=${c.getClassId()}&course-id=${c.getCourse_id()}" class="btn btn-sm btn-outline-primary w-100 fw-semibold mb-2">
+                                                                <i class="bi bi-bar-chart-fill me-1"></i> Xem điểm của Module
+                                                            </a>
+
+                                                                <%-- NÚT CŨ: XEM CHI TIẾT --%>
+                                                            <a href="students?action=detail-class&course-id=${c.getCourse_id()}&class-id=${c.getClassId()}" class="btn btn-sm btn-secondary w-100 fw-semibold">
+                                                                <i class="bi bi-info-circle-fill me-1"></i> Xem Chi tiết lớp học
+                                                            </a>
+                                                        </div>
                                                     </div>
-
-                                                        <%-- 3. Nút Thao tác (Đẩy xuống dưới cùng của card) --%>
-                                                    <div class="mt-auto pt-2">
-                                                        <a href="students?action=detail-class&course-id=${c.getCourse_id()}&class-id=${c.getClassId()}" class="btn btn-sm btn-primary w-100 fw-semibold">
-                                                            <i class="bi bi-info-circle-fill me-1"></i> Xem Chi tiết
-                                                        </a>
+                                                        <%-- Footer (Thêm nhãn STT) --%>
+                                                    <div class="card-footer bg-light border-0 py-2 text-center">
+                                                        <small class="text-muted fw-bold">#${stt.count}</small>
                                                     </div>
-                                                </div>
-                                                    <%-- Footer (Thêm nhãn STT) --%>
-                                                <div class="card-footer bg-light border-0 py-2 text-center">
-                                                    <small class="text-muted fw-bold">#${stt.count}</small>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <%-- Kết thúc Card --%>
-                                    </c:forEach>
-                                </div>
+                                            <%-- Kết thúc Card --%>
+                                        </c:forEach>
+                                    </div>
                             </div>
                             <%-- KẾT THÚC KHU VỰC SCROLL NGANG --%>
 
