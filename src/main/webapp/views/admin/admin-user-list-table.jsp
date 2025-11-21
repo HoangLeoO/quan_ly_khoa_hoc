@@ -4,7 +4,7 @@
 <div class="mb-5">
     <h4 class="mb-3">Danh sách người dùng</h4>
     <div class="table-responsive">
-        <table id="tableStudent" class="table table-bordered table-hover">
+        <table id="tableClassInfo" class="table table-bordered table-hover">
             <thead class="table-light">
             <tr>
                 <th>STT</th>
@@ -58,7 +58,8 @@
                         </a>
                         <button type="button" class="btn btn-sm btn-outline-danger"
                                 data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
-                                data-delete-url="/admin/users?action=delete&id=${user.userId}">
+                                data-delete-url="/admin/users?action=delete&id=${user.userId}"
+                                data-user-name="${user.fullName}">
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>

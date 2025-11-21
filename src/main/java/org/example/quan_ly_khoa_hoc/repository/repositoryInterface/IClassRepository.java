@@ -17,6 +17,7 @@ public interface IClassRepository {
     List<ClassDTO> findAll();
 
     ClassDTO findByClassID(int classId);
+    int getTotalClassCount(); // Add this
 
     List<ClassDTO> search(String keyword, Integer teacherId, Integer courseId, String status);
 

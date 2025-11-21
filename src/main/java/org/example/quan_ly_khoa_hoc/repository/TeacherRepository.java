@@ -87,6 +87,11 @@ public class TeacherRepository implements ITeacherRepository {
     }
 
     @Override
+    public int getTotalStaffCount() {
+        return 0;
+    }
+
+    @Override
     public List<TeacherInfoDTO> findAllTeachers() {
         return List.of();
     }

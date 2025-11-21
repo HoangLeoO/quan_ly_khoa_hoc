@@ -3,7 +3,6 @@ package org.example.quan_ly_khoa_hoc.service.serviceInterface;
 import org.example.quan_ly_khoa_hoc.dto.UserDTO;
 import org.example.quan_ly_khoa_hoc.entity.User;
 
-import java.sql.Connection;
 import java.util.List;
 
 public interface IUserService {
@@ -17,7 +16,7 @@ public interface IUserService {
     boolean deleteUser(Integer userId);
     User add(User user);
 
-    User findByEmail(String email);
+    User findByEmail(String email); // Changed return type to User
 
 
     UserDTO getUserById(Integer userId);

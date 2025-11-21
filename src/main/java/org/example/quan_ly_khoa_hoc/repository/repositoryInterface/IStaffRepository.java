@@ -12,4 +12,5 @@ public interface IStaffRepository {
     Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException;
     boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
     List<TeacherInfoDTO> findAllTeachers();
+    int getTotalStaffCount(); // Add this
 }

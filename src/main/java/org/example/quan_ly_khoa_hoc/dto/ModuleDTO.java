@@ -9,7 +9,14 @@ public class ModuleDTO {
     private Integer completed_lessons;
     private Integer total_lessons;
 
+
     public ModuleDTO() {
+    }
+
+    public ModuleDTO(Integer moduleId, String moduleName, Integer sortOrder) {
+        this.moduleId = moduleId;
+        this.moduleName = moduleName;
+        this.sortOrder = sortOrder;
     }
 
     public ModuleDTO(Integer moduleId, Integer courseId, String moduleName, Integer sortOrder, Float progressPercentage, Integer completed_lessons, Integer total_lessons) {

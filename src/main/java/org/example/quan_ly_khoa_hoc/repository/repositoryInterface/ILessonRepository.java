@@ -1,12 +1,15 @@
 package org.example.quan_ly_khoa_hoc.repository.repositoryInterface;
 
 import org.example.quan_ly_khoa_hoc.dto.LessonDTO;
-import org.example.quan_ly_khoa_hoc.entity.Lesson;
 
 import java.util.List;
 
 public interface ILessonRepository {
-    List<Lesson> findLessonsByModuleId(int moduleId);
-
+    List<LessonDTO> findLessonsByModuleId(int moduleId);
+    LessonDTO findById(int lessonId);
     List<LessonDTO> getAllByModuleIdAndStudentId(int moduleId,int studentId);
+    LessonDTO save(LessonDTO lessonDTO); // Returns DTO with generated ID
+    LessonDTO findByNameAndModuleId(String lessonName, int moduleId);
+    void update(LessonDTO lessonDTO); // Add this
+    void delete(int lessonId);
 }

@@ -5,21 +5,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.example.quan_ly_khoa_hoc.dto.StudentDetailDTO;
-import org.example.quan_ly_khoa_hoc.dto.TeacherInfoDTO;
-import org.example.quan_ly_khoa_hoc.entity.User;
 import org.example.quan_ly_khoa_hoc.service.ClassService;
-import org.example.quan_ly_khoa_hoc.service.TeacherService;
 import org.example.quan_ly_khoa_hoc.service.serviceInterface.IClassService;
-import org.example.quan_ly_khoa_hoc.service.serviceInterface.ITeacherService;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "ClassController", value = "/class") // URL mapping: /class
 public class ClassController extends HttpServlet {
-    private ITeacherService teacherService = new TeacherService();
     // Khai báo ClassService để xử lý logic liên quan đến lớp học
     private final IClassService classService = new ClassService();
 
@@ -45,12 +39,6 @@ public class ClassController extends HttpServlet {
      * Hiển thị chi tiết của một lớp học, bao gồm danh sách sinh viên và điểm danh.
      */
     private void showClassDetail(HttpServletRequest req, HttpServletResponse resp) {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            User u = (User) session.getAttribute("currentUser");
-            String email = u.getEmail();
-            req.setAttribute("teacher", teacherService.findStaffByEmail(email));
-        }
         try {
             // Lấy tham số từ request (classId, courseId, className)
             int classId = Integer.parseInt(req.getParameter("classId"));
@@ -66,12 +54,12 @@ public class ClassController extends HttpServlet {
             req.setAttribute("className", className);
             req.setAttribute("studentList", studentList);
 
-
+            // Forward đến trang JSP
             req.getRequestDispatcher("/views/teacher/class-detail.jsp").forward(req, resp);
         } catch (NumberFormatException e) {
             System.out.println("Lỗi NumberFormatException: classId hoặc courseId không hợp lệ.");
             e.printStackTrace();
-
+            // Xử lý lỗi: Chuyển hướng về trang danh sách lớp học của giáo viên
             try {
                 resp.sendRedirect(req.getContextPath() + "/teacher");
             } catch (IOException ioException) {

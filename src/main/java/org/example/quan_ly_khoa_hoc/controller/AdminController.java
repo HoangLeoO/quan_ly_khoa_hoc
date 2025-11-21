@@ -69,6 +69,7 @@ public class AdminController extends HttpServlet {
     }
 
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         userService.deleteUser(Integer.parseInt(req.getParameter("id")));
         resp.sendRedirect("/admin/users?message=delete_success");
     }
@@ -82,6 +83,13 @@ public class AdminController extends HttpServlet {
         LocalDate dob = LocalDate.parse(req.getParameter("dob"));
         String position = req.getParameter("position");
         String address = req.getParameter("address");
+
+        // Check for duplicate email
+        if (userService.findByEmail(email) != null) {
+            resp.sendRedirect(req.getContextPath() + "/admin/users?message=duplicate_email");
+            return;
+        }
+
         UserDTO userDTO = new UserDTO(fullName, email, dob, position, roleId, LocalDate.now(), password, phone, address);
         userService.createUserWithProfile(userDTO);
         resp.sendRedirect("/admin/users?message=add_success");

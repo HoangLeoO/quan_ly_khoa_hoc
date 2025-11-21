@@ -199,6 +199,21 @@ public class ClassRepository implements IClassRepository {
     }
 
     @Override
+    public int getTotalClassCount() {
+        String sql = "SELECT COUNT(*) FROM classes";
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
     public List<ClassDTO> search(String keyword, Integer teacherId, Integer courseId, String status) {
         List<ClassDTO> classDTOList = new ArrayList<>();
 
