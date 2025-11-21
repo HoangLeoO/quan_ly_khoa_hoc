@@ -53,6 +53,7 @@ public class ClassRepository implements IClassRepository {
                     "LEFT JOIN lessons les ON sch.lesson_id = les.lesson_id " +
                     "LEFT JOIN modules m ON les.module_id = m.module_id " + // ĐÃ SỬA: mod -> m
                     "WHERE e.class_id = ? " +
+                    "  AND e.status = 'studying' " +
                     "  AND (m.sort_order IS NULL OR m.sort_order <= ?) " + // ĐÃ SỬA: mod -> m
                     "GROUP BY s.student_id, s.full_name;";
 
