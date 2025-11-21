@@ -9,4 +9,5 @@ import java.sql.SQLException;
 public interface IStaffRepository {
     Staff addStaffInTransaction(Connection connection, Staff staff) throws SQLException;
     boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
+    int getTotalStaffCount(); // Add this
 }

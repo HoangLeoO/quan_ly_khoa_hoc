@@ -1,24 +1,48 @@
 package org.example.quan_ly_khoa_hoc.dto;
 
 public class LessonDTO {
-    private int lessonId;
+    private Integer lessonId;
     private String lessonName;
-    private Boolean status;
+    private Integer moduleId;
+    private Integer sortOrder;
+    private String contentType; // Added contentType
+    private boolean isCompleted;
 
     public LessonDTO() {
     }
 
-    public LessonDTO(int lessonId, String lessonName, Boolean status) {
+    public LessonDTO(Integer lessonId, String lessonName) {
         this.lessonId = lessonId;
         this.lessonName = lessonName;
-        this.status = status;
     }
 
-    public int getLessonId() {
+    public LessonDTO(Integer lessonId, String lessonName, Integer moduleId, Integer sortOrder) {
+        this.lessonId = lessonId;
+        this.lessonName = lessonName;
+        this.moduleId = moduleId;
+        this.sortOrder = sortOrder;
+    }
+
+    public LessonDTO(Integer lessonId, String lessonName, Integer moduleId, Integer sortOrder, String contentType) {
+        this.lessonId = lessonId;
+        this.lessonName = lessonName;
+        this.moduleId = moduleId;
+        this.sortOrder = sortOrder;
+        this.contentType = contentType;
+    }
+
+    public LessonDTO(Integer lessonId, String lessonName, boolean isCompleted) {
+        this.lessonId = lessonId;
+        this.lessonName = lessonName;
+        this.isCompleted = isCompleted;
+    }
+
+    // Getters and Setters
+    public Integer getLessonId() {
         return lessonId;
     }
 
-    public void setLessonId(int lessonId) {
+    public void setLessonId(Integer lessonId) {
         this.lessonId = lessonId;
     }
 
@@ -30,11 +54,35 @@ public class LessonDTO {
         this.lessonName = lessonName;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Integer getModuleId() {
+        return moduleId;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setModuleId(Integer moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }

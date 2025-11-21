@@ -69,6 +69,7 @@ public class AdminController extends HttpServlet {
     }
 
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         userService.deleteUser(Integer.parseInt(req.getParameter("id")));
         resp.sendRedirect("/admin/users?message=delete_success");
     }
