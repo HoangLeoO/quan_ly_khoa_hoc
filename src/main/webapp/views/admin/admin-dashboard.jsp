@@ -14,7 +14,7 @@
 
 <!-- Admin Section -->
 <section class="py-5 mt-5">
-    <div class="container" style="margin-top: 50px">
+    <div class="container-fluid" style="margin-top: 50px">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow">
@@ -66,16 +66,16 @@
                             <div class="col-md-6">
                                 <div class="card bg-light mb-3">
                                     <div class="card-body">
-                                        <h5 class="card-title text-primary">Học viên mới tháng này (${currentMonth}/${currentYear})</h5>
-                                        <p class="card-text display-4 text-primary">${currentMonthEnrollments}</p>
+                                        <h5 class="card-title">Học viên mới tháng này (${currentMonth}/${currentYear})</h5>
+                                        <p class="card-text display-4 text-success">${currentMonthEnrollments}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="card bg-light mb-3">
                                     <div class="card-body">
-                                        <h5 class="card-title text-secondary">Học viên mới tháng trước (${prevMonth}/${prevYear})</h5>
-                                        <p class="card-text display-4 text-secondary">${prevMonthEnrollments}</p>
+                                        <h5 class="card-title ">Học viên mới tháng trước (${prevMonth}/${prevYear})</h5>
+                                        <p class="card-text display-4 text-success">${prevMonthEnrollments}</p>
                                     </div>
                                 </div>
                             </div>

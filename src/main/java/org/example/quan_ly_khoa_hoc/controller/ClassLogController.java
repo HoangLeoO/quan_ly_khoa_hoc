@@ -97,19 +97,18 @@ public class ClassLogController extends HttpServlet {
             throw new IllegalArgumentException("Thiếu tham số Class ID.");
         }
         int classId = Integer.parseInt(classIdParam);
-
-        // --- FIX: Lấy Staff ID của người dùng hiện tại từ Session và đặt vào Request Scope ---
         TeacherInfoDTO currentStaffId = null;
         HttpSession session = req.getSession(false);
         if (session != null) {
             User u = (User) session.getAttribute("currentUser");
             if (u != null) {
-                // Giả định findStaffByEmail trả về Staff ID (int)
                 currentStaffId = teacherService.findStaffByEmail(u.getEmail());
             }
         }
         req.setAttribute("teacherId", currentStaffId.getStaffId());
         List<ClassLogDTO> logs = classLogService.findByClassId(classId);
+        ClassDTO dto = classService.findByClassID(classId);
+        req.setAttribute("className",dto.getClassName());
         req.setAttribute("classLogs", logs);
         req.setAttribute("classId", classId);
         req.getRequestDispatcher("/views/teacher/class-log.jsp").forward(req, resp);

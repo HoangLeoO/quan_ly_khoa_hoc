@@ -16,7 +16,8 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="fullName" class="form-label d-flex align-items-center"
-            ><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i> Họ và tên</label
+            >Họ và tên<span
+                    class="text-danger">*</span></label
             >
             <div class="input-group">
     <span class="input-group-text">
@@ -40,8 +41,9 @@
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="email" class="form-label"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>
-                Email</label>
+            <label for="email" class="form-label">
+                Email<span
+                    class="text-danger">*</span></label>
             <div class="input-group">
     <span class="input-group-text">
     <i class="bi bi-envelope"></i>
@@ -66,7 +68,8 @@
     <div class="row" id="password-fields-row" <c:if test="${mode eq 'update'}">style="display: none;"</c:if>>
         <div class="col-md-6 mb-3">
             <label for="password" class="form-label"
-            ><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i> Mật khẩu</label
+            >Mật khẩu<span
+                    class="text-danger">*</span></label
             >
             <div class="input-group">
     <span class="input-group-text">
@@ -87,7 +90,8 @@
 
         <div class="col-md-6 mb-3">
             <label for="confirmPassword" class="form-label"
-            ><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Xác nhận mật khẩu</label
+            >Xác nhận mật khẩu<span
+                    class="text-danger">*</span></label
             >
             <div class="input-group">
     <span class="input-group-text">
@@ -110,8 +114,9 @@
 
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label for="role" class="form-label"><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i> Vai
-                trò</label>
+            <label for="role" class="form-label">Vai
+                trò<span
+                        class="text-danger">*</span></label>
             <div class="input-group">
     <span class="input-group-text">
     <i class="bi bi-shield-check"></i>
@@ -129,7 +134,8 @@
         </div>
         <div class="col-md-6 mb-3">
             <label for="phone" class="form-label"
-            ><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Số điện thoại</label
+            >Số điện thoại<span
+                    class="text-danger">*</span></label
             >
             <div class="input-group">
     <span class="input-group-text">
@@ -154,7 +160,8 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="dateOfBirth" class="form-label"
-            ><i class="bi bi-asterisk text-danger" style="font-size: 10px"></i>Ngày sinh</label
+            >Ngày sinh<span
+                    class="text-danger">*</span></label
             >
             <div class="input-group">
     <span class="input-group-text">

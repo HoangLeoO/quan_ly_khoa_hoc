@@ -210,7 +210,7 @@ public class StudentController extends HttpServlet {
         int lessonContentId = Integer.parseInt(req.getParameter("contentId"));
         int lessonId = Integer.parseInt(req.getParameter("lesson-id"));
         int moduleId = Integer.parseInt(req.getParameter("module-id"));
-        LessonContentDTO contentDTO = lessonContentService.findByLessonId(lessonContentId);
+        List<LessonContentDTO> contentDTO = lessonContentService.findByLessonId(lessonContentId);
         req.setAttribute("lesson", contentDTO);
         req.setAttribute("lessonId", lessonId);
         req.setAttribute("moduleId", moduleId);

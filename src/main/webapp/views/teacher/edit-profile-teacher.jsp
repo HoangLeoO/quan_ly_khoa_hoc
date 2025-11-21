@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Chỉnh Sửa Hồ Sơ</title>
@@ -41,26 +42,36 @@
                             </p>
                         </div>
 
-                        <form action="teacher" method="post">
+                        <%-- THÊM class="needs-validation" và novalidate --%>
+                        <form action="teacher" method="post" class="needs-validation" novalidate>
                             <input type="hidden" name="action" value="update-profile">
 
                             <div class="mb-5">
                                 <h4 class="mb-4 border-bottom pb-2">Thông tin cá nhân</h4>
 
                                 <div class="row form-group-row align-items-center">
-                                    <label for="fullName" class="col-sm-4 col-form-label fw-bold">Họ và tên:</label>
+                                    <label for="fullName" class="col-sm-4 col-form-label fw-bold">
+                                        Họ và tên: <span class="text-danger">*</span>
+                                    </label>
                                     <div class="col-sm-8">
                                         <input type="text"
                                                class="form-control"
                                                id="fullName"
                                                name="fullName"
                                                value="${teacher.getFullName()}"
-                                               required>
+                                               required
+                                               minlength="3"
+                                               maxlength="100">
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập Họ và tên (3-100 ký tự).
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="row form-group-row align-items-center">
-                                    <label class="col-sm-4 col-form-label fw-bold">Email:</label>
+                                    <label class="col-sm-4 col-form-label fw-bold">
+                                        Email: <span class="text-danger">*</span>
+                                    </label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static text-muted">${teacher.getEmail()}</p>
                                         <input type="hidden" name="email" value="${teacher.getEmail()}">
@@ -68,13 +79,18 @@
                                 </div>
 
                                 <div class="row form-group-row align-items-center">
-                                    <label for="phone" class="col-sm-4 col-form-label fw-bold">Số điện thoại:</label>
+                                    <label for="phone" class="col-sm-4 col-form-label fw-bold">Số điện thoại: <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="tel"
                                                class="form-control"
                                                id="phone"
                                                name="phone"
-                                               value="${teacher.getPhone()}">
+                                               value="${teacher.getPhone()}"
+                                               pattern="[0-9]{10,11}"
+                                               title="Số điện thoại phải có 10 hoặc 11 chữ số.">
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập đúng định dạng Số điện thoại (10 hoặc 11 chữ số).
+                                        </div>
                                     </div>
                                 </div>
 
@@ -86,11 +102,15 @@
                                                id="dob"
                                                name="dob"
                                                value="${teacher.getDob()}">
+                                        <div class="invalid-feedback">
+                                            Ngày sinh không được là ngày trong tương lai.
+                                        </div>
 
-                                        <small class="text-muted mt-1 d-block">
+                                        <%-- Có thể bỏ thẻ small này nếu đã set max date bằng JS --%>
+                                        <%-- <small class="text-muted mt-1 d-block">
                                             Ngày hiện tại:
                                             <fmt:formatDate value="${teacher.getDob()}" pattern="dd/MM/yyyy" />
-                                        </small>
+                                        </small> --%>
                                     </div>
                                 </div>
 
@@ -124,32 +144,31 @@
 
 
 <c:import url="../common/footer.jsp"/>
-<div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmSaveModalLabel">Xác nhận Sửa thông tin</h5>
-                <%-- SỬ DỤNG CLASS CỦA BOOTSTRAP 5 --%>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Bạn có chắc chắn muốn thay đổi không?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
 
-                <%-- NÚT GỬI DỮ LIỆU THỰC SỰ: Dùng JavaScript để submit form có ID 'attendanceForm' --%>
-                <button type="button"
-                        class="btn btn-primary"
-                        onclick="document.getElementById('attendanceForm').submit();">
-                    Đồng ý LƯU
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // JavaScript để thiết lập ngày tối đa cho trường Ngày sinh là ngày hiện tại
+    document.addEventListener('DOMContentLoaded', function () {
+        const dobInput = document.getElementById('dob');
+        if (dobInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dobInput.setAttribute('max', today);
+        }
+
+        // Kích hoạt Bootstrap validation
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    });
+</script>
 
 </body>
 </html>

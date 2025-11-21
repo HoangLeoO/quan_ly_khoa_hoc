@@ -18,17 +18,28 @@ public class LessonContentService implements ILessonContentService {
 ;
 
     @Override
-    public LessonContentDTO findByLessonId(int lessonId) {
+    public List<LessonContentDTO> findByLessonId(int lessonId) {
         return lessonContentRepository.findByLessonId(lessonId);
     }
 
     @Override
-    public void save(LessonContentDTO lessonContentDTO) {
-        lessonContentRepository.save(lessonContentDTO);
+    public LessonContentDTO findById(int contentId) {
+        return lessonContentRepository.findById(contentId);
+    }
+
+    @Override
+    public LessonContentDTO save(LessonContentDTO lessonContentDTO) {
+        return lessonContentRepository.save(lessonContentDTO);
     }
 
     @Override
     public void update(LessonContentDTO lessonContentDTO) {
         lessonContentRepository.update(lessonContentDTO);
     }
+
+    @Override
+    public void delete(int contentId) {
+        lessonContentRepository.delete(contentId);
+    }
+    // No changes needed here, as contentName is part of LessonContentDTO
 }
