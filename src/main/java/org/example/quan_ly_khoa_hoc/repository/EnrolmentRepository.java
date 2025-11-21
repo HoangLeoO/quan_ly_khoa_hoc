@@ -37,4 +37,21 @@ public class EnrolmentRepository implements IEnrolmentRepository {
         }
         return monthlyStats;
     }
+
+    @Override
+    public int getEnrollmentCountByMonth(int year, int month) {
+        String sql = "SELECT COUNT(student_id) FROM enrolments WHERE YEAR(enrol_date) = ? AND MONTH(enrol_date) = ?";
+        try (Connection conn = DatabaseUtil.getConnectDB();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

@@ -6,6 +6,8 @@ build/
 .kotlin
 
 ### IntelliJ IDEA ###
+sql_course.sql
+data_course.sql
 .idea/modules.xml
 data_source_mapping.xml
 .idea/data_source_mapping.xml

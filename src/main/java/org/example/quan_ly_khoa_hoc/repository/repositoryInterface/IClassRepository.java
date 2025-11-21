@@ -12,5 +12,5 @@ public interface IClassRepository {
     TeacherClassDTO findClassById(int classId);
     List<ClassDTO> findAll();
     ClassDTO findByClassID(int classId);
-
+    int getTotalClassCount(); // Add this
 }

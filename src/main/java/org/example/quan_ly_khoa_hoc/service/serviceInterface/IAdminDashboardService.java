@@ -7,5 +7,7 @@ import java.util.List;
 public interface IAdminDashboardService {
     int getTotalStaffCount();
     int getTotalCourseCount();
-    List<MonthlyStatsDTO> getMonthlyStudentEnrollmentStats();
+    int getTotalStudentCount(); // Add this
+    int getTotalClassCount(); // Add this
+    int getStudentEnrollmentCountByMonth(int year, int month); // Add this
 }

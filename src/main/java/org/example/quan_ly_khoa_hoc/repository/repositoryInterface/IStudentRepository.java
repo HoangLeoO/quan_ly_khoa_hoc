@@ -28,4 +28,5 @@ public interface IStudentRepository {
 
     String getHashedPasswordByEmail(String email);
     Boolean updatePassword(String userEmail,String newHashedPassword);
+    int getTotalStudentCount(); // Add this
 }

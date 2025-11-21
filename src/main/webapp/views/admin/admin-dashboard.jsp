@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="row text-center mb-5">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="card bg-primary text-white mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Tổng số Nhân viên</h5>
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="card bg-success text-white mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Tổng số Khóa học</h5>
@@ -44,51 +44,41 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="card bg-info text-white mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Tổng số Học viên</h5>
-                                        <p class="card-text display-4">
-                                            <c:set var="totalStudents" value="0"/>
-                                            <c:forEach var="stats" items="${monthlyEnrollments}">
-                                                <c:set var="totalStudents" value="${totalStudents + stats.count}"/>
-                                            </c:forEach>
-                                            ${totalStudents}
-                                        </p>
+                                        <p class="card-text display-4">${totalStudents}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Tổng số Lớp học</h5>
+                                        <p class="card-text display-4">${totalClasses}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <h4 class="mb-3">Thống kê Học viên đăng ký theo tháng</h4>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead class="table-light">
-                                <tr>
-                                    <th>Tháng</th>
-                                    <th>Năm</th>
-                                    <th>Số lượng Học viên</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:choose>
-                                    <c:when test="${not empty monthlyEnrollments}">
-                                        <c:forEach var="stats" items="${monthlyEnrollments}">
-                                            <tr>
-                                                <td>${stats.month}</td>
-                                                <td>${stats.year}</td>
-                                                <td>${stats.count}</td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <tr>
-                                            <td colspan="3" class="text-center text-muted">Không có dữ liệu thống kê học viên.</td>
-                                        </tr>
-                                    </c:otherwise>
-                                </c:choose>
-                                </tbody>
-                            </table>
+                        <div class="row text-center mb-5">
+                            <div class="col-md-6">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">Học viên mới tháng này (${currentMonth}/${currentYear})</h5>
+                                        <p class="card-text display-4 text-primary">${currentMonthEnrollments}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-secondary">Học viên mới tháng trước (${prevMonth}/${prevYear})</h5>
+                                        <p class="card-text display-4 text-secondary">${prevMonthEnrollments}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

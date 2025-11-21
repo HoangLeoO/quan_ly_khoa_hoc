@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IEnrolmentRepository {
     List<MonthlyStatsDTO> getMonthlyStudentEnrollmentCount();
+    int getEnrollmentCountByMonth(int year, int month); // Add this
 }
