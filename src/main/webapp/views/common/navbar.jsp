@@ -33,8 +33,8 @@
                 <!-- TEACHER -->
                 <c:if test="${sessionScope.role == 'Teacher'}">
                     <li class="nav-item"><a class="nav-link" href="/teacher">Trang chủ</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="/attendance?action=listToday">📋Điểm danh</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="/teacher?action=profile">Thông tin cá nhân</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/attendance?action=listToday">📋Điểm danh</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/teacher?action=profile">Thông tin cá nhân</a></li>
                 </c:if>
 
                 <!-- STUDENT -->
@@ -48,24 +48,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/acedemic-affairs">Trang chủ</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            📝 Nhật kí</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Nhật kí lớp học</a>
-                            <a class="dropdown-item" href="#">Nhật kí học sinh</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            📊 Thống kê</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Chuyên cần</a>
-                            <a class="dropdown-item" href="#">Tiến độ học tập</a>
-                        </div>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/acedemic-affairs">👤Thông tin cá nhân</a>
+                        <a class="nav-link" href="/acedemic-affairs?action=profile">👤Thông tin cá nhân</a>
                     </li>
                 </c:if>
                 <!-- LOGOUT -->

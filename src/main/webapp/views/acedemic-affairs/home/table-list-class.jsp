@@ -60,8 +60,13 @@
                             </a>
                             <!-- Nút Sửa và Xóa -->
                             <div class="d-flex justify-content-center gap-1 w-100">
-                                <button class="btn btn-warning btn-sm flex-grow-1" data-id="${classes.classId}">Sửa</button>
-                                <button class="btn btn-danger btn-sm flex-grow-1" data-id="${classes.classId}">Xóa</button>
+                                <button class="btn btn-warning btn-sm flex-grow-1 btn-edit" data-id="${classes.classId}">
+                                    Sửa
+                                </button>
+
+                                <button class="btn btn-danger btn-sm flex-grow-1 btn-delete" data-id="${classes.classId}">
+                                    Xóa
+                                </button>
                             </div>
                         </div>
                     </td>

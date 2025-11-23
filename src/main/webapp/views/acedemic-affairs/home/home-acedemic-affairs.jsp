@@ -57,6 +57,7 @@
     $(document).ready(function() {
         // ---------- Toast ----------
         const toastEl = document.getElementById('toastMsg');
+        // tạo toast instance 1 lần (dùng lại)
         const toast = new bootstrap.Toast(toastEl);
 
         function showToast(message, isSuccess = true) {
@@ -69,13 +70,16 @@
         // ---------- Add Class ----------
         $(document).on("submit", "#formAddClass", function(e){
             e.preventDefault();
+            const addModalEl = $("#addClassModal");
+
             $.post("/acedemic-affairs?action=add", $(this).serialize(), function(res){
-                $("#addClassModal").modal('hide');
-                // show toast sau khi modal đã ẩn
-                $("#addClassModal").on('hidden.bs.modal', function(){
+                // gán handler trước khi ẩn modal
+                addModalEl.one('hidden.bs.modal', function(){
                     showToast(res.success ? "Thêm lớp thành công!" : "Thêm lớp thất bại!", res.success);
                     if(res.success) location.reload();
                 });
+                // rồi mới ẩn modal (khi ẩn xong, handler sẽ chạy)
+                addModalEl.modal('hide');
             }, "json");
         });
 
@@ -84,6 +88,8 @@
             const id = $(this).data("id");
             $.get("/acedemic-affairs?action=edit&id=" + id, function(html){
                 $("#editModalBody").html(html);
+                const editModalEl = $("#editClassModal");
+                // show modal
                 const editModal = new bootstrap.Modal(document.getElementById('editClassModal'));
                 editModal.show();
             });
@@ -91,12 +97,14 @@
 
         $(document).on("submit", "#formEditClass", function(e){
             e.preventDefault();
+            const editModalEl = $("#editClassModal");
             $.post("/acedemic-affairs?action=update", $(this).serialize(), function(res){
-                $("#editClassModal").modal('hide');
-                $("#editClassModal").on('hidden.bs.modal', function(){
+                // bind once then hide
+                editModalEl.one('hidden.bs.modal', function(){
                     showToast(res.success ? "Cập nhật lớp thành công!" : "Cập nhật thất bại!", res.success);
                     if(res.success) location.reload();
                 });
+                editModalEl.modal('hide');
             }, "json");
         });
 
@@ -109,15 +117,18 @@
         });
 
         $(document).on("click", "#confirmDeleteBtn", function(){
+            const deleteModalEl = $("#deleteClassModal");
             $.post("/acedemic-affairs?action=delete", {id: deleteId}, function(res){
-                $("#deleteClassModal").modal('hide');
-                $("#deleteClassModal").on('hidden.bs.modal', function(){
+                // bind once then hide
+                deleteModalEl.one('hidden.bs.modal', function(){
                     showToast(res.success ? "Xóa lớp thành công!" : "Xóa lớp thất bại!", res.success);
                     if(res.success) location.reload();
                 });
+                deleteModalEl.modal('hide');
             }, "json");
         });
     });
+
 </script>
 
 <c:import url="../../common/footer.jsp"/>
