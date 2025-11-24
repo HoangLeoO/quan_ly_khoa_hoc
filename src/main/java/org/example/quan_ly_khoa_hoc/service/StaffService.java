@@ -28,4 +28,14 @@ public class StaffService implements IStaffService {
     public List<TeacherInfoDTO> findAllTeachers() {
         return staffRepository.findAllTeachers();
     }
+
+    @Override
+    public TeacherInfoDTO findStaffByEmail(String email) {
+        return staffRepository.findStaffByEmail(email);
+    }
+
+    @Override
+    public boolean updateStaffProfile(Staff staff) {
+        return staffRepository.updateStaffProfile(staff);
+    }
 }

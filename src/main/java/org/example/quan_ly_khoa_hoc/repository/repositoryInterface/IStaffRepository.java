@@ -13,4 +13,6 @@ public interface IStaffRepository {
     boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
     List<TeacherInfoDTO> findAllTeachers();
     int getTotalStaffCount(); // Add this
+    TeacherInfoDTO findStaffByEmail(String email);
+    boolean updateStaffProfile(Staff staff);
 }

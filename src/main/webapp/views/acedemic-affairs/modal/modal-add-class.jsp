@@ -16,7 +16,8 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formAddClass">
+                <form action="${pageContext.request.contextPath}/acedemic-affairs" method="post">
+                    <input type="hidden" name="action" value="add">
                     <div class="mb-3">
                         <label class="form-label">Tên lớp</label>
                         <input type="text" name="className" class="form-control" required>

@@ -6,6 +6,7 @@
 <head>
     <title>Thông tin lớp học</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <c:import url="../../common/header.jsp"/>
 </head>
 <body>
@@ -76,6 +77,7 @@
     </section>
 
     <!-- Modal Thêm học viên vào lớp -->
+
     <c:import url="../modal/modal-add-student.jsp"/>
 
     <!-- Modal Xác nhận xóa học sinh -->
@@ -84,7 +86,17 @@
 
 
 </div>
-
+<!-- Toast thông báo -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage">
+                <!-- Nội dung sẽ được JS gán -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
 <!-- Script JS để gán dữ liệu cho modal xóa -->
 <script>
@@ -99,6 +111,41 @@
             deleteStudentName.textContent = btn.dataset.name;
             deleteModal.show();
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        const toastEl = document.getElementById('liveToast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        if (msg) {
+            switch(msg) {
+                case 'add_success':
+                    toastMessage.textContent = 'Thêm học viên thành công!';
+                    toastEl.classList.remove('text-bg-danger');
+                    toastEl.classList.add('text-bg-success');
+                    break;
+                case 'add_failed':
+                    toastMessage.textContent = 'Thêm học viên thất bại!';
+                    toastEl.classList.remove('text-bg-success');
+                    toastEl.classList.add('text-bg-danger');
+                    break;
+                case 'delete_success':
+                    toastMessage.textContent = 'Xóa học viên thành công!';
+                    toastEl.classList.remove('text-bg-danger');
+                    toastEl.classList.add('text-bg-success');
+                    break;
+                case 'delete_failed':
+                    toastMessage.textContent = 'Xóa học viên thất bại!';
+                    toastEl.classList.remove('text-bg-success');
+                    toastEl.classList.add('text-bg-danger');
+                    break;
+            }
+
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            toast.show();
+        }
     });
 </script>
 

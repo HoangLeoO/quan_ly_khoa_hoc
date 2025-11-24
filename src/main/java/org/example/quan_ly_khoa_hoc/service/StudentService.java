@@ -45,6 +45,11 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    public List<StudentProfileDTO> findStudentNotEnrolment(int classId) {
+        return studentRepository.findStudentNotEnrolment(classId);
+    }
+
+    @Override
     public boolean updateProfileStudent(Student student) {
         return studentRepository.updateProfileStudent(student);
     }

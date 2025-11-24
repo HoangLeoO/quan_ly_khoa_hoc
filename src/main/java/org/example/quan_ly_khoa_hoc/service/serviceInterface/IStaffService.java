@@ -13,4 +13,6 @@ public interface IStaffService {
 
     boolean updateStaffInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
     List<TeacherInfoDTO> findAllTeachers();
+    TeacherInfoDTO findStaffByEmail(String email);
+    boolean updateStaffProfile(Staff staff);
 }

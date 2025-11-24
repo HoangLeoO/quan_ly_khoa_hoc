@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 
 @WebServlet(name = "EnrolmentController", value = "/enrolment")
 public class EnrolmentController extends HttpServlet {
-
     private IEnrolmentService enrolmentService = new EnrolmentService();
 
     @Override
@@ -26,30 +25,33 @@ public class EnrolmentController extends HttpServlet {
         boolean success = false;
 
         switch (action) {
-            case "add":
+            case "addStudent":
                 success = addEnrolment(req);
-                break;
-            case "delete":
+                // Redirect về chi tiết lớp kèm message
+                resp.sendRedirect(req.getContextPath() + "/acedemic-affairs?action=detail&id="
+                        + req.getParameter("classId") + "&msg=" + (success ? "add_success" : "add_failed"));
+                return;
+            case "deleteStudent":
                 success = deleteEnrolment(req);
-                break;
+                resp.sendRedirect(req.getContextPath() + "/acedemic-affairs?action=detail&id="
+                        + req.getParameter("classId") + "&msg=" + (success ? "delete_success" : "delete_failed"));
+                return;
         }
 
-        // Trả về JSON
-        resp.setContentType("application/json");
-        resp.getWriter().write("{\"success\":" + success + "}");
+        // Redirect về trang chi tiết lớp để cập nhật danh sách
+        int classId = Integer.parseInt(req.getParameter("classId"));
+        resp.sendRedirect(req.getContextPath() + "/acedemic-affairs?action=detail&id=" + classId);
     }
 
     private boolean addEnrolment(HttpServletRequest req) {
         try {
             int classId = Integer.parseInt(req.getParameter("classId"));
             int studentId = Integer.parseInt(req.getParameter("studentId"));
-            String status = req.getParameter("status");
+
 
             Enrolment enrol = new Enrolment();
             enrol.setClassId(classId);
             enrol.setStudentId(studentId);
-            enrol.setEnrolDate(Timestamp.valueOf(LocalDateTime.now()));
-            enrol.setStatus(status);
 
             return enrolmentService.add(enrol);
         } catch (Exception e) {

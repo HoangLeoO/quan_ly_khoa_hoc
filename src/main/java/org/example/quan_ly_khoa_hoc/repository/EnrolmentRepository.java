@@ -68,15 +68,13 @@ public class EnrolmentRepository implements IEnrolmentRepository {
     }
 
     public boolean add(Enrolment enrol) {
-        String sql = "INSERT INTO enrolment(student_id, class_id, enrol_date, status) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO enrolments (student_id, class_id, enrol_date, status)\n" +
+                "VALUES (?, ?, CURRENT_TIMESTAMP, 'studying');";
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, enrol.getStudentId());
             ps.setInt(2, enrol.getClassId());
-            ps.setTimestamp(3, enrol.getEnrolDate());
-            ps.setString(4, enrol.getStatus());
-
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,12 +83,13 @@ public class EnrolmentRepository implements IEnrolmentRepository {
     }
 
     public boolean delete(int classId, int studentId) {
-        String sql = "DELETE FROM enrolment WHERE class_id = ? AND student_id = ?";
+        String sql = "DELETE FROM enrolments\n" +
+                "WHERE student_id = ? AND class_id = ?;";
         try (Connection conn = DatabaseUtil.getConnectDB();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, classId);
-            ps.setInt(2, studentId);
+            ps.setInt(1, studentId);
+            ps.setInt(2, classId);
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {

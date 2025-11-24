@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class StudentProfileDTO {
+    private int studentId;
     private String fullName;
     private String phone;
     private LocalDate dob;
@@ -14,6 +15,15 @@ public class StudentProfileDTO {
     }
 
     public StudentProfileDTO(String fullName, String phone, LocalDate dob, String address, String email) {
+        this.fullName = fullName;
+        this.phone = phone;
+        this.dob = dob;
+        this.address = address;
+        this.email = email;
+    }
+
+    public StudentProfileDTO(int studentId, String fullName, String phone, LocalDate dob, String address, String email) {
+        this.studentId = studentId;
         this.fullName = fullName;
         this.phone = phone;
         this.dob = dob;
@@ -59,6 +69,14 @@ public class StudentProfileDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public String getDobFormatted() {

@@ -9,55 +9,51 @@
             Thêm học viên vào lớp
         </button>
     </div>
-    <div class="table-responsive">
-        <table id="tableStudentInfo"
-               class="table table-bordered table-hover table-striped align-middle text-center w-100">
-            <thead class="table-light">
-            <tr>
-                <th style="width: 3%;">STT</th>
-                <th style="width: 15%;">Họ và tên</th>
-                <th style="width: 12%;">Số điện thoại</th>
-                <th style="width: 10%;">Ngày sinh</th>
-                <th style="width: 20%;">Địa chỉ</th>
-                <th style="width: 25%;">Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <c:forEach var="student" items="${studentList}" varStatus="status">
+    <div id="tableClassContainer">
+        <div class="table-responsive">
+            <table id="tableClassInfo" class="table table-bordered table-hover table-striped align-middle text-center">
+                <thead class="table-light">
                 <tr>
-                    <td>${status.count}</td>
-                    <td class="text-start">${student.fullName}</td>
-                    <td class="text-start">${student.phone}</td>
-                    <td class="text-center">${student.dobFormatted}</td>
-                    <td class="text-start">${student.address}</td>
-                    <td>
-                        <div class="d-flex flex-column align-items-center gap-1">
-                            <div class="d-flex justify-content-center gap-1 w-100">
-                                <!-- Nút Tình trạng học tập -->
-                                <a class="btn btn-sm btn-success flex-grow-1 text-truncate"
+                    <th style="width: 3%;">STT</th>
+                    <th style="width: 20%;">Họ và tên</th>
+                    <th style="width: 15%;">Số điện thoại</th>
+                    <th style="width: 12%;">Ngày sinh</th>
+                    <th style="width: 25%;">Địa chỉ</th>
+                    <th style="width: 25%;">Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="student" items="${studentList}" varStatus="status">
+                    <tr>
+                        <td>${status.count}</td>
+                        <td class="text-start">${student.fullName}</td>
+                        <td class="text-start">${student.phone}</td>
+                        <td class="text-start">${student.dobFormatted}</td>
+                        <td class="text-start">${student.address}</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-1">
+                                <a class="btn btn-sm btn-success" title="Tình trạng học tập"
                                    href="/acedemic-affairs?action=status&id=${student.studentId}">
-                                    Tình trạng học tập
+                                    <i class="bi bi-graph-up"></i>
                                 </a>
-                                <!-- Nút Thông tin chi tiết -->
-                                <a class="btn btn-sm btn-primary flex-grow-1 text-truncate"
+
+                                <a class="btn btn-sm btn-primary" title="Thông tin chi tiết"
                                    href="/acedemic-affairs?action=detail&id=${student.studentId}">
-                                    Thông tin chi tiết
+                                    <i class="bi bi-info-circle"></i>
                                 </a>
-                            </div>
-                            <div class="d-flex justify-content-center gap-1 w-100">
-                                <!-- Nút Xóa học sinh -->
-                                <button class="btn btn-danger btn-sm flex-grow-1 btn-delete-student"
-                                        data-id="${student.studentId}" data-name="${student.fullName}">
-                                    Xóa học sinh
+
+                                <button class="btn btn-sm btn-danger btn-delete-student"
+                                        data-id="${student.studentId}" data-name="${student.fullName}"
+                                        title="Xóa học sinh">
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

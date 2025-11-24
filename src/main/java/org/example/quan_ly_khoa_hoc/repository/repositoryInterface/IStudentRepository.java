@@ -22,6 +22,7 @@ public interface IStudentRepository {
 
     StudentProfileDTO getStudentProfileByEmail(String email);
     List<StudentProfileDTO> findByClassId(int classId);
+    List<StudentProfileDTO> findStudentNotEnrolment(int classId);
     boolean updateProfileStudent(Student student);
 
     boolean updateStudentInTransaction(Connection connection, UserDTO userDTO) throws SQLException;
