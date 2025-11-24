@@ -16,6 +16,7 @@ import java.util.List;
 
 public class StudentRepository implements IStudentRepository {
     private final String SELECT_STUDENTS_BY_CLASS = "SELECT \n" +
+            "    st.student_id ,\n" +
             "    st.full_name ,\n" +
             "    st.phone ,\n" +
             "    st.dob,\n" +
@@ -26,6 +27,22 @@ public class StudentRepository implements IStudentRepository {
             "INNER JOIN users u ON st.user_id = u.user_id\n" +
             "WHERE e.class_id = ?\n" +
             "ORDER BY st.full_name;";
+    private final String SELECT_STUDENTS_NOT_IN_CLASS = "SELECT \n" +
+            "    s.student_id,\n" +
+            "    s.full_name,\n" +
+            "    s.phone,\n" +
+            "    s.dob,\n" +
+            "    s.address,\n" +
+            "    u.email\n" +
+            "FROM students s\n" +
+            "INNER JOIN users u ON s.user_id = u.user_id\n" +
+            "WHERE s.student_id NOT IN (\n" +
+            "    SELECT student_id \n" +
+            "    FROM enrolments \n" +
+            "    WHERE class_id = ?\n" +
+            ")\n" +
+            "AND u.is_delete = 0\n" +
+            "ORDER BY s.full_name;";
     private final String CLASS_INFO = "select e.class_id, cl.class_name, c.course_name,c.course_id, cl.status\n" +
             "from classes cl\n" +
             "         join codegym.courses c on c.course_id = cl.course_id\n" +
@@ -116,18 +133,42 @@ public class StudentRepository implements IStudentRepository {
             preparedStatement.setInt(1, classId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                int studentId = resultSet.getInt("student_id");
                 String fullName = resultSet.getString("full_name");
                 String phone = resultSet.getString("phone");
                 LocalDate dob = resultSet.getDate("dob").toLocalDate();
                 String address = resultSet.getString("address");
                 String email = resultSet.getString("email");
-                studentProfileDTOList.add(new StudentProfileDTO(fullName, phone, dob, address, email));
+                studentProfileDTOList.add(new StudentProfileDTO(studentId, fullName, phone, dob, address, email));
             }
         } catch (SQLException e) {
             System.out.println("lỗi lấy dữ liệu");
         }
         return studentProfileDTOList;
     }
+
+    @Override
+    public List<StudentProfileDTO> findStudentNotEnrolment(int classId) {
+        List<StudentProfileDTO> studentProfileDTOList = new ArrayList<>();
+        try (Connection connection = DatabaseUtil.getConnectDB()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STUDENTS_NOT_IN_CLASS);
+            preparedStatement.setInt(1, classId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int studentId = resultSet.getInt("student_id");
+                String fullName = resultSet.getString("full_name");
+                String phone = resultSet.getString("phone");
+                LocalDate dob = resultSet.getDate("dob").toLocalDate();
+                String address = resultSet.getString("address");
+                String email = resultSet.getString("email");
+                studentProfileDTOList.add(new StudentProfileDTO(studentId, fullName, phone, dob, address, email));
+            }
+        } catch (SQLException e) {
+            System.out.println("lỗi lấy dữ liệu");
+        }
+        return studentProfileDTOList;
+    }
+
 
     @Override
     public boolean updateProfileStudent(Student student) {

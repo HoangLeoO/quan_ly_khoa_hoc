@@ -20,6 +20,7 @@ public interface IStudentService {
     Integer getStudentIdByEmail(String email);
     StudentProfileDTO getStudentProfileByEmail(String email);
     List<StudentProfileDTO> findByClassId(int classId);
+    List<StudentProfileDTO> findStudentNotEnrolment(int classId);
     boolean updateProfileStudent(Student student);
 
     String getHashedPasswordByEmail(String email);

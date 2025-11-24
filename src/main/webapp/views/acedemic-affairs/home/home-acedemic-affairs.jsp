@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -25,7 +24,9 @@
                         <c:import url="form-search-infor-class.jsp"/>
 
                         <!-- Table danh sách lớp -->
-                        <c:import url="table-list-class.jsp"/>
+                        <div id="tableContainer">
+                            <c:import url="table-list-class.jsp"/>
+                        </div>
 
                     </div>
                 </div>
@@ -54,10 +55,8 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        // ---------- Toast ----------
+    $(document).ready(function () {
         const toastEl = document.getElementById('toastMsg');
-        // tạo toast instance 1 lần (dùng lại)
         const toast = new bootstrap.Toast(toastEl);
 
         function showToast(message, isSuccess = true) {
@@ -67,68 +66,54 @@
             toast.show();
         }
 
-        // ---------- Add Class ----------
-        $(document).on("submit", "#formAddClass", function(e){
-            e.preventDefault();
-            const addModalEl = $("#addClassModal");
+        // Hiển thị toast dựa trên URL ?msg=
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        if (msg) {
+            switch (msg) {
+                case "add_success":
+                    showToast("Thêm lớp mới thành công!");
+                    break;
+                case "success":
+                    showToast("Cập nhật lớp thành công!");
+                    break;
+                case "delete_success":
+                    showToast("Xóa lớp thành công!");
+                    break;
+                case "error":
+                    showToast("Thao tác thất bại!", false);
+                    break;
+            }
 
-            $.post("/acedemic-affairs?action=add", $(this).serialize(), function(res){
-                // gán handler trước khi ẩn modal
-                addModalEl.one('hidden.bs.modal', function(){
-                    showToast(res.success ? "Thêm lớp thành công!" : "Thêm lớp thất bại!", res.success);
-                    if(res.success) location.reload();
-                });
-                // rồi mới ẩn modal (khi ẩn xong, handler sẽ chạy)
-                addModalEl.modal('hide');
-            }, "json");
-        });
+        }
 
         // ---------- Edit Class ----------
-        $(document).on("click", ".btn-edit", function(){
+        $(document).on("click", ".btn-edit", function () {
             const id = $(this).data("id");
-            $.get("/acedemic-affairs?action=edit&id=" + id, function(html){
-                $("#editModalBody").html(html);
-                const editModalEl = $("#editClassModal");
-                // show modal
+            $.get("/acedemic-affairs?action=edit&id=" + id, function (html) {
+                $("#editModalBody").html(html); // load form pre-filled
                 const editModal = new bootstrap.Modal(document.getElementById('editClassModal'));
                 editModal.show();
             });
         });
 
-        $(document).on("submit", "#formEditClass", function(e){
+        // submit form Edit bằng AJAX
+        $(document).on("submit", "#formEditClass", function (e) {
             e.preventDefault();
             const editModalEl = $("#editClassModal");
-            $.post("/acedemic-affairs?action=update", $(this).serialize(), function(res){
-                // bind once then hide
-                editModalEl.one('hidden.bs.modal', function(){
-                    showToast(res.success ? "Cập nhật lớp thành công!" : "Cập nhật thất bại!", res.success);
-                    if(res.success) location.reload();
-                });
+
+            $.post("/acedemic-affairs?action=update", $(this).serialize(), function (res) {
                 editModalEl.modal('hide');
+
+                if (res.success) {
+                    window.location.href = "/acedemic-affairs?msg=success";
+                } else {
+                    showToast("Cập nhật thất bại!", false);
+                }
             }, "json");
         });
 
-        // ---------- Delete Class ----------
-        let deleteId = 0;
-        $(document).on("click", ".btn-delete", function(){
-            deleteId = $(this).data("id");
-            const deleteModal = new bootstrap.Modal(document.getElementById('deleteClassModal'));
-            deleteModal.show();
-        });
-
-        $(document).on("click", "#confirmDeleteBtn", function(){
-            const deleteModalEl = $("#deleteClassModal");
-            $.post("/acedemic-affairs?action=delete", {id: deleteId}, function(res){
-                // bind once then hide
-                deleteModalEl.one('hidden.bs.modal', function(){
-                    showToast(res.success ? "Xóa lớp thành công!" : "Xóa lớp thất bại!", res.success);
-                    if(res.success) location.reload();
-                });
-                deleteModalEl.modal('hide');
-            }, "json");
-        });
     });
-
 </script>
 
 <c:import url="../../common/footer.jsp"/>

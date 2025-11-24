@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form action="/enrolment?action=addStudent" method="post" class="modal-content">
@@ -20,7 +22,7 @@
                     <select name="studentId" class="form-control" required>
                         <option value="">-- Chọn học viên --</option>
                         <c:forEach var="s" items="${allStudents}">
-                            <option value="${s.studentId}">${s.fullName} - ${s.phone}</option>
+                            <option value="${s.studentId}">${s.fullName} - ${s.email}</option>
                         </c:forEach>
                     </select>
                 </div>

@@ -15,13 +15,32 @@
                 <h5 class="modal-title">Xác nhận xóa</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                Bạn có chắc muốn xóa lớp này không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
-            </div>
+            <form action="${pageContext.request.contextPath}/acedemic-affairs" method="post">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" id="deleteClassId">
+                <div class="modal-body">
+                    Bạn có chắc muốn xóa lớp: <b id="deleteClassName"></b> ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    // Khi click nút xóa trên bảng
+    document.querySelectorAll('.btn-delete').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+
+            document.getElementById('deleteClassId').value = id;
+            document.getElementById('deleteClassName').textContent = name;
+
+            new bootstrap.Modal(document.getElementById('deleteClassModal')).show();
+        });
+    });
+</script>

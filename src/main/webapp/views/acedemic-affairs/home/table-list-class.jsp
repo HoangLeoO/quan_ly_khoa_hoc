@@ -16,64 +16,67 @@
             Thêm lớp mới
         </button>
     </div>
-    <div class="table-responsive">
-        <table id = "tableClassInfo" class="table table-bordered table-hover table-striped align-middle text-center w-100">
-            <thead class="table-light text-center align-middle">
-            <tr>
-                <th>STT</th>
-                <th>Tên lớp</th>
-                <th>Khóa học</th>
-                <th>Giáo viên</th>
-                <th>Trạng thái</th>
-                <th>Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="classes" items="${classList}" varStatus="status">
+    <div id="tableClassContainer">
+        <div class="table-responsive">
+            <table id="tableClassInfo" class="table table-bordered table-hover table-striped align-middle text-center w-100">
+                <thead class="table-light text-center align-middle">
                 <tr>
-                    <td>${status.count}</td>
-                    <td class="text-start">${classes.className}</td>
-                    <td class="text-start">${classes.courseName}</td>
-                    <td class="text-start">${classes.teacherName}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${classes.status=='studying'}">
-                                <span class="badge bg-success">Studying</span>
-                            </c:when>
-                            <c:when test="${classes.status=='completed'}">
-                                <span class="badge bg-warning text-dark">Completed</span>
-                            </c:when>
-                            <c:when test="${classes.status=='dropped'}">
-                                <span class="badge bg-danger">Dropped</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="badge bg-secondary">${classes.status}</span>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <div class="d-flex flex-column align-items-center gap-1">
-                            <!-- Nút Chi tiết: giữ màu nhưng hiệu ứng giống btn-warning/btn-danger -->
-                            <a class="btn btn-primary w-100 text-truncate btn-sm custom-hover"
-                               href="/acedemic-affairs?action=detail&id=${classes.classId}">
-                                Chi tiết
-                            </a>
-                            <!-- Nút Sửa và Xóa -->
-                            <div class="d-flex justify-content-center gap-1 w-100">
-                                <button class="btn btn-warning btn-sm flex-grow-1 btn-edit" data-id="${classes.classId}">
-                                    Sửa
-                                </button>
-
-                                <button class="btn btn-danger btn-sm flex-grow-1 btn-delete" data-id="${classes.classId}">
-                                    Xóa
-                                </button>
-                            </div>
-                        </div>
-                    </td>
-
+                    <th>STT</th>
+                    <th>Tên lớp</th>
+                    <th>Khóa học</th>
+                    <th>Giáo viên</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach var="classes" items="${classList}" varStatus="status">
+                    <tr>
+                        <td>${status.count}</td>
+                        <td class="text-start">${classes.className}</td>
+                        <td class="text-start">${classes.courseName}</td>
+                        <td class="text-start">${classes.teacherName}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${classes.status=='studying'}">
+                                    <span class="badge bg-success">Studying</span>
+                                </c:when>
+                                <c:when test="${classes.status=='completed'}">
+                                    <span class="badge bg-warning text-dark">Completed</span>
+                                </c:when>
+                                <c:when test="${classes.status=='dropped'}">
+                                    <span class="badge bg-danger">Dropped</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge bg-secondary">${classes.status}</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column align-items-center gap-1">
+                                <a class="btn btn-primary w-100 text-truncate btn-sm custom-hover"
+                                   href="/acedemic-affairs?action=detail&id=${classes.classId}">
+                                    Chi tiết
+                                </a>
+                                <div class="d-flex justify-content-center gap-1 w-100">
+                                    <a class="btn btn-warning btn-sm btn-edit"
+                                       href="javascript:void(0);"
+                                       data-id="${classes.classId}">
+                                        Sửa
+                                    </a>
+                                    <button class="btn btn-danger btn-sm btn-delete"
+                                            data-id="${classes.classId}"
+                                            data-name="${classes.className}">
+                                        Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
